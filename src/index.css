@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --color-brand-blue: #2563eb;
+  --color-brand-sky: #0ea5e9;
+  --color-brand-green: #10b981;
+}
+
+/* Base styles */
+@layer base {
+  :root {
+    --text-slate: #475569;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  html {
+    background-color: #ffffff;
+    color: #1e293b;
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: #f8fafc;
+    color: #1e293b;
+  }
+}
+
+/* Glassmorphism helpers */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.80);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Light-mode section backgrounds */
+.section-light {
+  background-color: #ffffff;
+}
+.section-soft {
+  background-color: #f0f9ff;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes ticker {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-ticker {
+  display: inline-flex;
+  animation: ticker 35s linear infinite;
+}
+
+/* Keyframes for simple card scales */
+@keyframes scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-scale {
+  animation: scale 0.3s ease-in-out;
+}
+
+/* Pulse glow for blue accents */
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.15); }
+  50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+}
+
+.animate-pulse-blue {
+  animation: pulse-blue 2s ease-in-out infinite;
+}
+
+/* Scrollbar tweaks */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Hide default range input styling slightly to customize */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #bfdbfe;
+  height: 6px;
+  border-radius: 4px;
+}
+
+.dark input[type="range"]::-webkit-slider-runnable-track {
+  background: #1e293b;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px;
+  background-color: #2563eb;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.3);
+}
+
+.dark input[type="range"]::-webkit-slider-thumb {
+  background-color: #10b981;
+  border: 2px solid #0f172a;
+}
+
+/* Print resets for report downloads */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  nav, footer, #insights, #offers, #advisor, .no-print {
+    display: none !important;
+  }
+}
