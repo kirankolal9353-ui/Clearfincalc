@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSIP } from '../utils/finance';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { Share2, IndianRupee, Calendar, Percent, CheckCircle } from 'lucide-react';
+import { Share2, IndianRupee, Calendar, Percent, CheckCircle, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function SipCalculator() {
   const [monthlyInvest, setMonthlyInvest] = useState<number>(10000);
@@ -20,6 +21,25 @@ export default function SipCalculator() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    const reportData = {
+      title: 'SIP Calculation Report',
+      filename: 'sip-report.pdf',
+      summary: { label: 'Expected Maturity Value', value: `₹${sipData.totalValue.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'Monthly Investment', value: `₹${monthlyInvest.toLocaleString('en-IN')}` },
+        { label: 'Expected Return Rate', value: `${expectedReturn}%` },
+        { label: 'Investment Tenure', value: `${tenure} Years` }
+      ],
+      results: [
+        { label: 'Invested Amount', value: `₹${sipData.investedAmount.toLocaleString('en-IN')}` },
+        { label: 'Est. Returns (Wealth Gained)', value: `₹${sipData.wealthGained.toLocaleString('en-IN')}` },
+        { label: 'Total Value (Future Value)', value: `₹${sipData.totalValue.toLocaleString('en-IN')}` }
+      ]
+    };
+    generatePDFReport(reportData);
+  };
+
   // Prepare chart data: { name: 'Yr 1', invested: 120000, value: 130000 }
   const chartData = sipData.breakdown.map((b) => ({
     year: `Yr ${b.year}`,
@@ -34,13 +54,22 @@ export default function SipCalculator() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">SIP Calculator</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate potential wealth creation through monthly Systematic Investment Plans.</p>
         </div>
-        <button 
-          onClick={handleShare}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
-        >
-          {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
-          {shared ? 'Copied!' : 'Share Result'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            PDF Report
+          </button>
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
+          >
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? 'Copied!' : 'Share Result'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

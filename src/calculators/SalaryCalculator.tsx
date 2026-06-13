@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSalary } from '../utils/finance';
-import { Share2, IndianRupee, CheckCircle, Percent } from 'lucide-react';
+import { Share2, IndianRupee, CheckCircle, Percent, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function SalaryCalculator() {
   const [grossMonthly, setGrossMonthly] = useState<number>(100000);
@@ -19,6 +20,29 @@ export default function SalaryCalculator() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    const totalDeductionsVal = salaryData.providentFund + salaryData.professionalTax + salaryData.tdsDeduction;
+    const reportData = {
+      title: 'Salary Breakdown Report',
+      filename: 'salary-report.pdf',
+      summary: { label: 'Monthly Take-Home Salary (Net)', value: `₹${salaryData.takeHomeMonthly.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'Gross Monthly Salary', value: `₹${grossMonthly.toLocaleString('en-IN')}` },
+        { label: 'EPF Deduction Rate', value: `${pfRate}%` },
+        { label: 'Professional Tax (PT)', value: `₹${pt.toLocaleString('en-IN')}` }
+      ],
+      results: [
+        { label: 'Provident Fund (EPF) Deduction', value: `₹${salaryData.providentFund.toLocaleString('en-IN')}` },
+        { label: 'Professional Tax (PT) Deduction', value: `₹${salaryData.professionalTax.toLocaleString('en-IN')}` },
+        { label: 'Total Monthly Deductions', value: `₹${totalDeductionsVal.toLocaleString('en-IN')}` },
+        { label: 'Monthly Take-Home Salary (Net)', value: `₹${salaryData.takeHomeMonthly.toLocaleString('en-IN')}` },
+        { label: 'Annual Gross Salary', value: `₹${(grossMonthly * 12).toLocaleString('en-IN')}` },
+        { label: 'Annual Take-Home Salary (Net)', value: `₹${salaryData.takeHomeYearly.toLocaleString('en-IN')}` }
+      ]
+    };
+    generatePDFReport(reportData);
+  };
+
   return (
     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-slate-200/50 dark:border-slate-800/50 shadow-xl transition-all duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -26,13 +50,22 @@ export default function SalaryCalculator() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Salary Calculator</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Estimate your monthly net take-home salary after PF, Professional Tax, and TDS deductions.</p>
         </div>
-        <button 
-          onClick={handleShare}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
-        >
-          {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
-          {shared ? 'Copied!' : 'Share Result'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            PDF Report
+          </button>
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
+          >
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? 'Copied!' : 'Share Result'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

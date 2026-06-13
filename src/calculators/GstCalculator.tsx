@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { calculateGST } from '../utils/finance';
-import { Share2, CheckCircle } from 'lucide-react';
+import { Share2, CheckCircle, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function GstCalculator() {
   const [amount, setAmount] = useState<number>(50000);
@@ -19,6 +20,27 @@ export default function GstCalculator() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    const reportData = {
+      title: 'GST Calculation Report',
+      filename: 'gst-report.pdf',
+      summary: { label: 'Total GST Amount', value: `₹${gstData.gstAmount.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'Amount', value: `₹${amount.toLocaleString('en-IN')}` },
+        { label: 'GST Rate', value: `${rate}%` },
+        { label: 'GST Calculation Type', value: type === 'exclusive' ? 'Exclusive of GST' : 'Inclusive of GST' }
+      ],
+      results: [
+        { label: 'Net Amount (Base Price)', value: `₹${gstData.originalAmount.toLocaleString('en-IN')}` },
+        { label: 'Central GST (CGST)', value: `₹${gstData.cgst.toLocaleString('en-IN')}` },
+        { label: 'State GST (SGST)', value: `₹${gstData.sgst.toLocaleString('en-IN')}` },
+        { label: 'Total GST Amount', value: `₹${gstData.gstAmount.toLocaleString('en-IN')}` },
+        { label: 'Gross Amount (Total Price)', value: `₹${gstData.netAmount.toLocaleString('en-IN')}` }
+      ]
+    };
+    generatePDFReport(reportData);
+  };
+
   const gstRates = [5, 12, 18, 28];
 
   return (
@@ -28,13 +50,22 @@ export default function GstCalculator() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">GST Calculator</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate Goods and Services Tax (GST) for inclusive or exclusive amounts and view CGST/SGST breakdowns.</p>
         </div>
-        <button 
-          onClick={handleShare}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
-        >
-          {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
-          {shared ? 'Copied!' : 'Share Result'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            PDF Report
+          </button>
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
+          >
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? 'Copied!' : 'Share Result'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

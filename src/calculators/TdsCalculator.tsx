@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { calculateTDS, TDS_SECTIONS } from '../utils/finance';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Share2, FileText, CheckCircle, Search, HelpCircle, ShieldCheck, Download, History, Plus } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function TdsCalculator() {
   const [search, setSearch] = useState<string>('');
@@ -69,7 +70,31 @@ export default function TdsCalculator() {
   };
 
   const handleDownloadPDF = () => {
-    window.print();
+    const reportData = {
+      title: 'TDS Calculation Report',
+      filename: 'tds-report.pdf',
+      summary: { label: 'TDS Amount Deducted', value: `₹${tdsResult.tdsAmount.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'TDS Section Code', value: `Section ${activeSection.code}` },
+        { label: 'Section Description', value: activeSection.name },
+        { label: 'Payment Amount', value: `₹${amount.toLocaleString('en-IN')}` },
+        { label: 'PAN Card Available', value: panAvailable ? 'Yes' : 'No (Higher TDS applies)' },
+        { label: 'Payee Entity Type', value: isCompany ? 'Company' : 'Individual/HUF' },
+        { label: 'Payee Resident Status', value: isNri ? 'Non-Resident (NRI)' : 'Resident' },
+        { label: 'Section Threshold Limit', value: `₹${activeSection.threshold.toLocaleString('en-IN')}` }
+      ],
+      results: [
+        { label: 'Applicable TDS Rate', value: `${tdsResult.tdsRate}%` },
+        { label: 'TDS Amount Deducted', value: `₹${tdsResult.tdsAmount.toLocaleString('en-IN')}` },
+        { label: 'Net Payable Amount', value: `₹${tdsResult.netPayable.toLocaleString('en-IN')}` }
+      ],
+      notes: [
+        activeSection.description,
+        !panAvailable ? 'WARNING: Higher TDS rate is applied because PAN is not provided.' : '',
+        tdsResult.tdsAmount === 0 && amount <= activeSection.threshold ? 'No TDS is deducted as the payment amount is within the threshold limit.' : ''
+      ].filter(Boolean)
+    };
+    generatePDFReport(reportData);
   };
 
   return (

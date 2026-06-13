@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { calculateImportDuty, calculateExportDuty } from '../utils/finance';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { Share2, FileText, CheckCircle, ShieldCheck, ArrowRight, Table, Globe } from 'lucide-react';
+import { Share2, FileText, CheckCircle, ShieldCheck, ArrowRight, Table, Globe, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function CustomsDuty() {
   const [tab, setTab] = useState<'import' | 'export'>('import');
@@ -60,6 +61,59 @@ export default function CustomsDuty() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    if (tab === 'import') {
+      const reportData = {
+        title: 'Customs Import Duty Report',
+        filename: 'customs-import-report.pdf',
+        summary: { label: 'Total Landed Cost', value: `${currencySymbol}${importResult.landedCost.toLocaleString('en-IN')}` },
+        inputs: [
+          { label: 'HS Code', value: hsCode },
+          { label: 'Origin Country', value: originCountry },
+          { label: 'CIF Value', value: `${currencySymbol}${cifValue.toLocaleString('en-IN')}` },
+          { label: 'Freight Cost', value: `${currencySymbol}${freight.toLocaleString('en-IN')}` },
+          { label: 'Insurance Cost', value: `${currencySymbol}${insurance.toLocaleString('en-IN')}` },
+          { label: 'Basic Customs Duty (BCD) Rate', value: `${bcdRate}%` },
+          { label: 'IGST Rate', value: `${igstRate}%` }
+        ],
+        results: [
+          { label: 'Assessable Value', value: `${currencySymbol}${importResult.assessableValue.toLocaleString('en-IN')}` },
+          { label: 'Basic Customs Duty (BCD) Amount', value: `${currencySymbol}${importResult.bcdAmount.toLocaleString('en-IN')}` },
+          { label: 'Social Welfare Surcharge (SWS)', value: `${currencySymbol}${importResult.swsAmount.toLocaleString('en-IN')}` },
+          { label: 'IGST Amount', value: `${currencySymbol}${importResult.igstAmount.toLocaleString('en-IN')}` },
+          { label: 'Total Duties & Taxes', value: `${currencySymbol}${importResult.totalDuties.toLocaleString('en-IN')}` },
+          { label: 'Landed Cost (Total Cost)', value: `${currencySymbol}${importResult.landedCost.toLocaleString('en-IN')}` }
+        ]
+      };
+      generatePDFReport(reportData);
+    } else {
+      const reportData = {
+        title: 'Customs Export Duty Report',
+        filename: 'customs-export-report.pdf',
+        summary: { label: 'Net Export Revenue', value: `${currencySymbol}${exportResult.netRevenue.toLocaleString('en-IN')}` },
+        inputs: [
+          { label: 'Destination Country', value: exportDest },
+          { label: 'FOB Value (Export Value)', value: `${currencySymbol}${exportValue.toLocaleString('en-IN')}` },
+          { label: 'Freight Cost', value: `${currencySymbol}${exportFreight.toLocaleString('en-IN')}` },
+          { label: 'Insurance Cost', value: `${currencySymbol}${exportInsurance.toLocaleString('en-IN')}` },
+          { label: 'Export Duty Rate', value: `${exportDutyRate}%` },
+          { label: 'Other Export Taxes', value: `${exportTaxRate}%` },
+          { label: 'Government Incentives Rate (RoDTEP)', value: `${incentiveRate}%` },
+          { label: 'Cost of Production', value: `${currencySymbol}${costOfProduction.toLocaleString('en-IN')}` }
+        ],
+        results: [
+          { label: 'Export Duty Amount', value: `${currencySymbol}${exportResult.exportDuty.toLocaleString('en-IN')}` },
+          { label: 'Other Export Taxes Amount', value: `${currencySymbol}${exportResult.exportTax.toLocaleString('en-IN')}` },
+          { label: 'Incentive Claimable (RoDTEP)', value: `${currencySymbol}${exportResult.incentivesEarned.toLocaleString('en-IN')}` },
+          { label: 'Gross Export Revenue (FOB)', value: `${currencySymbol}${exportResult.fobValue.toLocaleString('en-IN')}` },
+          { label: 'Net Export Revenue (Revenue - Duties + Incentives)', value: `${currencySymbol}${exportResult.netRevenue.toLocaleString('en-IN')}` },
+          { label: 'Net Profit Margin Amount', value: `${currencySymbol}${(exportResult.netRevenue - costOfProduction).toLocaleString('en-IN')}` }
+        ]
+      };
+      generatePDFReport(reportData);
+    }
+  };
+
   const chartData = [
     { name: 'Assessable Value', value: importResult.assessableValue },
     { name: 'Customs Duties (BCD+SWS)', value: importResult.bcdAmount + importResult.swsAmount },
@@ -95,8 +149,15 @@ export default function CustomsDuty() {
           </select>
 
           <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-xs transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-3.5 h-3.5" />
+            PDF Report
+          </button>
+          <button 
             onClick={handleShare}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-755 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs transition-all border border-slate-200 dark:border-slate-700"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs transition-all border border-slate-200 dark:border-slate-700"
           >
             {shared ? <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> : <Share2 className="w-3.5 h-3.5" />}
             {shared ? 'Copied' : 'Share'}

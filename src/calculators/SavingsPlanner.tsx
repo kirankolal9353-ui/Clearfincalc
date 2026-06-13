@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSavingsGoal } from '../utils/finance';
-import { Share2, Calendar, Percent, CheckCircle, Target } from 'lucide-react';
+import { Share2, Calendar, Percent, CheckCircle, Target, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function SavingsPlanner() {
   const [target, setTarget] = useState<number>(1000000);
@@ -20,6 +21,28 @@ export default function SavingsPlanner() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    const totalInvested = initial + (goalData.monthlySavingsRequired * years * 12);
+    const reportData = {
+      title: 'Savings Goal Plan Report',
+      filename: 'savings-planner-report.pdf',
+      summary: { label: 'Required Monthly Savings', value: `₹${goalData.monthlySavingsRequired.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'Target Savings Goal', value: `₹${target.toLocaleString('en-IN')}` },
+        { label: 'Time Horizon', value: `${years} Years` },
+        { label: 'Expected Return Rate', value: `${rate}%` },
+        { label: 'Initial Savings', value: `₹${initial.toLocaleString('en-IN')}` }
+      ],
+      results: [
+        { label: 'Required Monthly Savings', value: `₹${goalData.monthlySavingsRequired.toLocaleString('en-IN')}` },
+        { label: 'Estimated Total Invested (Initial + Monthly)', value: `₹${totalInvested.toLocaleString('en-IN')}` },
+        { label: 'Estimated Interest Earned', value: `₹${goalData.totalInterestEarned.toLocaleString('en-IN')}` },
+        { label: 'Final Maturity Value (Target)', value: `₹${target.toLocaleString('en-IN')}` }
+      ]
+    };
+    generatePDFReport(reportData);
+  };
+
   return (
     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-slate-200/50 dark:border-slate-800/50 shadow-xl transition-all duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -27,13 +50,22 @@ export default function SavingsPlanner() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Savings Goal Planner</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate how much you need to save monthly to achieve your target financial goal.</p>
         </div>
-        <button 
-          onClick={handleShare}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
-        >
-          {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
-          {shared ? 'Copied!' : 'Share Result'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            PDF Report
+          </button>
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
+          >
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? 'Copied!' : 'Share Result'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

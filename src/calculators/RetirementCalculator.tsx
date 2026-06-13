@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { calculateRetirement } from '../utils/finance';
-import { Share2, CheckCircle } from 'lucide-react';
+import { Share2, CheckCircle, Download } from 'lucide-react';
+import { generatePDFReport } from '../utils/pdfGenerator';
 
 export default function RetirementCalculator() {
   const [currentAge, setCurrentAge] = useState<number>(30);
@@ -33,6 +34,32 @@ export default function RetirementCalculator() {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handleDownloadPDF = () => {
+    const reportData = {
+      title: 'Retirement Planning Report',
+      filename: 'retirement-report.pdf',
+      summary: { label: 'Total Retirement Corpus Required', value: `₹${retirementData.corpusRequired.toLocaleString('en-IN')}` },
+      inputs: [
+        { label: 'Current Age', value: `${currentAge} Years` },
+        { label: 'Retirement Age', value: `${retirementAge} Years` },
+        { label: 'Life Expectancy', value: `${lifeExpectancy} Years` },
+        { label: 'Current Monthly Expenses', value: `₹${monthlyExpenses.toLocaleString('en-IN')}` },
+        { label: 'Current Accumulated Savings', value: `₹${currentSavings.toLocaleString('en-IN')}` },
+        { label: 'Expected Inflation Rate', value: `${inflationRate}%` },
+        { label: 'Expected Pre-Retirement Return', value: `${preReturn}%` },
+        { label: 'Expected Post-Retirement Return', value: `${postReturn}%` }
+      ],
+      results: [
+        { label: 'Future Monthly Expenses (Adjusted for Inflation)', value: `₹${retirementData.futureMonthlyExpenses.toLocaleString('en-IN')}` },
+        { label: 'Future Value of Current Savings', value: `₹${retirementData.currentSavingsFutureValue.toLocaleString('en-IN')}` },
+        { label: 'Total Retirement Corpus Required', value: `₹${retirementData.corpusRequired.toLocaleString('en-IN')}` },
+        { label: 'Net Corpus Shortfall (Gap)', value: `₹${retirementData.netCorpusGap.toLocaleString('en-IN')}` },
+        { label: 'Suggested Monthly Savings Needed', value: `₹${retirementData.suggestedMonthlySavings.toLocaleString('en-IN')}` }
+      ]
+    };
+    generatePDFReport(reportData);
+  };
+
   return (
     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-slate-200/50 dark:border-slate-800/50 shadow-xl transition-all duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -40,13 +67,22 @@ export default function RetirementCalculator() {
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Retirement Calculator</h2>
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Find out how much money you need to accumulate for a stress-free retirement adjusted for inflation.</p>
         </div>
-        <button 
-          onClick={handleShare}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
-        >
-          {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
-          {shared ? 'Copied!' : 'Share Result'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button 
+            onClick={handleDownloadPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            PDF Report
+          </button>
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
+          >
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? 'Copied!' : 'Share Result'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
