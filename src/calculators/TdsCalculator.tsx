@@ -36,9 +36,19 @@ export default function TdsCalculator() {
     } else if (amount <= activeSection.threshold) {
       return `💡 Safe Zone: Payment (₹${amount.toLocaleString('en-IN')}) is below the threshold of ₹${activeSection.threshold.toLocaleString('en-IN')}. No TDS deduction is required for this transaction.`;
     } else {
-      let advice = `✅ Rule Check: Section ${activeSection.code} applies to this transaction. Deduct exactly 10% on professional services. TDS must be deposited by the 7th of the following month.`;
+      let advice = `✅ Rule Check: Section ${activeSection.code} applies to this transaction. TDS must be deposited by the 7th of the following month (or 30th April for March payments).`;
       if (activeSection.code === '194J') {
-        advice += ` Note that for simple technical services, TDS rate is reduced to 2%.`;
+        advice += ` Note: Threshold raised to ₹50,000 from 1 Apr 2025 (Budget 2025). Technical services/call centres attract only 2% TDS instead of 10%.`;
+      } else if (activeSection.code === '194A') {
+        advice += ` Note: Threshold raised from ₹40,000 to ₹50,000 (others) and ₹1,00,000 (senior citizens) effective 1 Apr 2025 per Budget 2025.`;
+      } else if (activeSection.code === '194I') {
+        advice += ` Note: Threshold revised to ₹50,000 per month (₹6,00,000 p.a.) effective 1 Apr 2025 per Budget 2025. Rate is 2% for plant & machinery.`;
+      } else if (activeSection.code === '193') {
+        advice += ` Note: Budget 2025 introduced a new ₹10,000 threshold for interest on securities effective 1 Apr 2025. Previously TDS applied on every rupee.`;
+      } else if (activeSection.code === '194BA') {
+        advice += ` Note: TDS applies on net winnings from online gaming at year-end. No threshold exemption — even ₹1 of net winning attracts 30% TDS.`;
+      } else if (activeSection.code === '194S') {
+        advice += ` Note: TDS on crypto/VDA at 1%. Losses in one transaction cannot offset gains in another for TDS purposes.`;
       }
       return advice;
     }
@@ -387,7 +397,7 @@ export default function TdsCalculator() {
         <div className="mt-6 p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-start gap-2.5">
           <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
           <div className="text-[10px] md:text-xs leading-relaxed text-slate-500 dark:text-slate-400 font-medium">
-            <strong>Indian Income Tax compliant:</strong> Calculations are updated as per the Finance Act 2025. Please consult with a chartered accountant (CA) before filing returns. Accuracy badge is CA verified styled.
+            <strong>Updated for FY 2025-26 (Budget 2025):</strong> TDS thresholds updated as per Finance Act 2025 — 194A raised to ₹50,000, 194I to ₹50,000/month, 194J to ₹50,000, Sec 193 threshold of ₹10,000 introduced. New sections 194B, 194BA (online gaming), 194D, 194M, 194N, 194S (crypto), 206AB included. Consult a CA before filing returns.
           </div>
         </div>
       </div>

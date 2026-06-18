@@ -450,113 +450,246 @@ export interface TdsSectionInfo {
 }
 
 export const TDS_SECTIONS: TdsSectionInfo[] = [
+
+  // ─── Salary & Wages ───────────────────────────────────────────────────────
   {
     code: '192',
-    name: 'Section 192 - Salary Payment',
-    rateResidentIndiv: 15, // Dynamic based on slab, average estimated at 15% here
+    name: 'Section 192 - Salary',
+    rateResidentIndiv: 15, // Slab-based; 15% is an average estimate shown here
     rateResidentCompany: 15,
     rateNri: 30,
-    threshold: 700000,
-    description: 'TDS deducted by employer on salary based on income tax slab rates.',
+    threshold: 300000, // Basic exemption limit ₹3L (new regime, FY 2025-26)
+    description: 'TDS on salary deducted by employer at applicable income tax slab rates. New regime is default from FY 2023-24. Threshold is the basic exemption limit (₹3L under new regime). Actual rate varies per individual income.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  {
+    code: '192A',
+    name: 'Section 192A - Premature EPF Withdrawal',
+    rateResidentIndiv: 10,
+    rateResidentCompany: 10,
+    rateNri: 30,
+    threshold: 50000, // TDS applies if withdrawal > ₹50,000
+    description: 'TDS at 10% on premature withdrawal from EPF (Employee Provident Fund) before 5 years of continuous service. Threshold: ₹50,000. No TDS if Form 15G/15H (new: Form 121) submitted.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── Interest ─────────────────────────────────────────────────────────────
+  {
+    code: '193',
+    name: 'Section 193 - Interest on Securities',
+    rateResidentIndiv: 10,
+    rateResidentCompany: 10,
+    rateNri: 20,
+    threshold: 10000, // NEW: Budget 2025 introduced ₹10,000 threshold (was NIL)
+    description: 'TDS on interest on debentures, government securities. Budget 2025 introduced ₹10,000 threshold (effective 1 Apr 2025). Previously no threshold existed.',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
     code: '194A',
-    name: 'Section 194A - Interest on Deposits (Banks)',
+    name: 'Section 194A - Interest on Bank / Post Office Deposits',
     rateResidentIndiv: 10,
     rateResidentCompany: 10,
     rateNri: 30,
-    threshold: 40000, // 50,000 for senior citizens
-    description: 'Interest on bank deposits, post office schemes exceeding threshold.',
+    threshold: 50000, // UPDATED: Budget 2025 raised from ₹40,000 → ₹50,000 (effective 1 Apr 2025)
+    description: 'TDS on interest from banks, cooperative societies, post offices. Budget 2025: threshold raised to ₹50,000 (others) and ₹1,00,000 (senior citizens) from 1 Apr 2025.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── Dividends ────────────────────────────────────────────────────────────
+  {
+    code: '194',
+    name: 'Section 194 - Dividend from Indian Companies',
+    rateResidentIndiv: 10,
+    rateResidentCompany: 10,
+    rateNri: 20,
+    threshold: 10000, // UPDATED: Budget 2025 raised from ₹5,000 → ₹10,000 (effective 1 Apr 2025)
+    description: 'TDS on dividends paid by domestic companies. Budget 2025 raised threshold from ₹5,000 to ₹10,000 effective 1 Apr 2025.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── Lottery / Gambling ───────────────────────────────────────────────────
+  {
+    code: '194B',
+    name: 'Section 194B - Lottery / Crossword / Card Game Winnings',
+    rateResidentIndiv: 30,
+    rateResidentCompany: 30,
+    rateNri: 30,
+    threshold: 10000, // ₹10,000 per transaction (aggregate in a financial year)
+    description: 'TDS at 30% on winnings from lotteries, crossword puzzles, card games or any game. Threshold: ₹10,000 per transaction. No deductions allowed against such winnings.',
+    panMandatory: true,
+    higherTdsRate: 30
+  },
+  {
+    code: '194BB',
+    name: 'Section 194BB - Horse Race Winnings',
+    rateResidentIndiv: 30,
+    rateResidentCompany: 30,
+    rateNri: 30,
+    threshold: 10000, // ₹10,000 per race event
+    description: 'TDS at 30% on winnings from horse races. Threshold: ₹10,000 per race event. Applies to bookmakers, racecourse owners or licensees paying horse race winnings.',
+    panMandatory: true,
+    higherTdsRate: 30
+  },
+  {
+    code: '194BA',
+    name: 'Section 194BA - Online Gaming Winnings',
+    rateResidentIndiv: 30,
+    rateResidentCompany: 30,
+    rateNri: 30,
+    threshold: 0, // No threshold — TDS on every rupee of net winnings
+    description: 'TDS at 30% on net winnings from online games (fantasy sports, poker, rummy, etc.). Effective 1 Apr 2023. No threshold exemption — TDS applies on net winnings at year-end or at time of withdrawal.',
+    panMandatory: true,
+    higherTdsRate: 30
+  },
+  // ─── Contractors & Professionals ──────────────────────────────────────────
+  {
+    code: '194C',
+    name: 'Section 194C - Contractor / Sub-Contractor Payments',
+    rateResidentIndiv: 1,
+    rateResidentCompany: 2,
+    rateNri: 30,
+    threshold: 30000, // Single payment; ₹1,00,000 aggregate in a year
+    description: 'TDS on payments to contractors/sub-contractors. Rate: 1% (Individual/HUF), 2% (Company). Threshold: ₹30,000 per payment or ₹1,00,000 aggregate per year.',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
-    code: '194C',
-    name: 'Section 194C - Contractor Payments',
-    rateResidentIndiv: 1,
-    rateResidentCompany: 2,
-    rateNri: 30,
-    threshold: 30000, // or 1,00,000 aggregate yearly
-    description: 'Payments made to contractors or sub-contractors for carrying out any work.',
+    code: '194D',
+    name: 'Section 194D - Insurance Commission',
+    rateResidentIndiv: 2,   // CORRECTED FY 2025-26: 2% for Individual/HUF
+    rateResidentCompany: 10, // 10% for Domestic Companies
+    rateNri: 20,
+    threshold: 20000, // CORRECTED FY 2025-26: ₹20,000 (not ₹15,000)
+    description: 'TDS on commission paid to insurance agents/surveyors. Rate: 2% (Individual/HUF), 10% (Domestic Company). Threshold: ₹20,000 per annum (FY 2025-26 verified rate).',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
     code: '194H',
     name: 'Section 194H - Commission or Brokerage',
-    rateResidentIndiv: 5,
-    rateResidentCompany: 5,
+    rateResidentIndiv: 2,   // CORRECTED FY 2025-26: 2% (not 5%)
+    rateResidentCompany: 2,
     rateNri: 30,
-    threshold: 15000,
-    description: 'Payments for services rendered as commission or brokerage.',
-    panMandatory: true,
-    higherTdsRate: 20
-  },
-  {
-    code: '194I',
-    name: 'Section 194I - Rent of Land, Building or Furniture',
-    rateResidentIndiv: 10, // 2% for plant & machinery
-    rateResidentCompany: 10,
-    rateNri: 30,
-    threshold: 240000,
-    description: 'Rent payments for building, land, furniture, fittings.',
+    threshold: 20000, // CORRECTED FY 2025-26: ₹20,000 (not ₹15,000)
+    description: 'TDS at 2% on commission or brokerage payments (excluding insurance commission under 194D). Threshold: ₹20,000 per annum (FY 2025-26 verified rate).',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
     code: '194J',
-    name: 'Section 194J - Professional & Technical Fees',
-    rateResidentIndiv: 10, // 2% for technical services, call centers
+    name: 'Section 194J - Professional & Technical Services Fees',
+    rateResidentIndiv: 10, // 2% for purely technical services / call centres
     rateResidentCompany: 10,
     rateNri: 30,
-    threshold: 30000,
-    description: 'Professional services fees, technical support, royalties, director fees.',
+    threshold: 50000, // UPDATED: Budget 2025 raised from ₹30,000 → ₹50,000 (effective 1 Apr 2025)
+    description: 'TDS on professional fees, technical services, royalties, non-compete fees, director remuneration. Budget 2025: threshold raised from ₹30,000 to ₹50,000 effective 1 Apr 2025. Note: 2% rate applies for technical services/call centres.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── Rent ─────────────────────────────────────────────────────────────────
+  {
+    code: '194I',
+    name: 'Section 194-I - Rent (Land / Building / Furniture)',
+    rateResidentIndiv: 10, // 2% for plant & machinery
+    rateResidentCompany: 10,
+    rateNri: 30,
+    threshold: 600000, // UPDATED: Budget 2025 changed to ₹50,000/month = ₹6,00,000 p.a. (was ₹2,40,000 p.a.)
+    description: 'TDS on rent for land, building, furniture, fittings. Budget 2025: threshold changed from ₹2,40,000 p.a. to ₹50,000 per month (effective 1 Apr 2025). Rate 2% for plant & machinery.',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
-    code: '194Q',
-    name: 'Section 194Q - Purchase of Goods',
-    rateResidentIndiv: 0.1,
-    rateResidentCompany: 0.1,
-    rateNri: 5,
-    threshold: 5000000,
-    description: 'TDS on purchase of goods from resident seller by buyer whose turnover > ₹10cr.',
+    code: '194T',
+    name: 'Section 194T - Remuneration / Interest to Partners',
+    rateResidentIndiv: 10,
+    rateResidentCompany: 10,
+    rateNri: 30,
+    threshold: 20000, // ₹20,000 per annum
+    description: 'TDS at 10% on remuneration, salary, bonus, commission or interest paid by a partnership firm to its partners. Threshold: ₹20,000 per annum. Effective from 1 Apr 2025 (introduced Budget 2024).',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  {
+    code: '194M',
+    name: 'Section 194M - Contractual/Professional Payments by Individuals',
+    rateResidentIndiv: 5,
+    rateResidentCompany: 5,
+    rateNri: 30,
+    threshold: 5000000, // ₹50 Lakh per annum
+    description: 'TDS at 5% on payments by individuals/HUFs (not liable for tax audit) to contractors or professionals exceeding ₹50 Lakh aggregate per year. Applicable from 1 Sep 2019.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── Cash Withdrawals ─────────────────────────────────────────────────────
+  {
+    code: '194N',
+    name: 'Section 194N - Cash Withdrawal from Banks',
+    rateResidentIndiv: 2, // 2% above ₹1Cr; 2% above ₹20L for non-ITR filers
+    rateResidentCompany: 2,
+    rateNri: 2,
+    threshold: 10000000, // ₹1 Crore (₹20L for non-filers of ITR)
+    description: 'TDS on cash withdrawals exceeding ₹1 Crore from banks/co-ops/post offices. Rate: 2% above ₹1 Cr. For non-ITR filers: 2% above ₹20L and 5% above ₹1 Cr.',
     panMandatory: true,
     higherTdsRate: 5
   },
+  // ─── Goods ────────────────────────────────────────────────────────────────
+  {
+    code: '194Q',
+    name: 'Section 194Q - Purchase of Goods (Buyer)',
+    rateResidentIndiv: 0.1,
+    rateResidentCompany: 0.1,
+    rateNri: 5,
+    threshold: 5000000, // ₹50 Lakh per seller
+    description: 'TDS at 0.1% on purchase of goods from a resident seller if turnover of buyer > ₹10 Cr. Applicable on amount exceeding ₹50 Lakh per seller per year.',
+    panMandatory: true,
+    higherTdsRate: 5
+  },
+  // ─── Digital / E-Commerce ─────────────────────────────────────────────────
   {
     code: '194O',
-    name: 'Section 194O - E-commerce Participant Payments',
+    name: 'Section 194O - E-Commerce Participant Payments',
     rateResidentIndiv: 1,
     rateResidentCompany: 1,
     rateNri: 5,
-    threshold: 500000,
-    description: 'E-commerce operators deducting TDS on sales of products/services through portal.',
+    threshold: 500000, // ₹5 Lakh for individual/HUF participants
+    description: 'TDS at 1% by e-commerce operators on gross amount of sales facilitated through their digital platform. Threshold ₹5 Lakh applies only for individual/HUF participants.',
     panMandatory: true,
     higherTdsRate: 20
   },
   {
+    code: '194S',
+    name: 'Section 194S - Virtual Digital Assets / Crypto / NFT',
+    rateResidentIndiv: 1,
+    rateResidentCompany: 1,
+    rateNri: 1,
+    threshold: 10000, // CORRECTED: ₹10,000 for specified persons (exchanges); ₹50,000 for others
+    description: 'TDS at 1% on transfer of Virtual Digital Assets (VDA) including crypto, NFTs. Threshold: ₹10,000 (specified persons — exchanges/brokers) or ₹50,000 (others). Effective 1 Jul 2022. No netting of losses allowed.',
+    panMandatory: true,
+    higherTdsRate: 20
+  },
+  // ─── NRI / Non-Resident ───────────────────────────────────────────────────
+  {
     code: '195',
-    name: 'Section 195 - Other Payments to NRI',
+    name: 'Section 195 - Payments to Non-Residents (NRI)',
     rateResidentIndiv: 30,
     rateResidentCompany: 40,
     rateNri: 30,
-    threshold: 0,
-    description: 'TDS on interest, royalties, capital gains or other payments made to Non-Residents.',
+    threshold: 0, // No threshold; TDS applies on all payments
+    description: 'TDS on interest, royalties, technical fees, capital gains or any other income paid to Non-Residents. No threshold applies. Rate depends on nature of income and applicable DTAA treaty.',
     panMandatory: true,
     higherTdsRate: 20
   },
+  // ─── Compliance / Penalty ─────────────────────────────────────────────────
   {
     code: '206AB',
-    name: 'Section 206AB - Double TDS for Non-Filers',
-    rateResidentIndiv: 10, // Double normal rate (up to 20% max usually)
+    name: 'Section 206AB - Higher TDS for ITR Non-Filers',
+    rateResidentIndiv: 20, // Higher of: double normal rate OR 5%
     rateResidentCompany: 20,
     rateNri: 30,
-    threshold: 50000, // total TDS in previous year
-    description: 'Higher TDS rate for persons who have not filed income tax returns for the previous year.',
+    threshold: 50000, // Triggered when TDS/TCS in each of last 2 years > ₹50,000 & ITR not filed
+    description: 'Higher TDS (double the applicable rate or 5%, whichever is higher) for persons who did not file ITR for the previous 2 years AND TDS/TCS exceeded ₹50,000 in each such year. Effective from 1 Jul 2021.',
     panMandatory: true,
     higherTdsRate: 20
   }
@@ -569,7 +702,9 @@ export function calculateTDS(
   isCompany: boolean,
   isNri: boolean
 ): TdsResult {
-  const section = TDS_SECTIONS.find(s => s.code === sectionCode) || TDS_SECTIONS[1]; // default 194A
+  const section = TDS_SECTIONS.find(s => s.code === sectionCode)
+    || TDS_SECTIONS.find(s => s.code === '194A')
+    || TDS_SECTIONS[0]; // fallback to 194A or first section
   
   const higherTdsRateApplied = !panAvailable;
   const tdsRate = !panAvailable
