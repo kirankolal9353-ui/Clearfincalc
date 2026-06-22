@@ -44,7 +44,7 @@ export default function Footer() {
               </div>
 
               <p className="text-xs leading-relaxed text-slate-500 font-medium">
-                Clear Calculations. Smarter Decisions. ClearFinCalc is a premium, CA-reviewed financial utility platform. We simplify tax estimations, loan EMIs, retirement corpus planning, and import customs duties. 100% free and run completely in the browser for user data safety.
+                Clear Calculations. Smarter Decisions. ClearFinCalc is a free financial calculator platform. We simplify tax estimations, loan EMIs, retirement corpus planning, and import customs duties. Calculations are based on publicly available formulas. 100% free and run completely in the browser for user data safety.
               </p>
 
               <div className="flex gap-2 pt-1">
@@ -95,7 +95,7 @@ export default function Footer() {
                 </li>
                 <li className="flex items-start gap-2 text-slate-600">
                   <MapPin className="w-4 h-4 text-rose-450 flex-shrink-0 mt-0.5" />
-                  <span> 1st floor, Byanna Compond, Whitefield, Bengaluru, KA, India</span>
+                  <span>1st floor, Byana compound, Immadihali Main Road, Whitefield, Bangalore 560066</span>
                 </li>
                 <li>
                   <button

@@ -80,8 +80,8 @@ Key Differences:
     date: 'June 14, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'SEBI Mutual Fund Regulations', url: 'https://www.sebi.gov.in/' },
       { text: 'RBI Bank Deposit Rules', url: 'https://www.rbi.org.in/' }
@@ -104,8 +104,8 @@ Comparing the Two Options:
     date: 'June 15, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'CBIC GST Guidelines and Notifications', url: 'https://www.cbic.gov.in/' }
     ],
@@ -129,8 +129,8 @@ For intrastate transactions (e.g., selling goods within Karnataka), the GST is s
     date: 'June 16, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'Income Tax Department TDS Slab Charts', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -156,8 +156,8 @@ Penalties and Higher Deductions:
     date: 'June 17, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'Income Tax Slab Notifications', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -391,8 +391,8 @@ Every mutual fund scheme is offered in two plans:
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'Income Tax Department Rules on FD TDS', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -417,8 +417,8 @@ FD interest is fully taxable. It is added to your total annual income and taxed 
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'PPF Scheme Rules - Ministry of Finance', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -475,8 +475,8 @@ At age 60, you can withdraw up to 60% of the accumulated corpus tax-free in a lu
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'AMFI tax-saving mutual funds database', url: 'https://www.amfiindia.com/' }
     ],
@@ -625,8 +625,8 @@ Key Insurance Principles:
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'IRDAI Consumer Information Guidelines', url: 'https://irdai.gov.in/' }
     ],
@@ -778,8 +778,8 @@ If you have an education loan, remember that simple interest accumulates during 
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
     author: 'Neha Goel',
-    authorRole: 'Chartered Accountant',
-    authorBio: 'Neha Goel is a Chartered Accountant and tax consultant. She specializes in corporate tax compliance, retail wealth management, and personal financial planning.',
+    authorRole: 'Financial Content Specialist',
+    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
     citations: [
       { text: 'Income Tax Department Business Income Rules', url: 'https://www.incometaxindia.gov.in/' }
     ],

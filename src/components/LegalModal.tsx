@@ -168,13 +168,13 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               <div className="space-y-2">
                 <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">2. Use of the Calculators</h3>
                 <p>
-                  ClearFinCalc provides free online calculators for personal, educational, and informational use. You are prohibited from scraped, reverse engineering, framing, or reproducing any calculator logic or content for commercial applications without explicit CA-approved permission.
+                  ClearFinCalc provides free online calculators for personal, educational, and informational use. You are prohibited from scraping, reverse engineering, framing, or reproducing any calculator logic or content for commercial applications without explicit written permission.
                 </p>
               </div>
               <div className="space-y-2">
                 <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">3. Warranty Disclaimer</h3>
                 <p>
-                  The calculation tools are provided "as is" without warranties of accuracy, timeliness, completeness, or fitness for specific legal filings. Tax rates and policies (such as TDS, GST slabs, and income tax) fluctuate. Always consult a chartered accountant or financial advisor before making decisions.
+                  The calculation tools are provided "as is" without warranties of accuracy, timeliness, completeness, or fitness for specific legal filings. Tax rates and policies (such as TDS, GST slabs, and income tax) fluctuate. Users should verify important financial decisions with qualified professionals.
                 </p>
               </div>
             </div>
@@ -241,15 +241,15 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">2. Editorial & Accuracy Code</h3>
                 <p className="text-slate-700 dark:text-slate-350">
-                  All financial tools and articles on ClearFinCalc undergo a rigorous review process before publication to ensure maximum factual accuracy and compliance with current statutory guidelines.
+                  All financial tools and articles on ClearFinCalc are prepared for educational and informational purposes. Our editorial team works to ensure accuracy by referencing publicly available formulas and official government guidelines.
                 </p>
                 <div className="space-y-3 bg-blue-500/5 p-4 rounded-2xl border border-blue-500/10">
                   <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-xs">
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
-                    Strict Verification Process:
+                    Our Content Standards:
                   </div>
                   <ul className="list-disc list-inside space-y-1.5 pl-2 text-[12px] text-slate-500 dark:text-slate-400">
-                    <li>**Formula Auditing**: Every calculator formula (EMI, compound interest, tax slabs) is audited by qualified Chartered Accountants (CAs) and financial planners.</li>
+                    <li>**Formula Verification**: Every calculator formula (EMI, compound interest, tax slabs) is verified against publicly available formulas and official government notifications.</li>
                     <li>**Government Alignment**: All TDS sections, income tax rates, and customs surcharge splits are cross-referenced directly with official notifications from the RBI, CBIC, and Income Tax Department.</li>
                     <li>**Periodic Updates**: We monitor and update calculations immediately after new Union Budget notifications or central banking policy revisions.</li>
                   </ul>
@@ -292,8 +292,9 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                     <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">Office Address</h4>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       ClearFinCalc Platform,<br />
-                      1st floor,Byanna Compond,Immadihalli Main Road,Whitefiled,<br />
-                      Bengaluru, Karnataka, India - 560066
+                      1st floor, Byana compound,<br />
+                      Immadihali Main Road, Whitefield,<br />
+                      Bangalore - 560066
                     </p>
                   </div>
                 </div>
@@ -304,7 +305,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                     <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">Working Hours</h4>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       Monday to Friday<br />
-                      10:00 AM – 8:00 PM IST<br />
+                      9:00 AM – 6:00 PM IST<br />
                       (Excludes national public holidays)
                     </p>
                   </div>

@@ -18,7 +18,7 @@ export default function Insights() {
       document.title = `${activeArticle.title} | ClearFinCalc Insights`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
-        metaDesc.setAttribute('content', `${activeArticle.excerpt.slice(0, 150)}... Read this comprehensive, CA-reviewed guide.`);
+        metaDesc.setAttribute('content', `${activeArticle.excerpt.slice(0, 150)}... Read this comprehensive educational guide on ClearFinCalc.`);
       }
     } else {
       // Don't reset if a calculator is active, but if no calculator is active we can reset.
@@ -169,8 +169,13 @@ export default function Insights() {
               </div>
 
               {/* Article Content Rendered beautifully */}
-              <div className="text-[13px] md:text-sm leading-relaxed text-slate-600 dark:text-slate-300 font-medium whitespace-pre-line space-y-4">
+              <div className="text-[14px] md:text-base leading-[1.85] text-slate-600 dark:text-slate-300 font-medium whitespace-pre-line space-y-4">
                 {activeArticle.content}
+              </div>
+
+              {/* Informational Disclaimer Banner */}
+              <div className="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200/50 dark:border-slate-800/60 text-[11px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> This content is prepared for informational and educational purposes only, based on publicly available formulas and applicable rules. It does not constitute professional financial, tax, or legal advice. Users should verify important financial decisions with qualified professionals before acting.
               </div>
 
               {/* Authoritative Citations / References Section */}
@@ -275,7 +280,7 @@ export default function Insights() {
               Wealth & Tax Strategy Library
             </h2>
             <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
-              Search and filter our database of 30+ comprehensive, CA-reviewed educational guides on compounding, tax cuts, loans, and business audits.
+              Search and filter our library of 30+ comprehensive educational guides on compounding, tax strategies, loans, and personal finance topics.
             </p>
           </div>
 

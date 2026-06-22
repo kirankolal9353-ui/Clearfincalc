@@ -145,8 +145,21 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
               Complete Educational Handbook
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1">
-              Read our expert-written, CA-reviewed guide explaining calculations, math formulas, and practical implications.
+              Read our detailed guide explaining calculations, math formulas, and practical implications.
             </p>
+            <div className="flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-slate-450 mt-4 border-t border-slate-100 dark:border-slate-800/60 pt-3">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-5 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center font-extrabold text-[10px]">
+                  C
+                </div>
+                <span>Author: ClearFinCalc Editorial Team</span>
+              </div>
+              <div>Published: June 15, 2026</div>
+              <div>Last Updated: June 22, 2026</div>
+            </div>
+            <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-950/30 rounded-xl border border-slate-200/50 dark:border-slate-800/60 text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+              <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> This guide is prepared for educational and informational purposes only. Calculations are based on publicly available formulas and applicable rules. Users should verify important financial decisions with qualified professionals.
+            </div>
           </div>
 
           {/* Tab Selection */}
@@ -205,13 +218,13 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
               <div className="space-y-6 animate-fade-in">
                 <div className="space-y-2">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">1. Introduction</h3>
-                  <p className="text-[13px] leading-relaxed text-slate-550 dark:text-slate-350 font-medium">
+                  <p className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium">
                     {explanation.intro}
                   </p>
                 </div>
                 <div className="space-y-2 pt-4 border-t border-slate-100/50 dark:border-slate-800/30">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. How to Use</h3>
-                  <p className="text-[13px] leading-relaxed text-slate-550 dark:text-slate-350 font-medium">
+                  <p className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium">
                     {explanation.howItWorks}
                   </p>
                 </div>
@@ -223,13 +236,13 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
               <div className="space-y-6 animate-fade-in">
                 <div className="space-y-3">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">1. Mathematical Model</h3>
-                  <div className="text-[13px] leading-relaxed text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
+                  <div className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
                     {explanation.formula}
                   </div>
                 </div>
                 <div className="space-y-2 pt-4 border-t border-slate-100/50 dark:border-slate-800/30">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. Step-by-Step Example</h3>
-                  <div className="text-[13px] leading-relaxed text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
+                  <div className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
                     {explanation.example}
                   </div>
                 </div>
@@ -244,7 +257,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                     <ShieldCheck className="w-5 h-5 text-emerald-500" />
                     Key Benefits
                   </h3>
-                  <ul className="space-y-3 text-[13px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
+                  <ul className="space-y-3 text-[14px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
                     {explanation.benefits.map((b, idx) => (
                       <li key={idx} className="leading-relaxed">{b}</li>
                     ))}
@@ -255,7 +268,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                     <AlertCircle className="w-5 h-5 text-rose-500" />
                     Practical Limitations
                   </h3>
-                  <ul className="space-y-3 text-[13px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
+                  <ul className="space-y-3 text-[14px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
                     {explanation.limitations.map((l, idx) => (
                       <li key={idx} className="leading-relaxed">{l}</li>
                     ))}
@@ -276,7 +289,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                           <span className="text-blue-500 font-black">Q:</span>
                           {faq.q}
                         </h4>
-                        <p className="text-[12px] md:text-[13px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed pl-4">
+                        <p className="text-[13px] md:text-[14px] text-slate-500 dark:text-slate-400 font-semibold leading-[1.85] pl-4">
                           {faq.a}
                         </p>
                       </div>
@@ -287,7 +300,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                   <div className="space-y-3">
                     <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. Key Takeaways</h3>
-                    <ul className="space-y-2 text-[13px] text-slate-500 dark:text-slate-400 font-semibold list-decimal list-inside">
+                    <ul className="space-y-2 text-[14px] text-slate-500 dark:text-slate-400 font-semibold list-decimal list-inside">
                       {explanation.takeaways.map((takeaway, idx) => (
                         <li key={idx} className="leading-relaxed">{takeaway}</li>
                       ))}
@@ -307,7 +320,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                         >
                           <FileText className="w-4 h-4 flex-shrink-0" />
                           {c.text}
-                          <span className="text-[9px] uppercase bg-emerald-500/10 text-emerald-550 rounded px-1.5 py-0.5 ml-auto font-black">Verified Source</span>
+                          <span className="text-[9px] uppercase bg-emerald-500/10 text-emerald-550 rounded px-1.5 py-0.5 ml-auto font-black">Official Source</span>
                         </a>
                       ))}
                     </div>
