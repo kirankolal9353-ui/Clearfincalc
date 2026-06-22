@@ -48,10 +48,4 @@ export const FAQS: FaqItem[] = [
     question: 'How does an HS Code impact customs calculation?',
     answer: 'An HS Code (Harmonized System Code) is an internationally standardized numerical method of classifying traded products. It determines the basic customs duty (BCD) rates, import restrictions, compliance mandates, and eligibility for Free Trade Agreement (FTA) concessions.'
   }
-{
-  id: 'gen-99',
-  category: 'General',
-  question: 'Why should I use ClearFinCalc for financial calculations?',
-  answer: 'ClearFinCalc provides easy-to-use calculators for EMI, SIP, GST, TDS, income tax, loans, and other financial estimates. The platform is designed to help users understand calculations and plan their finances with clear results and simple interfaces.'
-},
 ];

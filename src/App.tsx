@@ -21,6 +21,27 @@ export default function App() {
   const [activeTool, setActiveTool] = useState<string | null>(null); // Default to home page (no open tool)
   const [utilityTab, setUtilityTab] = useState<'currency' | 'inflation' | 'networth' | 'budget'>('currency');
 
+  // Read URL query parameters on load for direct deep linking
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tool = params.get('tool');
+    if (tool) {
+      setActiveTool(tool);
+    }
+  }, []);
+
+  const handleSelectTool = (id: string) => {
+    setActiveTool(id);
+    const newUrl = `${window.location.origin}${window.location.pathname}?tool=${id}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+
+  const handleCloseTool = () => {
+    setActiveTool(null);
+    const newUrl = `${window.location.origin}${window.location.pathname}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+
   // Toggle dark class on document element
   useEffect(() => {
     if (darkMode) {
@@ -103,12 +124,12 @@ export default function App() {
       {/* Main Active Calculator Widget (Sticky details viewport) */}
       <CalculatorContainer 
         toolId={activeTool} 
-        onClose={() => setActiveTool(null)} 
+        onClose={handleCloseTool} 
       />
 
       {/* Grid of calculators */}
       <ToolGrid 
-        onSelectTool={setActiveTool} 
+        onSelectTool={handleSelectTool} 
         activeToolId={activeTool} 
         searchQuery={searchQuery} 
       />
