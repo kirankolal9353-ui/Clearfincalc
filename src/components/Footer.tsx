@@ -95,7 +95,7 @@ export default function Footer() {
                 </li>
                 <li className="flex items-start gap-2 text-slate-600">
                   <MapPin className="w-4 h-4 text-rose-450 flex-shrink-0 mt-0.5" />
-                  <span>Koramangala 4th Block, Bengaluru, KA, India</span>
+                  <span> 1st floor, Byanna Compond, Whitefield, Bengaluru, KA, India</span>
                 </li>
                 <li>
                   <button
