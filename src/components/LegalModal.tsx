@@ -292,8 +292,8 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                     <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">Office Address</h4>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       ClearFinCalc Platform,<br />
-                      4th Block, Koramangala,<br />
-                      Bengaluru, Karnataka, India - 560034
+                      1st floor,Byanna Compond,Immadihalli Main Road,Whitefiled,<br />
+                      Bengaluru, Karnataka, India - 560066
                     </p>
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                     <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">Working Hours</h4>
                     <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                       Monday to Friday<br />
-                      9:00 AM – 6:00 PM IST<br />
+                      10:00 AM – 8:00 PM IST<br />
                       (Excludes national public holidays)
                     </p>
                   </div>
