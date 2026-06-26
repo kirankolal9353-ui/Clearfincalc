@@ -145,7 +145,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
               Complete Educational Handbook
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1">
-              Read our detailed guide explaining calculations, math formulas, and practical implications.
+              Read our detailed educational guide explaining calculations, formulas, practical examples, and financial concepts.
             </p>
             <div className="flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-slate-450 mt-4 border-t border-slate-100 dark:border-slate-800/60 pt-3">
               <div className="flex items-center gap-1.5">
@@ -158,7 +158,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
               <div>Last Updated: June 22, 2026</div>
             </div>
             <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-950/30 rounded-xl border border-slate-200/50 dark:border-slate-800/60 text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-              <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> This guide is prepared for educational and informational purposes only. Calculations are based on publicly available formulas and applicable rules. Users should verify important financial decisions with qualified professionals.
+              <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
             </div>
           </div>
 

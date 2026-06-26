@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateFD } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, Percent, Calendar, CheckCircle, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -9,6 +10,8 @@ export default function FdCalculator() {
   const [tenure, setTenure] = useState<number>(5);
   const [compounding, setCompounding] = useState<'monthly' | 'quarterly' | 'half-yearly' | 'yearly'>('quarterly');
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('fd', { principal, rate, tenure, compounding });
 
   const fdData = useMemo(() => {
     return calculateFD(principal, rate, tenure, compounding);

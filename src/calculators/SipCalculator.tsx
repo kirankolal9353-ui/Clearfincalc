@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSIP } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Share2, IndianRupee, Calendar, Percent, CheckCircle, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
@@ -9,6 +10,8 @@ export default function SipCalculator() {
   const [expectedReturn, setExpectedReturn] = useState<number>(12);
   const [tenure, setTenure] = useState<number>(20);
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('sip', { monthlyInvest, expectedReturn, tenure });
 
   const sipData = useMemo(() => {
     return calculateSIP(monthlyInvest, expectedReturn, tenure);

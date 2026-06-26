@@ -175,7 +175,7 @@ export default function Insights() {
 
               {/* Informational Disclaimer Banner */}
               <div className="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200/50 dark:border-slate-800/60 text-[11px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-                <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> This content is prepared for informational and educational purposes only, based on publicly available formulas and applicable rules. It does not constitute professional financial, tax, or legal advice. Users should verify important financial decisions with qualified professionals before acting.
+                <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
               </div>
 
               {/* Authoritative Citations / References Section */}

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateTax } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Share2, CheckCircle, Scale, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
@@ -9,6 +10,8 @@ export default function TaxEstimator() {
   const [deductions, setDeductions] = useState<number>(150000);
   const [regime, setRegime] = useState<'new' | 'old'>('new');
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('tax', { income, deductions, regime });
 
   const taxData = useMemo(() => {
     return calculateTax(income, deductions, regime);

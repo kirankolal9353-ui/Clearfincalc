@@ -10,8 +10,8 @@ export default function WhyChooseUs() {
     },
     {
       icon: <Award className="w-6 h-6 text-emerald-500" />,
-      title: "Accurate & CA Verified",
-      description: "Algorithms are designed in accordance with the latest Finance Acts and verified by tax professionals."
+      title: "Accurate & Verified",
+      description: "Algorithms are designed in accordance with the latest Finance Acts and verified against official guidelines."
     },
     {
       icon: <Scale className="w-6 h-6 text-indigo-500" />,

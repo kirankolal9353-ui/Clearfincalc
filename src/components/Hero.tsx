@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { subscribeToCalculationCount, formatIndianNumber } from '../utils/counterService';
 
 interface HeroProps {
   liveUsdRate?: number;
 }
 
 export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
-  const [calculationCount, setCalculationCount] = useState(1420500);
+  const [calculationCount, setCalculationCount] = useState<number | null>(null);
 
-  // Animate the counter subtly
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCalculationCount(prev => prev + Math.floor(Math.random() * 3) + 1);
-    }, 3000);
-    return () => clearInterval(timer);
+    const unsubscribe = subscribeToCalculationCount((count) => {
+      setCalculationCount(count);
+    });
+    return () => unsubscribe();
   }, []);
 
   const newsItems = [
-    "🔥 Gold Rate surges past ₹72,000/10g",
-    "📈 NIFTY 50 crosses record high of 23,200",
-    "🏦 Repo Rate remains unchanged at 6.5%",
-    `🟢 LIVE: 1 USD = ₹${liveUsdRate.toFixed(2)} | 1 EUR = ₹${(liveUsdRate * 1.08).toFixed(2)}`,
-    "📊 New Income Tax regime rebate limit increased to ₹12L",
+    "🔥 Gold Rate: ~₹72,000/10g (Indicative, Source: IBJA)",
+    "📈 NIFTY 50: ~23,200 (Indicative Market Index)",
+    "🏦 RBI Repo Rate: 6.50% (Source: RBI)",
+    `🟢 USD/INR Exchange Rate: ₹${liveUsdRate.toFixed(2)} (Live API Rate)`,
+    "📊 New Income Tax regime rebate limit increased to ₹7L (FY 2025-26)",
     "🚚 Customs duty rate revised on imported electronic assemblies"
   ];
 
@@ -30,8 +30,8 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
       
       {/* News Ticker */}
       <div className="absolute top-0 left-0 w-full bg-slate-900 text-white text-[10px] md:text-xs py-2 overflow-hidden z-10 flex items-center select-none font-bold">
-        <div className="flex-shrink-0 bg-red-600 text-white font-extrabold uppercase px-2.5 py-0.5 rounded-r text-[9px] tracking-wider animate-pulse ml-4 mr-2">
-          LIVE TICKER
+        <div className="flex-shrink-0 bg-slate-800 text-slate-300 font-extrabold uppercase px-2.5 py-0.5 rounded text-[9px] tracking-wider ml-4 mr-2">
+          MARKET UPDATES
         </div>
         <div className="overflow-hidden relative w-full flex">
           <div className="animate-ticker flex whitespace-nowrap gap-12 text-slate-400">
@@ -89,7 +89,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
               <div>
                 <span className="text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Total Calculations</span>
                 <span className="text-sm md:text-lg font-black text-slate-800 dark:text-white mt-1 block">
-                  {calculationCount.toLocaleString()}
+                  {formatIndianNumber(calculationCount)}
                 </span>
               </div>
               <div>
@@ -101,7 +101,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
               <div>
                 <span className="text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Accuracy Rate</span>
                 <span className="text-sm md:text-lg font-black text-emerald-500 mt-1 block flex items-center justify-center lg:justify-start gap-0.5">
-                  100% CA Verified
+                  100% Formula Verified
                 </span>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
                 <span>ClearFinCalc Core Engine v4.0</span>
                 <span className="text-emerald-500 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  CA Verified & Trust Compliant
+                  Formula Verified & Trust Compliant
                 </span>
               </div>
             </div>

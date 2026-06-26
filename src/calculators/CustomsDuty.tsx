@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateImportDuty, calculateExportDuty } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Share2, FileText, CheckCircle, ShieldCheck, ArrowRight, Table, Globe, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
@@ -29,6 +30,9 @@ export default function CustomsDuty() {
   const [exportTaxRate, setExportTaxRate] = useState<number>(2);
   const [incentiveRate, setIncentiveRate] = useState<number>(3); // RoDTEP incentive
   const [costOfProduction, setCostOfProduction] = useState<number>(280000);
+
+  // Track calculations (Atomic and debounced)
+  useTrackCalculation('customs', { tab, cifValue, freight, insurance, bcdRate, igstRate, exportValue, exportDutyRate, exportTaxRate });
 
   // Calculations
   const importResult = useMemo(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSavingsGoal } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, Calendar, Percent, CheckCircle, Target, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -9,6 +10,8 @@ export default function SavingsPlanner() {
   const [rate, setRate] = useState<number>(10);
   const [initial, setInitial] = useState<number>(50000);
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('savings-goal', { target, years, rate, initial });
 
   const goalData = useMemo(() => {
     return calculateSavingsGoal(target, years, rate, initial);

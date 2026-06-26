@@ -140,7 +140,7 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
             Popular Financial Calculators
           </h2>
           <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
-            Choose a calculator below to get instant results, interactive charts, and CA verified outputs.
+            Choose a calculator below to get instant results, interactive charts, and detailed mathematical breakdowns.
           </p>
         </div>
 

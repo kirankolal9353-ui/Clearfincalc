@@ -83,8 +83,8 @@ export default function Footer() {
               <ul className="space-y-2.5 text-xs text-slate-500 font-medium">
                 <li className="flex items-start gap-2">
                   <Mail className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <a href="mailto:fcalchub@gmail.com" className="hover:text-blue-400 transition-colors break-all">
-                    fcalchub@gmail.com
+                  <a href="mailto:clearfincalc@gmail.com" className="hover:text-blue-400 transition-colors break-all">
+                    clearfincalc@gmail.com
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export default function Footer() {
             <div className="space-y-1 text-center md:text-left">
               <span>© 2026 ClearFinCalc Platform. All rights reserved.</span>
               <p className="text-slate-700 max-w-2xl font-medium leading-relaxed mt-1">
-                Disclaimer: The calculations provided by ClearFinCalc are for planning and informational purposes only. We do not guarantee mathematical accuracy for legal, tax, or customs filings. Consult a certified financial planner or CA before executing transactions.
+                Disclaimer: The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
               </p>
             </div>
 

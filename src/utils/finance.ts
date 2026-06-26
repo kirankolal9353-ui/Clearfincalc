@@ -13,6 +13,13 @@ export interface EmiResult {
     interestPaid: number;
     remainingBalance: number;
   }[];
+  monthlyAmortization: {
+    month: number;
+    emi: number;
+    principalPaid: number;
+    interestPaid: number;
+    remainingBalance: number;
+  }[];
 }
 
 export function calculateEMI(principal: number, annualRate: number, tenureYears: number): EmiResult {
@@ -29,13 +36,17 @@ export function calculateEMI(principal: number, annualRate: number, tenureYears:
 
   // Generate simple annual amortization schedule
   const amortization: EmiResult['amortization'] = [];
+  // Generate monthly amortization schedule
+  const monthlyAmortization: EmiResult['monthlyAmortization'] = [];
   let balance = principal;
+  let monthCount = 0;
   
   for (let year = 1; year <= tenureYears; year++) {
     let yearlyInterest = 0;
     let yearlyPrincipal = 0;
 
     for (let month = 1; month <= 12; month++) {
+      monthCount++;
       const interest = balance * monthlyRate;
       const principalPaid = monthlyPayment - interest;
       
@@ -43,6 +54,14 @@ export function calculateEMI(principal: number, annualRate: number, tenureYears:
       yearlyPrincipal += principalPaid;
       balance -= principalPaid;
       if (balance < 0) balance = 0;
+
+      monthlyAmortization.push({
+        month: monthCount,
+        emi: Math.round(monthlyPayment),
+        principalPaid: Math.round(principalPaid),
+        interestPaid: Math.round(interest),
+        remainingBalance: Math.round(balance)
+      });
     }
 
     amortization.push({
@@ -57,7 +76,8 @@ export function calculateEMI(principal: number, annualRate: number, tenureYears:
     monthlyPayment: Math.round(monthlyPayment),
     totalInterest: Math.round(totalInterest),
     totalPayment: Math.round(totalPayment),
-    amortization
+    amortization,
+    monthlyAmortization
   };
 }
 

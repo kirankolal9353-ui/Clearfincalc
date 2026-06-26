@@ -192,7 +192,7 @@ export default function App() {
                 <div className="space-y-5">
                   {/* Header row */}
                   <div className="flex items-center justify-between flex-wrap gap-2">
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 flex-wrap">
                       Live Currency Converter (INR)
                       {ratesLoading ? (
                         <RefreshCw className="w-3.5 h-3.5 text-sky-500 animate-spin" />
@@ -200,6 +200,11 @@ export default function App() {
                         <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 rounded-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                           <span className="text-[9px] font-extrabold text-emerald-500 uppercase tracking-wider">Live</span>
+                        </span>
+                      )}
+                      {ratesLastUpdated && (
+                        <span className="text-[10px] text-slate-450 dark:text-slate-500 font-bold ml-1">
+                          (Updated: {ratesLastUpdated.toLocaleTimeString()})
                         </span>
                       )}
                     </h3>

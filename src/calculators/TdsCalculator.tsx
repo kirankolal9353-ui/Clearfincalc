@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateTDS, TDS_SECTIONS } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Share2, FileText, CheckCircle, Search, HelpCircle, ShieldCheck, Download, History, Plus } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
@@ -13,6 +14,8 @@ export default function TdsCalculator() {
   const [isNri, setIsNri] = useState<boolean>(false);
   const [shared, setShared] = useState<boolean>(false);
   const [history, setHistory] = useState<{ id: number; date: string; section: string; amount: number; tds: number }[]>([]);
+
+  useTrackCalculation('tds', { selectedSection, amount, panAvailable, isCompany, isNri });
 
   const activeSection = useMemo(() => {
     return TDS_SECTIONS.find(s => s.code === selectedSection) || TDS_SECTIONS[0];
@@ -110,11 +113,11 @@ export default function TdsCalculator() {
   return (
     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-slate-200/50 dark:border-slate-800/50 shadow-xl transition-all duration-300 relative overflow-hidden">
       
-      {/* Decorative CA verification badge */}
+      {/* Decorative Educational handbook badge */}
       <div className="absolute -top-1 -right-1 w-32 h-32 overflow-hidden pointer-events-none">
         <div className="bg-emerald-500 text-white font-bold text-[8px] uppercase tracking-wider py-1.5 text-center rotate-45 translate-x-8 translate-y-4 shadow-sm flex items-center justify-center gap-1">
           <ShieldCheck className="w-2.5 h-2.5" />
-          CA Verified
+          Formula Verified
         </div>
       </div>
 

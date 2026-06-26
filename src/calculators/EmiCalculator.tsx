@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateEMI } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { Share2, IndianRupee, Calendar, Percent, CheckCircle, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
@@ -9,6 +10,9 @@ export default function EmiCalculator() {
   const [rate, setRate] = useState<number>(8.5);
   const [tenure, setTenure] = useState<number>(15);
   const [shared, setShared] = useState<boolean>(false);
+  const [scheduleView, setScheduleView] = useState<'monthly' | 'yearly'>('monthly');
+
+  useTrackCalculation('emi', { amount, rate, tenure });
 
   const emiData = useMemo(() => {
     return calculateEMI(amount, rate, tenure);
@@ -221,28 +225,56 @@ export default function EmiCalculator() {
         </div>
       </div>
 
-      {/* Amortization Table */}
+      {/* Amortization Table with Monthly/Yearly Toggle */}
       <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
-        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Annual Breakup Schedule</h3>
-        <div className="overflow-x-auto max-h-72 overflow-y-auto border border-slate-100 dark:border-slate-800 rounded-2xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Breakup Schedule</h3>
+          <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1 text-xs font-bold">
+            <button
+              onClick={() => setScheduleView('monthly')}
+              className={`px-4 py-1.5 rounded-lg transition-all ${scheduleView === 'monthly' ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'}`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setScheduleView('yearly')}
+              className={`px-4 py-1.5 rounded-lg transition-all ${scheduleView === 'yearly' ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'}`}
+            >
+              Yearly
+            </button>
+          </div>
+        </div>
+        <div className="overflow-x-auto max-h-96 overflow-y-auto border border-slate-100 dark:border-slate-800 rounded-2xl">
           <table className="w-full text-left text-xs md:text-sm">
             <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 font-bold sticky top-0">
               <tr>
-                <th className="p-3">Year</th>
+                <th className="p-3">{scheduleView === 'monthly' ? 'Month' : 'Year'}</th>
+                {scheduleView === 'monthly' && <th className="p-3">EMI</th>}
                 <th className="p-3">Principal Paid</th>
                 <th className="p-3">Interest Paid</th>
                 <th className="p-3">Remaining Balance</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-              {emiData.amortization.map((row) => (
-                <tr key={row.year} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
-                  <td className="p-3 font-semibold">Year {row.year}</td>
-                  <td className="p-3">₹{row.principalPaid.toLocaleString('en-IN')}</td>
-                  <td className="p-3">₹{row.interestPaid.toLocaleString('en-IN')}</td>
-                  <td className="p-3">₹{row.remainingBalance.toLocaleString('en-IN')}</td>
-                </tr>
-              ))}
+              {scheduleView === 'monthly'
+                ? emiData.monthlyAmortization.map((row) => (
+                    <tr key={row.month} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                      <td className="p-3 font-semibold">{row.month}</td>
+                      <td className="p-3">₹{row.emi.toLocaleString('en-IN')}</td>
+                      <td className="p-3">₹{row.principalPaid.toLocaleString('en-IN')}</td>
+                      <td className="p-3">₹{row.interestPaid.toLocaleString('en-IN')}</td>
+                      <td className="p-3">₹{row.remainingBalance.toLocaleString('en-IN')}</td>
+                    </tr>
+                  ))
+                : emiData.amortization.map((row) => (
+                    <tr key={row.year} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                      <td className="p-3 font-semibold">Year {row.year}</td>
+                      <td className="p-3">₹{row.principalPaid.toLocaleString('en-IN')}</td>
+                      <td className="p-3">₹{row.interestPaid.toLocaleString('en-IN')}</td>
+                      <td className="p-3">₹{row.remainingBalance.toLocaleString('en-IN')}</td>
+                    </tr>
+                  ))
+              }
             </tbody>
           </table>
         </div>

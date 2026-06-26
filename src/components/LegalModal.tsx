@@ -186,7 +186,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               <div className="space-y-2">
                 <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">1. Not Financial or Professional Advice</h3>
                 <p>
-                  The information and calculation results displayed on ClearFinCalc are for illustrative and educational purposes only. They do not constitute official financial, legal, tax, or investment advice. ClearFinCalc is not a registered financial advisor or CA firm.
+                  The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
                 </p>
               </div>
               <div className="space-y-2">
@@ -270,8 +270,8 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                   <Mail className="w-5 h-5 text-blue-550 flex-shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">Digital Support</h4>
-                    <a href="mailto:fcalchub@gmail.com" className="text-blue-500 hover:underline block mt-1 text-xs">
-                      fcalchub@gmail.com
+                    <a href="mailto:clearfincalc@gmail.com" className="text-blue-500 hover:underline block mt-1 text-xs">
+                      clearfincalc@gmail.com
                     </a>
                   </div>
                 </div>

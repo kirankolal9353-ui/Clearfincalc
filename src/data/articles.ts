@@ -23,9 +23,9 @@ export const ARTICLES: Article[] = [
     readTime: '7 min read',
     date: 'June 10, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'RBI Consumer Information on Interest Amortization', url: 'https://www.rbi.org.in/' }
     ],
@@ -56,9 +56,9 @@ Strategic Tips to Lower Your EMI Burden:
     readTime: '8 min read',
     date: 'June 12, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Department Guide on Section 24b Exemptions', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -79,9 +79,9 @@ Key Differences:
     readTime: '9 min read',
     date: 'June 14, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'SEBI Mutual Fund Regulations', url: 'https://www.sebi.gov.in/' },
       { text: 'RBI Bank Deposit Rules', url: 'https://www.rbi.org.in/' }
@@ -103,9 +103,9 @@ Comparing the Two Options:
     readTime: '8 min read',
     date: 'June 15, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'CBIC GST Guidelines and Notifications', url: 'https://www.cbic.gov.in/' }
     ],
@@ -128,9 +128,9 @@ For intrastate transactions (e.g., selling goods within Karnataka), the GST is s
     readTime: '9 min read',
     date: 'June 16, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Department TDS Slab Charts', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -155,9 +155,9 @@ Penalties and Higher Deductions:
     readTime: '10 min read',
     date: 'June 17, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Slab Notifications', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -180,9 +180,9 @@ Standard Deduction Slabs:
     readTime: '6 min read',
     date: 'June 18, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Albert Einstein on Compounding Interest', url: 'https://investor.sebi.gov.in/' }
     ],
@@ -213,9 +213,9 @@ The primary driver of compound interest is time. The longer you keep your money 
     readTime: '10 min read',
     date: 'June 19, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'PFRDA Retirement Planning Guidelines', url: 'https://www.pfrda.org.in/' }
     ],
@@ -239,9 +239,9 @@ Once you retire, capital safety becomes paramount. You must transfer your accumu
     readTime: '8 min read',
     date: 'June 20, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Indian Banks Association (IBA) Education Loan Scheme', url: 'https://www.iba.org.in/' }
     ],
@@ -262,9 +262,9 @@ Under Section 80E of the Indian Income Tax Act, the interest paid on an educatio
     readTime: '7 min read',
     date: 'June 21, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'SIAM India Automobile Buying Trends', url: 'https://www.siam.in/' }
     ],
@@ -286,9 +286,9 @@ Cars are depreciating assets. A new car loses 10% to 20% of its value the moment
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'TransUnion CIBIL Scoring Rules', url: 'https://www.cibil.com/' }
     ],
@@ -310,9 +310,9 @@ How a CIBIL Score is Computed:
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Consumer Financial Protection Bureau Budget Guides', url: 'https://www.consumerfinance.gov/' }
     ],
@@ -337,9 +337,9 @@ How to Get Started:
     readTime: '6 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'SEBI Investor Protection Fund Notes', url: 'https://investor.sebi.gov.in/' }
     ],
@@ -363,9 +363,9 @@ The two key requirements for an emergency fund are Safety and Liquidity. You sho
     readTime: '9 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Association of Mutual Funds in India (AMFI) Guidelines', url: 'https://www.amfiindia.com/' }
     ],
@@ -390,9 +390,9 @@ Every mutual fund scheme is offered in two plans:
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Department Rules on FD TDS', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -416,9 +416,9 @@ FD interest is fully taxable. It is added to your total annual income and taxed 
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'PPF Scheme Rules - Ministry of Finance', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -444,9 +444,9 @@ Key Rules and Deposit Limits:
     readTime: '9 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2526',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'PFRDA NPS Trust Information', url: 'https://www.npstrust.org.in/' }
     ],
@@ -474,9 +474,9 @@ At age 60, you can withdraw up to 60% of the accumulated corpus tax-free in a lu
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'AMFI tax-saving mutual funds database', url: 'https://www.amfiindia.com/' }
     ],
@@ -499,9 +499,9 @@ Capital gains from ELSS are treated as Equity Capital Gains. Since there is a 3-
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'RBI Sovereign Gold Bond Issuance Rules', url: 'https://www.rbi.org.in/' }
     ],
@@ -525,9 +525,9 @@ Tax Treatment:
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Ministry of Statistics and Programme Implementation (MOSPI) CPI Database', url: 'https://www.mospi.gov.in/' }
     ],
@@ -551,9 +551,9 @@ To protect your wealth, you must earn a rate of return higher than the inflation
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Sophia Chen',
-    authorRole: 'Global Trade Analyst',
-    authorBio: 'Sophia Chen is an international trade analyst specializing in global supply chains, customs tariff compliance, and foreign exchange risks.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'RBI Foreign Exchange Management Act (FEMA) Rules', url: 'https://www.rbi.org.in/' }
     ],
@@ -578,9 +578,9 @@ Impact on Trade:
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'NSE India Investor Education Academy', url: 'https://www.nseindia.com/' }
     ],
@@ -602,9 +602,9 @@ Investing in shares represents purchasing fractional ownership in a business. As
     readTime: '6 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Insurance Regulatory and Development Authority (IRDAI) Portal', url: 'https://irdai.gov.in/' }
     ],
@@ -624,9 +624,9 @@ Key Insurance Principles:
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'IRDAI Consumer Information Guidelines', url: 'https://irdai.gov.in/' }
     ],
@@ -652,9 +652,9 @@ Under Section 80D of the Income Tax Act (under the Old Regime), you can deduct p
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Life Insurance Corporation of India (LIC) Consumer Help', url: 'https://licindia.in/' }
     ],
@@ -674,9 +674,9 @@ Term Insurance vs. Endowment Plans:
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Rules for Virtual Digital Assets (VDA)', url: 'https://www.incometaxindia.gov.in/' }
     ],
@@ -702,9 +702,9 @@ Under the Income Tax Act, cryptocurrencies are taxed under the Virtual Digital A
     readTime: '9 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'RERA Rules and Compliance Guidelines', url: 'https://www.rera.gov.in/' }
     ],
@@ -727,9 +727,9 @@ Taxation on Property Sales:
     readTime: '7 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Aarav Sharma',
-    authorRole: 'Senior Financial Advisor',
-    authorBio: 'Aarav Sharma is a certified financial planner with over 12 years of experience helping retail clients manage debts and structure home acquisitions.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'National Credit Counseling Association Guides', url: 'https://www.consumerfinance.gov/' }
     ],
@@ -752,9 +752,9 @@ Avoiding Debt Traps:
     readTime: '6 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Karan Malhotra',
-    authorRole: 'Portfolio Manager',
-    authorBio: 'Karan Malhotra is an experienced portfolio manager with a background in quantitative finance and asset allocation strategies.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'UGC Student Welfare and Financial Aid Notes', url: 'https://www.ugc.ac.in/' }
     ],
@@ -777,9 +777,9 @@ If you have an education loan, remember that simple interest accumulates during 
     readTime: '8 min read',
     date: 'June 22, 2026',
     lastUpdated: 'June 22, 2026',
-    author: 'Neha Goel',
-    authorRole: 'Financial Content Specialist',
-    authorBio: 'Neha Goel is a financial content specialist focusing on tax analysis, wealth management topics, and personal financial planning. Content is prepared for educational purposes.',
+    author: 'ClearFinCalc Editorial Team',
+    authorRole: 'Financial Content Writer',
+    authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
       { text: 'Income Tax Department Business Income Rules', url: 'https://www.incometaxindia.gov.in/' }
     ],

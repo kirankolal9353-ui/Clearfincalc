@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateLoanEligibility } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, IndianRupee, Calendar, Percent, CheckCircle, AlertTriangle, Info, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -10,6 +11,8 @@ export default function LoanEligibility() {
   const [tenure, setTenure] = useState<number>(20);
   const [foir, setFoir] = useState<number>(50); // FOIR percentage (default 50%)
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('eligibility', { income, existingEmi, rate, tenure, foir });
 
   const eligibility = useMemo(() => {
     return calculateLoanEligibility(income, existingEmi, rate, tenure, foir);

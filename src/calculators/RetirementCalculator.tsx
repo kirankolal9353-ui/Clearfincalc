@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateRetirement } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, CheckCircle, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -13,6 +14,8 @@ export default function RetirementCalculator() {
   const [postReturn, setPostReturn] = useState<number>(8);
   const [lifeExpectancy, setLifeExpectancy] = useState<number>(85);
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('retirement', { currentAge, retirementAge, monthlyExpenses, currentSavings, inflationRate, preReturn, postReturn, lifeExpectancy });
 
   const retirementData = useMemo(() => {
     return calculateRetirement(

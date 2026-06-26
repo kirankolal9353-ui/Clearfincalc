@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateGST } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, CheckCircle, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -8,6 +9,8 @@ export default function GstCalculator() {
   const [rate, setRate] = useState<number>(18);
   const [type, setType] = useState<'inclusive' | 'exclusive'>('exclusive');
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('gst', { amount, rate, type });
 
   const gstData = useMemo(() => {
     return calculateGST(amount, rate, type);

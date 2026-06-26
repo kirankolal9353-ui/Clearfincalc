@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { calculateSalary } from '../utils/finance';
+import { useTrackCalculation } from '../hooks/useTrackCalculation';
 import { Share2, IndianRupee, CheckCircle, Percent, Download } from 'lucide-react';
 import { generatePDFReport } from '../utils/pdfGenerator';
 
@@ -8,6 +9,8 @@ export default function SalaryCalculator() {
   const [pfRate, setPfRate] = useState<number>(12);
   const [pt, setPt] = useState<number>(200);
   const [shared, setShared] = useState<boolean>(false);
+
+  useTrackCalculation('salary', { grossMonthly, pfRate, pt });
 
   const salaryData = useMemo(() => {
     return calculateSalary(grossMonthly, pfRate, pt);
