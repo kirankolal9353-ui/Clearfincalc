@@ -5,19 +5,16 @@ export default function Testimonials() {
   const reviews = [
     {
       name: "Rohit Deshmukh",
-      role: "SaaS Business Founder",
       text: "The Advanced TDS Calculator is a lifesaver. Being able to compare normal and higher rates and export PDF summaries has saved our finance team hours of manual checking.",
       stars: 5
     },
     {
       name: "Ananya Sen",
-      role: "Freelance UI Designer",
       text: "ClearFinCalc is on my bookmark bar. I use the GST and Salary calculators monthly to calculate my tax liability and take-home income. Simple, fast, and stunning UI.",
       stars: 5
     },
     {
       name: "Rajesh Kannan",
-      role: "Import-Export Cargo Manager",
       text: "Customs calculations are complex, but the landed cost flowchart on ClearFinCalc breaks down BCD, SWS, and IGST step-by-step. Extremely accurate and helpful.",
       stars: 5
     }
