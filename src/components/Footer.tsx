@@ -3,13 +3,15 @@ import { Mail, Phone, Send, CheckCircle, Info, Network, ShieldCheck, MapPin } fr
 import LegalModal from './LegalModal';
 import type { PolicyType } from './LegalModal';
 
-export default function Footer() {
+interface FooterProps {
+  onOpenLegal: (type: PolicyType) => void;
+}
+
+export default function Footer({ onOpenLegal }: FooterProps) {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
-  const [openModal, setOpenModal] = useState<PolicyType | null>(null);
 
   const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
     if (email) {
       setSubscribed(true);
       setEmail('');
@@ -18,16 +20,11 @@ export default function Footer() {
   };
 
   const handleOpenLegal = (type: PolicyType) => {
-    setOpenModal(type);
+    onOpenLegal(type);
   };
 
   return (
     <>
-      {/* Legal Modals */}
-      {openModal && (
-        <LegalModal type={openModal} onClose={() => setOpenModal(null)} onSelectType={setOpenModal} />
-      )}
-
       <footer className="bg-slate-900 dark:bg-slate-950 text-slate-400 border-t border-slate-800 pt-16 pb-8 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-slate-800">

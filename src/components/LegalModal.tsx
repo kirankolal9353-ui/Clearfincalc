@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { X, Shield, FileText, AlertTriangle, Info, Mail, Phone, MapPin, Clock, Calendar, CheckCircle, HelpCircle, Network } from 'lucide-react';
+import { X, Shield, FileText, AlertTriangle, Info, Mail, Phone, MapPin, Clock, Calendar, CheckCircle, HelpCircle, Network, ExternalLink } from 'lucide-react';
 import { ARTICLES } from '../data/articles';
 
-export type PolicyType = 'privacy' | 'terms' | 'disclaimer' | 'cookie' | 'about' | 'contact' | 'sitemap';
+export type PolicyType = 'privacy' | 'terms' | 'disclaimer' | 'cookie' | 'about' | 'contact' | 'sitemap' | 'editorial' | 'references';
 
 interface LegalModalProps {
   type: PolicyType;
@@ -93,6 +93,8 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               {type === 'about' && <Info className="w-6 h-6 text-sky-500" />}
               {type === 'contact' && <Mail className="w-6 h-6 text-teal-500" />}
               {type === 'sitemap' && <Network className="w-6 h-6 text-indigo-500" />}
+              {type === 'editorial' && <CheckCircle className="w-6 h-6 text-emerald-550" />}
+              {type === 'references' && <FileText className="w-6 h-6 text-sky-500" />}
             </div>
             <div>
               <h2 id="legal-modal-title" className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -100,9 +102,11 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                 {type === 'terms' && 'Terms of Service'}
                 {type === 'disclaimer' && 'Disclaimers'}
                 {type === 'cookie' && 'Cookie Policy'}
-                {type === 'about' && 'About Us & Editorial Code'}
+                {type === 'about' && 'About Us & Mission'}
                 {type === 'contact' && 'Contact Information'}
                 {type === 'sitemap' && 'ClearFinCalc HTML Sitemap'}
+                {type === 'editorial' && 'Editorial Policy & Standards'}
+                {type === 'references' && 'Methodology & References'}
               </h2>
               <p className="text-[10px] text-slate-400 font-semibold mt-0.5">ClearFinCalc v4.0 • Updated June 2026</p>
             </div>
@@ -314,6 +318,79 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
             </div>
           )}
 
+          {/* EDITORIAL POLICY */}
+          {type === 'editorial' && (
+            <div className="space-y-6 text-[13px] leading-relaxed text-slate-550 dark:text-slate-400 font-semibold animate-fade-in">
+              <div className="space-y-2">
+                <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">1. Editorial Standards & Principles</h3>
+                <p className="text-slate-700 dark:text-slate-350">
+                  ClearFinCalc is committed to providing free, high-quality, and transparent financial tools. Our editorial team strives to deliver accurate information that follows the highest principles of financial literacy. We adhere to standard editorial practices to ensure that every guide and article is neutral, educational, and free from external commercial bias or sponsorship influence.
+                </p>
+              </div>
+              <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">2. Accuracy & Verification Process</h3>
+                <p className="text-slate-700 dark:text-slate-350">
+                  Every calculator formula (EMI, SIP, TDS slabs, GST rates, Customs surcharges) is derived directly from statutory documentation, central banking notices (RBI), tax departments (Income Tax Department of India), and excise boards (CBIC). We run comprehensive validation suites to check the mathematical accuracy of every output against official examples before deploying any code updates.
+                </p>
+              </div>
+              <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">3. No Chartered Accountant (CA) Claims</h3>
+                <p className="text-slate-700 dark:text-slate-350">
+                  ClearFinCalc does NOT claim to be a Chartered Accountant (CA) firm, and our content is not reviewed or certified by any specific financial advisor. All calculations are formula-based, automated, and intended strictly for educational and informational purposes. Users are advised to verify major financial decisions with a certified professional.
+                </p>
+              </div>
+              <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">4. Reporting Errors & Corrections</h3>
+                <p className="text-slate-700 dark:text-slate-350">
+                  If you detect any mathematical discrepancies or outdated tax rates on our platform, please get in touch with us at clearfincalc@gmail.com. We investigate and resolve all reported errors within 48 hours to maintain the high quality of our platform.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* REFERENCES */}
+          {type === 'references' && (
+            <div className="space-y-6 text-[13px] leading-relaxed text-slate-550 dark:text-slate-400 font-semibold animate-fade-in">
+              <p className="text-slate-700 dark:text-slate-350">
+                To maintain complete transparency and authority, we align all calculations directly with official publications. Here are the primary resources used to build and verify our calculator algorithms:
+              </p>
+              
+              <div className="space-y-4">
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/40 border border-slate-200/50 dark:border-slate-800 rounded-2xl space-y-2">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">1. Income Tax Department (Taxes, TDS, Salary)</h4>
+                  <p className="text-slate-500 text-xs font-semibold">Official tax slab rates, Section 87A rebate rules, and TDS Section thresholds are sourced directly from the Income Tax Department guidelines.</p>
+                  <a href="https://www.incometaxindia.gov.in/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-bold text-xs inline-flex items-center gap-1">
+                    Visit Income Tax Department <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/40 border border-slate-200/50 dark:border-slate-800 rounded-2xl space-y-2">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">2. Reserve Bank of India (Loans, EMIs, Eligibility)</h4>
+                  <p className="text-slate-500 text-xs font-semibold">Retail loan guidelines, prepayment fee limits, repo-linked lending rates, and FOIR benchmarks are checked against RBI circulars.</p>
+                  <a href="https://www.rbi.org.in/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-bold text-xs inline-flex items-center gap-1">
+                    Visit Reserve Bank of India <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/40 border border-slate-200/50 dark:border-slate-800 rounded-2xl space-y-2">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">3. CBIC & Customs Department (GST & Customs Duty)</h4>
+                  <p className="text-slate-500 text-xs font-semibold">Basic Customs Duty (BCD), Social Welfare Surcharge (SWS), and IGST splits are verified against the CBIC tariff schedule.</p>
+                  <a href="https://www.cbic.gov.in/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-bold text-xs inline-flex items-center gap-1">
+                    Visit CBIC Portal <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="p-4 bg-slate-50 dark:bg-slate-950/40 border border-slate-200/50 dark:border-slate-800 rounded-2xl space-y-2">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white text-xs">4. EPFO India (Provident Fund Deductions)</h4>
+                  <p className="text-slate-500 text-xs font-semibold">Provident Fund employee and employer contributions, interest rates, and statutory basic caps are aligned with EPFO notifications.</p>
+                  <a href="https://www.epfindia.gov.in/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-bold text-xs inline-flex items-center gap-1">
+                    Visit EPFO India <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* HTML SITEMAP */}
           {type === 'sitemap' && (
             <div className="space-y-6 text-[13px] leading-relaxed font-semibold">
@@ -366,14 +443,16 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                     Legal & Support
                   </h4>
                   <div className="flex flex-col gap-2">
-                    {(['about', 'contact', 'privacy', 'terms', 'cookie', 'disclaimer'] as const).map((t) => (
+                    {(['about', 'contact', 'editorial', 'references', 'privacy', 'terms', 'cookie', 'disclaimer'] as const).map((t) => (
                       <button
                         key={t}
                         onClick={() => handleTypeChange(t)}
                         className="text-left text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 hover:underline capitalize"
                       >
-                        {t === 'about' && 'About Us & Editorial policy'}
+                        {t === 'about' && 'About Us & Mission'}
                         {t === 'contact' && 'Contact Support'}
+                        {t === 'editorial' && 'Editorial Policy & Standards'}
+                        {t === 'references' && 'Methodology & References'}
                         {t === 'privacy' && 'Privacy Policy'}
                         {t === 'terms' && 'Terms of Service'}
                         {t === 'cookie' && 'Cookie Policy'}
@@ -404,6 +483,18 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                 className={`hover:text-blue-500 transition-colors ${type === 'contact' ? 'text-blue-500 underline' : 'text-slate-400'}`}
               >
                 Contact
+              </button>
+              <button
+                onClick={() => handleTypeChange('editorial')}
+                className={`hover:text-blue-500 transition-colors ${type === 'editorial' ? 'text-blue-500 underline' : 'text-slate-400'}`}
+              >
+                Editorial
+              </button>
+              <button
+                onClick={() => handleTypeChange('references')}
+                className={`hover:text-blue-500 transition-colors ${type === 'references' ? 'text-blue-500 underline' : 'text-slate-400'}`}
+              >
+                References
               </button>
               <button
                 onClick={() => handleTypeChange('privacy')}

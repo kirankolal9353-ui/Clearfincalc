@@ -224,6 +224,7 @@ export function calculateTax(grossIncome: number, deductions: number, regime: 'n
       { limit: 1200000, rate: 10 },
       { limit: 1600000, rate: 15 },
       { limit: 2000000, rate: 20 },
+      { limit: 2400000, rate: 25 },
       { limit: Infinity, rate: 30 }
     ];
 

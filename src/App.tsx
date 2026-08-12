@@ -10,6 +10,8 @@ import Insights from './components/Insights';
 import Offers from './components/Offers';
 import Footer from './components/Footer';
 import AIAdvisor from './components/AIAdvisor';
+import LegalModal from './components/LegalModal';
+import type { PolicyType } from './components/LegalModal';
 
 // Extra Utilities
 import { calculateInflation, calculateNetWorth } from './utils/finance';
@@ -20,18 +22,116 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTool, setActiveTool] = useState<string | null>(null); // Default to home page (no open tool)
   const [utilityTab, setUtilityTab] = useState<'currency' | 'inflation' | 'networth' | 'budget'>('currency');
+  const [legalPage, setLegalPage] = useState<PolicyType | null>(null);
 
   // Read URL query parameters on load for direct deep linking
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tool = params.get('tool');
+    const page = params.get('page');
     if (tool) {
       setActiveTool(tool);
     }
+    if (page && ['privacy', 'terms', 'disclaimer', 'cookie', 'about', 'contact', 'sitemap'].includes(page)) {
+      setLegalPage(page as PolicyType);
+    }
   }, []);
+
+  // Inject JSON-LD structured data and canonical URL
+  useEffect(() => {
+    // Remove old JSON-LD scripts
+    document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
+    // Remove old canonical link
+    document.querySelector('link[data-clearfincalc-canonical]')?.remove();
+
+    const baseUrl = 'https://clearfincalc.com';
+    let canonicalUrl = baseUrl + '/';
+    if (activeTool) {
+      canonicalUrl = `${baseUrl}/?tool=${activeTool}`;
+    } else if (legalPage) {
+      canonicalUrl = `${baseUrl}/?page=${legalPage}`;
+    }
+
+    // Set canonical URL
+    const canonicalLink = document.createElement('link');
+    canonicalLink.rel = 'canonical';
+    canonicalLink.href = canonicalUrl;
+    canonicalLink.setAttribute('data-clearfincalc-canonical', 'true');
+    document.head.appendChild(canonicalLink);
+
+    // WebApplication schema
+    const webAppSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      'name': 'ClearFinCalc',
+      'url': baseUrl,
+      'applicationCategory': 'FinanceApplication',
+      'operatingSystem': 'Web Browser',
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'INR'
+      },
+      'description': 'Free online financial calculators for EMI, SIP, TDS, GST, Income Tax, Salary, Customs Duty, and more. Formula-based calculations updated for FY 2025-26.',
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'ClearFinCalc',
+        'url': baseUrl,
+        'logo': `${baseUrl}/logo.jpg`
+      }
+    };
+    const webAppScript = document.createElement('script');
+    webAppScript.type = 'application/ld+json';
+    webAppScript.setAttribute('data-clearfincalc-jsonld', 'true');
+    webAppScript.textContent = JSON.stringify(webAppSchema);
+    document.head.appendChild(webAppScript);
+
+    // BreadcrumbList schema
+    const breadcrumbItems: { name: string; url: string }[] = [
+      { name: 'Home', url: baseUrl + '/' }
+    ];
+    if (activeTool) {
+      breadcrumbItems.push({ name: 'Calculators', url: baseUrl + '/' });
+      const toolNames: Record<string, string> = {
+        emi: 'EMI Calculator', sip: 'SIP Calculator', tds: 'TDS Calculator',
+        customs: 'Customs Duty', eligibility: 'Loan Eligibility',
+        'personal-loan': 'Personal Loan', 'home-loan': 'Home Loan',
+        tax: 'Tax Estimator', salary: 'Salary Calculator', gst: 'GST Calculator',
+        fd: 'FD Calculator', retirement: 'Retirement Planner', 'savings-goal': 'Savings Goal'
+      };
+      breadcrumbItems.push({ name: toolNames[activeTool] || activeTool, url: canonicalUrl });
+    } else if (legalPage) {
+      const pageNames: Record<string, string> = {
+        about: 'About Us', contact: 'Contact', privacy: 'Privacy Policy',
+        terms: 'Terms of Service', disclaimer: 'Disclaimers', cookie: 'Cookie Policy', sitemap: 'Sitemap'
+      };
+      breadcrumbItems.push({ name: pageNames[legalPage] || legalPage, url: canonicalUrl });
+    }
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': breadcrumbItems.map((item, idx) => ({
+        '@type': 'ListItem',
+        'position': idx + 1,
+        'name': item.name,
+        'item': item.url
+      }))
+    };
+    const breadcrumbScript = document.createElement('script');
+    breadcrumbScript.type = 'application/ld+json';
+    breadcrumbScript.setAttribute('data-clearfincalc-jsonld', 'true');
+    breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
+    document.head.appendChild(breadcrumbScript);
+
+    return () => {
+      document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
+      document.querySelector('link[data-clearfincalc-canonical]')?.remove();
+    };
+  }, [activeTool, legalPage]);
 
   const handleSelectTool = (id: string) => {
     setActiveTool(id);
+    setLegalPage(null);
     const newUrl = `${window.location.origin}${window.location.pathname}?tool=${id}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
   };
@@ -40,6 +140,24 @@ export default function App() {
     setActiveTool(null);
     const newUrl = `${window.location.origin}${window.location.pathname}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+
+  const handleOpenLegalPage = (type: PolicyType) => {
+    setLegalPage(type);
+    const newUrl = `${window.location.origin}${window.location.pathname}?page=${type}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+
+  const handleCloseLegalPage = () => {
+    setLegalPage(null);
+    const newUrl = `${window.location.origin}${window.location.pathname}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+
+  const handleSwitchLegalPage = (newType: PolicyType) => {
+    setLegalPage(newType);
+    const newUrl = `${window.location.origin}${window.location.pathname}?page=${newType}`;
+    window.history.replaceState({ path: newUrl }, '', newUrl);
   };
 
   // Toggle dark class on document element
@@ -448,7 +566,16 @@ export default function App() {
       <Offers />
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenLegal={handleOpenLegalPage} />
+
+      {/* Legal Page Modal (deep-linked via ?page= query parameter) */}
+      {legalPage && (
+        <LegalModal
+          type={legalPage}
+          onClose={handleCloseLegalPage}
+          onSelectType={handleSwitchLegalPage}
+        />
+      )}
 
     </div>
   );

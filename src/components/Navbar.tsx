@@ -37,7 +37,16 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
         <div className="flex items-center justify-between h-16 md:h-20 gap-4">
           
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer select-none flex-shrink-0">
+          <div
+            className="flex items-center gap-3 cursor-pointer select-none flex-shrink-0"
+            onClick={() => {
+              const baseUrl = `${window.location.origin}${window.location.pathname}`;
+              window.history.pushState({ path: baseUrl }, '', baseUrl);
+              window.location.reload();
+            }}
+            role="link"
+            aria-label="ClearFinCalc Home"
+          >
             <img 
               src="/logo.jpg" 
               alt="ClearFinCalc Logo" 

@@ -55,7 +55,6 @@ export default function Testimonials() {
 
               <div className="border-t border-slate-100 dark:border-slate-800 pt-4 mt-6">
                 <span className="text-sm font-extrabold text-slate-900 dark:text-white block">{r.name}</span>
-                <span className="text-[10px] text-slate-400 font-semibold uppercase">{r.role}</span>
               </div>
             </div>
           ))}

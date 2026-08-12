@@ -39,7 +39,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
       document.title = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
-        metaDesc.setAttribute('content', 'Clear Calculations. Smarter Decisions. Calculate EMI, SIP, Taxes, Salary, Loans, TDS, and Customs duties instantly. ClearFinCalc is a premium, secure, CA-verified financial utility dashboard.');
+        metaDesc.setAttribute('content', 'Clear Calculations. Smarter Decisions. Calculate EMI, SIP, Taxes, Salary, Loans, TDS, and Customs duties instantly. ClearFinCalc is a premium, secure, formula-verified financial utility dashboard.');
       }
     }
   }, [toolId]);
