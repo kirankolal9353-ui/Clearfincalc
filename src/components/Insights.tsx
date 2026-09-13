@@ -6,7 +6,11 @@ import { User, Calendar, Clock, Search, BookOpen, ChevronRight, X, ExternalLink,
 export default function Insights() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCat, setSelectedCat] = useState<'All' | 'Savings' | 'Investment' | 'Taxation' | 'Loans' | 'Customs'>('All');
-  const [activeArticle, setActiveArticle] = useState<Article | null>(null);
+  const [activeArticle, setActiveArticle] = useState<Article | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const artId = params.get('article');
+    return artId ? (ARTICLES.find((a) => a.id === artId) || null) : null;
+  });
   const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -21,8 +25,6 @@ export default function Insights() {
         metaDesc.setAttribute('content', `${activeArticle.excerpt.slice(0, 150)}... Read this comprehensive educational guide on ClearFinCalc.`);
       }
     } else {
-      // Don't reset if a calculator is active, but if no calculator is active we can reset.
-      // Wait, let's keep it simple: if closed, let's return default unless tool is in URL
       const params = new URLSearchParams(window.location.search);
       const toolId = params.get('tool');
       if (!toolId) {
@@ -44,19 +46,13 @@ export default function Insights() {
     }
   };
 
-  // Check URL query parameters on load to support direct bookmark link like `/?article=what-is-emi`
+  // Scroll to insights section on mount if article param is present
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const artId = params.get('article');
-    if (artId) {
-      const art = ARTICLES.find(a => a.id === artId);
-      if (art) {
-        setActiveArticle(art);
-        // Scroll to insights section to make it user-friendly
-        const insightsSec = document.getElementById('insights');
-        if (insightsSec) {
-          insightsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    if (params.get('article')) {
+      const insightsSec = document.getElementById('insights');
+      if (insightsSec) {
+        insightsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   }, []);
@@ -113,26 +109,29 @@ export default function Insights() {
 
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 z-10 flex-shrink-0">
-              <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black text-slate-450 uppercase tracking-widest">
+              <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest">
                 <span className="text-blue-500">{activeArticle.category}</span>
                 <span>•</span>
                 <span>{activeArticle.readTime}</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={() => handleShare(activeArticle)}
-                  className="p-2 hover:bg-slate-150 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center gap-1 text-xs font-bold"
+                  className="p-2 hover:bg-slate-150 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white flex items-center gap-1 text-xs font-bold"
+                  aria-label="Copy share link"
                   title="Copy share link"
                 >
-                  {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
+                  {copied ? <Check className="w-4 h-4 text-emerald-500" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
                   {copied ? 'Copied' : 'Share'}
                 </button>
                 <button
+                  type="button"
                   onClick={handleCloseArticle}
-                  className="p-2 hover:bg-slate-150 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 hover:text-slate-850 dark:hover:text-white"
+                  className="p-2 hover:bg-slate-150 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-400 hover:text-slate-850 dark:hover:text-white"
                   aria-label="Close Article"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -141,13 +140,13 @@ export default function Insights() {
             <div
               ref={modalBodyRef}
               onScroll={handleModalScroll}
-              className="overflow-y-auto px-6 py-6 space-y-6 flex-1 text-slate-850 dark:text-slate-200"
+              className="overflow-y-auto px-6 py-6 space-y-6 flex-1 text-slate-800 dark:text-slate-200"
             >
               {/* Breadcrumb inside Modal */}
-              <nav className="flex items-center gap-1 text-[9px] md:text-[10px] font-bold text-slate-400 dark:text-slate-500 select-none">
+              <nav className="flex items-center gap-1 text-[9px] md:text-[10px] font-bold text-slate-500 dark:text-slate-400 select-none">
                 <span className="hover:text-blue-500 transition-colors cursor-pointer" onClick={handleCloseArticle}>Insights</span>
-                <ChevronRight className="w-3 h-3" />
-                <span className="text-slate-650 dark:text-slate-300 line-clamp-1">{activeArticle.title}</span>
+                <ChevronRight className="w-3 h-3" aria-hidden="true" />
+                <span className="text-slate-700 dark:text-slate-300 line-clamp-1">{activeArticle.title}</span>
               </nav>
 
               {/* Title & Metadata */}
@@ -156,7 +155,7 @@ export default function Insights() {
                   {activeArticle.title}
                 </h1>
                 
-                <div className="flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-slate-450 border-y border-slate-100 dark:border-slate-800/60 py-3">
+                <div className="flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-400 border-y border-slate-100 dark:border-slate-800/60 py-3">
                   <div className="flex items-center gap-1.5">
                     <div className="w-5 h-5 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center font-extrabold text-[10px]">
                       {activeArticle.author.charAt(0)}
@@ -169,13 +168,13 @@ export default function Insights() {
               </div>
 
               {/* Article Content Rendered beautifully */}
-              <div className="text-[14px] md:text-base leading-[1.85] text-slate-600 dark:text-slate-300 font-medium whitespace-pre-line space-y-4">
+              <div className="text-[14px] md:text-base leading-[1.85] text-slate-700 dark:text-slate-300 font-medium whitespace-pre-line space-y-4">
                 {activeArticle.content}
               </div>
 
               {/* Informational Disclaimer Banner */}
-              <div className="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200/50 dark:border-slate-800/60 text-[11px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-                <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
+              <div className="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200/50 dark:border-slate-800/60 text-[11px] md:text-xs text-slate-600 dark:text-slate-400 font-semibold leading-relaxed">
+                <span className="font-extrabold text-slate-800 dark:text-slate-300">Disclaimer:</span> The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
               </div>
 
               {/* Authoritative Citations / References Section */}
@@ -191,9 +190,9 @@ export default function Insights() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-bold transition-all"
                       >
-                        <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                        <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
                         {cite.text}
-                        <span className="text-[9px] font-semibold text-slate-400 dark:text-slate-500 ml-1">({new URL(cite.url).hostname})</span>
+                        <span className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 ml-1">({new URL(cite.url).hostname})</span>
                       </a>
                     ))}
                   </div>
@@ -207,7 +206,7 @@ export default function Insights() {
                 </div>
                 <div className="space-y-1.5">
                   <h4 className="text-xs font-extrabold text-slate-900 dark:text-white">About the Author: {activeArticle.author}</h4>
-                  <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 font-semibold">
+                  <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400 font-semibold">
                     {activeArticle.authorBio}
                   </p>
                 </div>
@@ -243,7 +242,7 @@ export default function Insights() {
                           className="bg-slate-50 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200/50 dark:border-slate-800/50 hover:border-blue-500 hover:shadow-md cursor-pointer select-none transition-all flex items-center justify-between"
                         >
                           <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200">{names[cId] || 'Calculator'}</span>
-                          <Calculator className="w-4 h-4 text-blue-500" />
+                          <Calculator className="w-4 h-4 text-blue-500" aria-hidden="true" />
                         </div>
                       );
                     })}
@@ -255,8 +254,9 @@ export default function Insights() {
 
             {/* Footer */}
             <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex-shrink-0 bg-slate-50 dark:bg-slate-900/50 flex items-center justify-between">
-              <span className="text-[9px] text-slate-400 font-bold">ClearFinCalc Editorial Quality Guidelines • Verified Financial Content</span>
+              <span className="text-[9px] text-slate-500 font-bold">ClearFinCalc Editorial Quality Guidelines • Verified Financial Content</span>
               <button
+                type="button"
                 onClick={handleCloseArticle}
                 className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm"
               >
@@ -279,7 +279,7 @@ export default function Insights() {
             <h2 className="text-3xl font-black text-slate-900 dark:text-white">
               Wealth & Tax Strategy Library
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
+            <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
               Search and filter our library of 30+ comprehensive educational guides on compounding, tax strategies, loans, and personal finance topics.
             </p>
           </div>
@@ -287,25 +287,28 @@ export default function Insights() {
           {/* Search bar & Category filters */}
           <div className="max-w-3xl mx-auto space-y-4 mb-10">
             <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
               <input
+                id="insights-search"
                 type="text"
+                aria-label="Search articles by keyword"
                 placeholder="Search articles by keyword (e.g. EMI, TDS, PPF, GST)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-500 rounded-2xl focus:outline-none text-xs md:text-sm font-semibold text-slate-905 placeholder:text-slate-400 shadow-sm"
+                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-500 rounded-2xl focus:outline-none text-xs md:text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 shadow-sm"
               />
             </div>
             
             <div className="flex flex-wrap justify-center gap-1.5 pt-2">
               {categories.map((cat) => (
                 <button
+                  type="button"
                   key={cat}
                   onClick={() => setSelectedCat(cat)}
                   className={`px-3 py-1 text-[11px] font-extrabold rounded-full border transition-all ${
                     selectedCat === cat
-                      ? 'bg-emerald-555 border-emerald-600 bg-emerald-600 text-white shadow-sm'
-                      : 'bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-405'
+                      ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
+                      : 'bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
                   }`}
                 >
                   {cat}
@@ -328,8 +331,8 @@ export default function Insights() {
                     <span className="px-2 py-0.5 bg-blue-500/10 text-blue-500 uppercase rounded-full">
                       {article.category}
                     </span>
-                    <span className="text-slate-400 flex items-center gap-1 font-semibold">
-                      <Clock className="w-3.5 h-3.5" />
+                    <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 font-semibold">
+                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                       {article.readTime}
                     </span>
                   </div>
@@ -338,19 +341,19 @@ export default function Insights() {
                     {article.title}
                   </h3>
                   
-                  <p className="text-[11px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed line-clamp-3">
+                  <p className="text-[11px] md:text-xs text-slate-600 dark:text-slate-400 font-semibold leading-relaxed line-clamp-3">
                     {article.excerpt}
                   </p>
                 </div>
 
                 {/* Author Footer */}
-                <div className="p-6 bg-slate-50/50 dark:bg-slate-850/20 border-t border-slate-100/60 dark:border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400 font-bold">
+                <div className="p-6 bg-slate-50/50 dark:bg-slate-850/20 border-t border-slate-100/60 dark:border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-bold">
                   <span className="flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-slate-300" />
+                    <User className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
                     {article.author}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-300" />
+                    <Calendar className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
                     {article.date}
                   </span>
                 </div>
@@ -358,7 +361,7 @@ export default function Insights() {
             ))}
 
             {filteredArticles.length === 0 && (
-              <div className="col-span-full text-center py-12 text-slate-405 font-bold italic text-xs md:text-sm">
+              <div className="col-span-full text-center py-12 text-slate-600 dark:text-slate-400 font-bold italic text-xs md:text-sm">
                 No articles matching your search criteria were found. Try another search.
               </div>
             )}

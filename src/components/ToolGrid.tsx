@@ -139,7 +139,7 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             Popular Financial Calculators
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
             Choose a calculator below to get instant results, interactive charts, and detailed mathematical breakdowns.
           </p>
         </div>
@@ -148,6 +148,7 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((cat) => (
             <button
+              type="button"
               key={cat}
               onClick={() => setSelectedCat(cat)}
               className={`px-4 py-1.5 text-xs font-bold rounded-full border transition-all ${selectedCat === cat ? 'bg-blue-600 border-blue-600 text-white shadow-md' : 'bg-white dark:bg-slate-900/50 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300'}`}
@@ -169,7 +170,7 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
               >
                 {tool.popular && (
                   <div className="absolute top-3 right-3 text-amber-500 flex items-center gap-0.5 text-[8px] font-bold uppercase tracking-wider">
-                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" aria-hidden="true" />
                     Popular
                   </div>
                 )}
@@ -180,15 +181,15 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
                   </div>
                   <div className="space-y-1">
                     <h3 className="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">{tool.name}</h3>
-                    <p className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold leading-relaxed line-clamp-3">{tool.description}</p>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 font-semibold leading-relaxed line-clamp-3">{tool.description}</p>
                   </div>
                 </div>
 
-                <div className="border-t border-slate-100 dark:border-slate-800 pt-4 mt-6 flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">{tool.category}</span>
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-4 mt-6 flex justify-between items-center text-xs font-bold text-slate-600 dark:text-slate-400">
+                  <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">{tool.category}</span>
                   <span className="text-blue-600 dark:text-blue-400 flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
                     Open Tool
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </div>
               </div>

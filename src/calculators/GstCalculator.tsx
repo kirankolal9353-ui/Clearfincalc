@@ -58,14 +58,14 @@ export default function GstCalculator() {
             onClick={handleDownloadPDF}
             className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
             PDF Report
           </button>
           <button 
             onClick={handleShare}
             className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
           >
-            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
             {shared ? 'Copied!' : 'Share Result'}
           </button>
         </div>
@@ -77,10 +77,11 @@ export default function GstCalculator() {
           {/* Amount input */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="gst-amount" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Amount (₹)
               </label>
               <input 
+                id="gst-amount"
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
@@ -88,12 +89,14 @@ export default function GstCalculator() {
               />
             </div>
             <input 
+              id="gst-amount-range"
               type="range"
               min="100"
               max="1000000"
               step="100"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
+              aria-label="Amount slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">
@@ -140,7 +143,9 @@ export default function GstCalculator() {
               ))}
               {/* Custom rate input */}
               <div className="relative inline-flex items-center">
+                <label htmlFor="gst-custom-rate" className="sr-only">Custom GST Rate</label>
                 <input 
+                  id="gst-custom-rate"
                   type="number"
                   placeholder="Custom"
                   value={gstRates.includes(rate) ? '' : rate}

@@ -1,20 +1,28 @@
-import React, { useRef, useEffect, useState } from 'react';
-import EmiCalculator from '../calculators/EmiCalculator';
-import SipCalculator from '../calculators/SipCalculator';
-import LoanEligibility from '../calculators/LoanEligibility';
-import PersonalLoan from '../calculators/PersonalLoan';
-import HomeLoan from '../calculators/HomeLoan';
-import TaxEstimator from '../calculators/TaxEstimator';
-import SalaryCalculator from '../calculators/SalaryCalculator';
-import TdsCalculator from '../calculators/TdsCalculator';
-import GstCalculator from '../calculators/GstCalculator';
-import FdCalculator from '../calculators/FdCalculator';
-import RetirementCalculator from '../calculators/RetirementCalculator';
-import SavingsPlanner from '../calculators/SavingsPlanner';
-import CustomsDuty from '../calculators/CustomsDuty';
+import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { X, ChevronRight, Home, BookOpen, Calculator, HelpCircle, ShieldCheck, AlertCircle, FileText, Info } from 'lucide-react';
 import { CALCULATOR_EXPLANATIONS } from '../data/calculatorExplanations';
 import { ARTICLES } from '../data/articles';
+
+const EmiCalculator = lazy(() => import('../calculators/EmiCalculator'));
+const SipCalculator = lazy(() => import('../calculators/SipCalculator'));
+const LoanEligibility = lazy(() => import('../calculators/LoanEligibility'));
+const PersonalLoan = lazy(() => import('../calculators/PersonalLoan'));
+const HomeLoan = lazy(() => import('../calculators/HomeLoan'));
+const TaxEstimator = lazy(() => import('../calculators/TaxEstimator'));
+const SalaryCalculator = lazy(() => import('../calculators/SalaryCalculator'));
+const TdsCalculator = lazy(() => import('../calculators/TdsCalculator'));
+const GstCalculator = lazy(() => import('../calculators/GstCalculator'));
+const FdCalculator = lazy(() => import('../calculators/FdCalculator'));
+const RetirementCalculator = lazy(() => import('../calculators/RetirementCalculator'));
+const SavingsPlanner = lazy(() => import('../calculators/SavingsPlanner'));
+const CustomsDuty = lazy(() => import('../calculators/CustomsDuty'));
+
+const CalculatorLoadingFallback = () => (
+  <div className="w-full bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-xl min-h-[400px] flex flex-col items-center justify-center gap-3 animate-pulse">
+    <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <p className="text-xs font-bold text-slate-500 dark:text-slate-400">Loading calculator...</p>
+  </div>
+);
 
 interface CalculatorContainerProps {
   toolId: string | null;
@@ -111,14 +119,14 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-24"
     >
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 mb-5 select-none">
+      <nav className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 mb-5 select-none" aria-label="Breadcrumb">
         <span className="flex items-center gap-1 hover:text-blue-500 transition-colors cursor-pointer" onClick={onClose}>
-          <Home className="w-3.5 h-3.5" />
+          <Home className="w-3.5 h-3.5" aria-hidden="true" />
           Home
         </span>
-        <ChevronRight className="w-3.5 h-3.5" />
+        <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
         <span>Calculators</span>
-        <ChevronRight className="w-3.5 h-3.5" />
+        <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
         <span className="text-slate-700 dark:text-slate-200">
           {explanation?.title ? explanation.title.split(' Guide')[0] : 'Calculator'}
         </span>
@@ -131,9 +139,11 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
           className="absolute -top-3 -right-3 z-30 p-2 bg-slate-900 text-white dark:bg-slate-800 rounded-full hover:bg-red-500 hover:text-white transition-all shadow-md flex items-center justify-center border border-slate-700"
           aria-label="Close Calculator"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4" aria-hidden="true" />
         </button>
-        {renderCalculator()}
+        <Suspense fallback={<CalculatorLoadingFallback />}>
+          {renderCalculator()}
+        </Suspense>
       </div>
 
       {/* Educational Guide Section (800-1500 words per calculator) */}

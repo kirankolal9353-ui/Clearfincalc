@@ -68,21 +68,23 @@ export default function RetirementCalculator() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Retirement Calculator</h2>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Find out how much money you need to accumulate for a stress-free retirement adjusted for inflation.</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 text-sm md:text-base">Find out how much money you need to accumulate for a stress-free retirement adjusted for inflation.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button 
+            type="button"
             onClick={handleDownloadPDF}
             className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
             PDF Report
           </button>
           <button 
+            type="button"
             onClick={handleShare}
             className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
           >
-            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
             {shared ? 'Copied!' : 'Share Result'}
           </button>
         </div>
@@ -94,8 +96,9 @@ export default function RetirementCalculator() {
           {/* Ages */}
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Current Age</label>
+              <label htmlFor="retirement-current-age" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Current Age</label>
               <input 
+                id="retirement-current-age"
                 type="number"
                 value={currentAge}
                 onChange={(e) => setCurrentAge(Number(e.target.value))}
@@ -103,8 +106,9 @@ export default function RetirementCalculator() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Retire Age</label>
+              <label htmlFor="retirement-retire-age" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Retire Age</label>
               <input 
+                id="retirement-retire-age"
                 type="number"
                 value={retirementAge}
                 onChange={(e) => setRetirementAge(Number(e.target.value))}
@@ -112,8 +116,9 @@ export default function RetirementCalculator() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Life Expectancy</label>
+              <label htmlFor="retirement-life-expectancy" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Life Expectancy</label>
               <input 
+                id="retirement-life-expectancy"
                 type="number"
                 value={lifeExpectancy}
                 onChange={(e) => setLifeExpectancy(Number(e.target.value))}
@@ -125,10 +130,11 @@ export default function RetirementCalculator() {
           {/* Monthly Expenses */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="retirement-monthly-expenses" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Current Monthly Expenses
               </label>
               <input 
+                id="retirement-monthly-expenses"
                 type="number"
                 value={monthlyExpenses}
                 onChange={(e) => setMonthlyExpenses(Number(e.target.value))}
@@ -137,6 +143,7 @@ export default function RetirementCalculator() {
             </div>
             <input 
               type="range"
+              aria-label="Current monthly expenses range"
               min="5000"
               max="500000"
               step="5000"
@@ -149,10 +156,11 @@ export default function RetirementCalculator() {
           {/* Current Savings */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="retirement-current-savings" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Current Savings
               </label>
               <input 
+                id="retirement-current-savings"
                 type="number"
                 value={currentSavings}
                 onChange={(e) => setCurrentSavings(Number(e.target.value))}
@@ -161,6 +169,7 @@ export default function RetirementCalculator() {
             </div>
             <input 
               type="range"
+              aria-label="Current savings range"
               min="0"
               max="20000000"
               step="20000"
@@ -173,8 +182,9 @@ export default function RetirementCalculator() {
           {/* Rates */}
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Inflation Rate</label>
+              <label htmlFor="retirement-inflation-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Inflation Rate</label>
               <input 
+                id="retirement-inflation-rate"
                 type="number"
                 value={inflationRate}
                 onChange={(e) => setInflationRate(Number(e.target.value))}
@@ -182,8 +192,9 @@ export default function RetirementCalculator() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Working Return</label>
+              <label htmlFor="retirement-working-return" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Working Return</label>
               <input 
+                id="retirement-working-return"
                 type="number"
                 value={preReturn}
                 onChange={(e) => setPreReturn(Number(e.target.value))}
@@ -191,8 +202,9 @@ export default function RetirementCalculator() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Retired Return</label>
+              <label htmlFor="retirement-retired-return" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Retired Return</label>
               <input 
+                id="retirement-retired-return"
                 type="number"
                 value={postReturn}
                 onChange={(e) => setPostReturn(Number(e.target.value))}
@@ -224,7 +236,7 @@ export default function RetirementCalculator() {
             <h3 className="text-sm font-bold text-indigo-700 dark:text-indigo-300">Action Plan for Gap</h3>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div className="bg-white/60 dark:bg-slate-900/40 p-3 rounded-xl">
-                <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block">Savings Shortfall</span>
+                <span className="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block">Savings Shortfall</span>
                 <span className="text-sm md:text-base font-extrabold text-slate-800 dark:text-slate-200">
                   ₹{retirementData.netCorpusGap.toLocaleString('en-IN')}
                 </span>
@@ -236,7 +248,7 @@ export default function RetirementCalculator() {
                 </span>
               </div>
             </div>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium text-center">
+            <p className="text-[10px] text-slate-600 dark:text-slate-400 font-medium text-center">
               *Assumes savings grow at {preReturn}% return compound annually during your working years.
             </p>
           </div>

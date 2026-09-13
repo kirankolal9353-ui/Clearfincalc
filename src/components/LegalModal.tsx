@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { X, Shield, FileText, AlertTriangle, Info, Mail, Phone, MapPin, Clock, Calendar, CheckCircle, HelpCircle, Network, ExternalLink } from 'lucide-react';
+import { X, Shield, FileText, AlertTriangle, Info, Mail, Phone, MapPin, Clock, CheckCircle, Network, ExternalLink } from 'lucide-react';
 import { ARTICLES } from '../data/articles';
 
 export type PolicyType = 'privacy' | 'terms' | 'disclaimer' | 'cookie' | 'about' | 'contact' | 'sitemap' | 'editorial' | 'references';
@@ -12,11 +12,12 @@ interface LegalModalProps {
 
 export default function LegalModal({ type: initialType, onClose, onSelectType }: LegalModalProps) {
   const [type, setType] = useState<PolicyType>(initialType);
+  const [prevInitialType, setPrevInitialType] = useState<PolicyType>(initialType);
 
-  // Sync state if initialType prop changes
-  useEffect(() => {
+  if (prevInitialType !== initialType) {
+    setPrevInitialType(initialType);
     setType(initialType);
-  }, [initialType]);
+  }
 
   // Handle type changes locally and notify parent if callback exists
   const handleTypeChange = (newType: PolicyType) => {
@@ -57,12 +58,12 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
 
   const handleNavToTool = (id: string) => {
     onClose();
-    window.location.search = `?tool=${id}`;
+    window.location.assign(`?tool=${id}`);
   };
 
   const handleNavToArticle = (id: string) => {
     onClose();
-    window.location.search = `?article=${id}`;
+    window.location.assign(`?article=${id}`);
   };
 
   return (
@@ -86,15 +87,15 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl">
-              {type === 'privacy' && <Shield className="w-6 h-6 text-blue-500" />}
-              {type === 'terms' && <FileText className="w-6 h-6 text-indigo-500" />}
-              {type === 'disclaimer' && <AlertTriangle className="w-6 h-6 text-amber-500" />}
-              {type === 'cookie' && <Shield className="w-6 h-6 text-emerald-500" />}
-              {type === 'about' && <Info className="w-6 h-6 text-sky-500" />}
-              {type === 'contact' && <Mail className="w-6 h-6 text-teal-500" />}
-              {type === 'sitemap' && <Network className="w-6 h-6 text-indigo-500" />}
-              {type === 'editorial' && <CheckCircle className="w-6 h-6 text-emerald-550" />}
-              {type === 'references' && <FileText className="w-6 h-6 text-sky-500" />}
+              {type === 'privacy' && <Shield className="w-6 h-6 text-blue-500" aria-hidden="true" />}
+              {type === 'terms' && <FileText className="w-6 h-6 text-indigo-500" aria-hidden="true" />}
+              {type === 'disclaimer' && <AlertTriangle className="w-6 h-6 text-amber-500" aria-hidden="true" />}
+              {type === 'cookie' && <Shield className="w-6 h-6 text-emerald-500" aria-hidden="true" />}
+              {type === 'about' && <Info className="w-6 h-6 text-sky-500" aria-hidden="true" />}
+              {type === 'contact' && <Mail className="w-6 h-6 text-teal-500" aria-hidden="true" />}
+              {type === 'sitemap' && <Network className="w-6 h-6 text-indigo-500" aria-hidden="true" />}
+              {type === 'editorial' && <CheckCircle className="w-6 h-6 text-emerald-500" aria-hidden="true" />}
+              {type === 'references' && <FileText className="w-6 h-6 text-sky-500" aria-hidden="true" />}
             </div>
             <div>
               <h2 id="legal-modal-title" className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -108,15 +109,16 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                 {type === 'editorial' && 'Editorial Policy & Standards'}
                 {type === 'references' && 'Methodology & References'}
               </h2>
-              <p className="text-[10px] text-slate-400 font-semibold mt-0.5">ClearFinCalc v4.0 • Updated June 2026</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5">ClearFinCalc v4.0 • Updated June 2026</p>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-500 hover:text-slate-800 dark:hover:text-white"
+            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white"
             aria-label="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

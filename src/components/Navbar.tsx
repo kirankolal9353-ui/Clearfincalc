@@ -50,6 +50,8 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
             <img 
               src="/logo.jpg" 
               alt="ClearFinCalc Logo" 
+              width={72}
+              height={48}
               className="h-10 md:h-12 w-auto object-contain rounded-lg bg-white p-1 border border-slate-200/40 shadow-sm" 
             />
             <span className="text-xl md:text-2xl font-black bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 dark:from-white dark:via-sky-250 dark:to-blue-400 bg-clip-text text-transparent tracking-tight">
@@ -59,8 +61,10 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
 
           {/* Desktop Search bar */}
           <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md relative hidden sm:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 w-4 h-4 pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 w-4 h-4 pointer-events-none" aria-hidden="true" />
+            <label htmlFor="navbar-search-input" className="sr-only">Search finance calculators</label>
             <input
+              id="navbar-search-input"
               type="text"
               placeholder="Search finance calculators (e.g. EMI, TDS)..."
               value={searchQuery}
@@ -72,9 +76,9 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
                 type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                aria-label="Clear search"
+                aria-label="Clear search query"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             )}
           </form>
@@ -85,21 +89,21 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
             <button
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
               className="sm:hidden p-2 bg-blue-50 hover:bg-blue-100 border border-blue-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-700 text-blue-600 dark:text-slate-300 rounded-xl transition-all"
-              aria-label="Toggle Search"
+              aria-label="Toggle search input"
             >
-              {mobileSearchOpen ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
+              {mobileSearchOpen ? <X className="w-4 h-4" aria-hidden="true" /> : <Search className="w-4 h-4" aria-hidden="true" />}
             </button>
 
-            <a href="#calculators" className="text-xs md:text-sm font-bold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
+            <a href="#calculators" className="text-xs md:text-sm font-bold text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
               Calculators
             </a>
-            <a href="#advisor" className="text-xs md:text-sm font-bold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
+            <a href="#advisor" className="text-xs md:text-sm font-bold text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
               AI Advisor
             </a>
-            <a href="#insights" className="text-xs md:text-sm font-bold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
+            <a href="#insights" className="text-xs md:text-sm font-bold text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden md:block">
               Insights
             </a>
-            <a href="#offers" className="text-xs md:text-sm font-bold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden lg:block">
+            <a href="#offers" className="text-xs md:text-sm font-bold text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-white transition-all hidden lg:block">
               Affiliate Offers
             </a>
 
@@ -107,9 +111,9 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 bg-blue-50 hover:bg-blue-100 border border-blue-100 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-700 text-blue-600 dark:text-slate-300 rounded-xl transition-all shadow-sm flex items-center justify-center"
-              aria-label="Toggle Theme"
+              aria-label="Toggle dark mode theme"
             >
-              {darkMode ? <Sun className="w-4 h-4 md:w-5 md:h-5 text-amber-500 animate-scale" /> : <Moon className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />}
+              {darkMode ? <Sun className="w-4 h-4 md:w-5 md:h-5 text-amber-500 animate-scale" aria-hidden="true" /> : <Moon className="w-4 h-4 md:w-5 md:h-5 text-blue-500" aria-hidden="true" />}
             </button>
           </div>
         </div>

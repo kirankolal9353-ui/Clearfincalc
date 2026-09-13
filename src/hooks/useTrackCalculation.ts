@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { incrementCalculationCount } from '../utils/counterService';
 
-export function useTrackCalculation(calculatorId: string, inputs: Record<string, any>) {
+export function useTrackCalculation(calculatorId: string, inputs: Record<string, unknown>) {
   const isFirstMount = useRef(true);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevInputsRef = useRef<string>('');
@@ -31,7 +31,8 @@ export function useTrackCalculation(calculatorId: string, inputs: Record<string,
     // Debounce the tracking call by 1000ms
     debounceTimer.current = setTimeout(async () => {
       // Validate inputs: make sure they are valid values
-      const hasValidInputs = Object.values(inputs).every((val) => {
+      const parsedInputs = JSON.parse(inputsJson) as Record<string, unknown>;
+      const hasValidInputs = Object.values(parsedInputs).every((val) => {
         if (val === null || val === undefined || val === '') return false;
         if (typeof val === 'number' && isNaN(val)) return false;
         return true;

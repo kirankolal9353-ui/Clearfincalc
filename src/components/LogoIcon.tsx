@@ -10,6 +10,8 @@ export default function LogoIcon({ className = "w-8 h-8" }: LogoIconProps) {
       <img 
         src="/logo.jpg" 
         alt="ClearFinCalc Logo Mark"
+        width={100}
+        height={66}
         className="absolute max-w-none" 
         style={{
           width: '215%',

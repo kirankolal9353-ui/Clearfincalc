@@ -156,12 +156,13 @@ export default function TdsCalculator() {
           
           {/* Section Search Dropdown */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <label htmlFor="tds-section-search" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
               Select TDS Section
             </label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" aria-hidden="true" />
               <input 
+                id="tds-section-search"
                 type="text"
                 placeholder="Search Section code or name..."
                 value={search}
@@ -193,10 +194,11 @@ export default function TdsCalculator() {
           {/* Payment Amount */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="tds-payment-amount" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Payment Amount (₹)
               </label>
               <input 
+                id="tds-payment-amount"
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
@@ -204,12 +206,14 @@ export default function TdsCalculator() {
               />
             </div>
             <input 
+              id="tds-payment-amount-range"
               type="range"
               min="1000"
               max="10000000"
               step="5000"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
+              aria-label="Payment Amount slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">
@@ -225,6 +229,7 @@ export default function TdsCalculator() {
               <button 
                 onClick={() => setPanAvailable(!panAvailable)}
                 className={`w-12 h-6 rounded-full transition-all relative ${panAvailable ? 'bg-emerald-500' : 'bg-rose-500'}`}
+                aria-label="Toggle PAN card availability"
               >
                 <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all ${panAvailable ? 'right-1' : 'left-1'}`}></div>
               </button>

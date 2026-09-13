@@ -25,7 +25,7 @@ export default function FAQs() {
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-semibold">
+          <p className="text-slate-600 dark:text-slate-400 text-xs md:text-sm font-semibold">
             Find instant answers to common questions about loans, compounding interest, tax rules, and customs.
           </p>
         </div>
@@ -34,6 +34,7 @@ export default function FAQs() {
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((cat) => (
             <button
+              type="button"
               key={cat}
               onClick={() => {
                 setActiveCat(cat);
@@ -56,6 +57,7 @@ export default function FAQs() {
                 className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 rounded-2xl shadow-sm overflow-hidden transition-all duration-300"
               >
                 <button
+                  type="button"
                   onClick={() => toggleFaq(faq.id)}
                   className="w-full px-6 py-4 flex justify-between items-center text-left gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/20"
                 >
@@ -63,12 +65,12 @@ export default function FAQs() {
                     {faq.question}
                   </span>
                   <span className="text-slate-400 dark:text-slate-500 flex-shrink-0">
-                    {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    {isOpen ? <ChevronUp className="w-4 h-4" aria-hidden="true" /> : <ChevronDown className="w-4 h-4" aria-hidden="true" />}
                   </span>
                 </button>
                 
                 {isOpen && (
-                  <div className="px-6 pb-4 pt-1 text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400 border-t border-slate-100/50 dark:border-slate-800/40 leading-relaxed">
+                  <div className="px-6 pb-4 pt-1 text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 border-t border-slate-100/50 dark:border-slate-800/40 leading-relaxed">
                     {faq.answer}
                   </div>
                 )}

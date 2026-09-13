@@ -14,7 +14,7 @@ export default function Offers() {
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             Loan & Credit Card Offers
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
             Compare premium financial products and apply through our secure partnerships for exclusive rates.
           </p>
         </div>
@@ -33,22 +33,22 @@ export default function Offers() {
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{offer.category}</span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{offer.category}</span>
                   <h3 className="text-sm font-black text-slate-900 dark:text-white leading-tight">{offer.name}</h3>
-                  <span className="text-[10px] font-semibold text-slate-500">{offer.provider}</span>
+                  <span className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">{offer.provider}</span>
                 </div>
 
                 {/* Rating */}
                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
-                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" aria-hidden="true" />
                   <span>{offer.rating} / 5</span>
                 </div>
 
                 {/* Benefits List */}
-                <ul className="space-y-1.5 text-[10px] text-slate-500 font-semibold">
+                <ul className="space-y-1.5 text-[10px] text-slate-600 dark:text-slate-400 font-semibold">
                   {offer.benefits.map((b, idx) => (
                     <li key={idx} className="flex items-start gap-1.5">
-                      <Check className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <Check className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -56,7 +56,7 @@ export default function Offers() {
               </div>
 
               <div className="border-t border-slate-100 dark:border-slate-800 pt-4 mt-6 space-y-3">
-                <div className="text-[9px] text-slate-400 font-bold leading-none">
+                <div className="text-[9px] text-slate-500 dark:text-slate-400 font-bold leading-none">
                   * {offer.terms}
                 </div>
                 <a 
@@ -64,7 +64,7 @@ export default function Offers() {
                   className="w-full py-2 bg-slate-900 dark:bg-slate-800 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white text-slate-100 rounded-xl text-center text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1"
                 >
                   {offer.ctaText}
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-3 h-3" aria-hidden="true" />
                 </a>
               </div>
 

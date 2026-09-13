@@ -23,13 +23,13 @@ export async function initializeCounterDb(): Promise<Firestore | null> {
     }
 
     // 2. Try fetching the dynamic config from hosting
-    let config: any = null;
+    let config: Record<string, unknown> | null = null;
     try {
       const response = await fetch('/__/firebase/init.json');
       if (response.ok) {
-        config = await response.json();
+        config = (await response.json()) as Record<string, unknown>;
       }
-    } catch (e) {
+    } catch {
       // Ignored: expected to fail when running locally without firebase hosting emulator
     }
 
@@ -37,8 +37,8 @@ export async function initializeCounterDb(): Promise<Firestore | null> {
     if (!config && import.meta.env.VITE_FIREBASE_CONFIG) {
       try {
         config = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG);
-      } catch (e) {
-        console.error('Failed to parse VITE_FIREBASE_CONFIG env variable');
+      } catch {
+        // Fallback gracefully if env var is unparseable
       }
     }
 
@@ -49,8 +49,8 @@ export async function initializeCounterDb(): Promise<Firestore | null> {
       isInitialized = true;
       return db;
     }
-  } catch (error) {
-    console.error('Failed to initialize Firebase counter service:', error);
+  } catch {
+    // Expected fallback when Firebase is not configured or network is unreachable
   }
 
   isInitialized = true; // Set to true so we don't spam requests
@@ -87,8 +87,7 @@ export async function incrementCalculationCount(): Promise<void> {
     await setDoc(docRef, {
       count: increment(1)
     }, { merge: true });
-  } catch (error) {
-    console.error('Failed to increment calculation count in Firestore:', error);
+  } catch {
     // Fallback to local mock increment on network error
     const current = getCachedCount() || 1420945;
     setCachedCount(current + 1);
@@ -135,13 +134,13 @@ export function subscribeToCalculationCount(
           // Handle document doesn't exist or empty count field
           onUpdate(getCachedCount());
         },
-        (error) => {
-          console.error('Firestore snapshot listener error:', error);
+        () => {
+          // Fallback gracefully on snapshot listener error
           onUpdate(getCachedCount());
         }
       );
-    } catch (e) {
-      console.error('Error setting up Firestore subscription:', e);
+    } catch {
+      // Fallback gracefully on subscription error
       onUpdate(getCachedCount());
     }
   };

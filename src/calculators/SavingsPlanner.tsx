@@ -51,21 +51,23 @@ export default function SavingsPlanner() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Savings Goal Planner</h2>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate how much you need to save monthly to achieve your target financial goal.</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate how much you need to save monthly to achieve your target financial goal.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button 
+            type="button"
             onClick={handleDownloadPDF}
             className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
             PDF Report
           </button>
           <button 
+            type="button"
             onClick={handleShare}
             className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
           >
-            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
             {shared ? 'Copied!' : 'Share Result'}
           </button>
         </div>
@@ -77,11 +79,12 @@ export default function SavingsPlanner() {
           {/* Target Amount */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <Target className="w-4 h-4 text-indigo-500" />
+              <label htmlFor="savings-target" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <Target className="w-4 h-4 text-indigo-500" aria-hidden="true" />
                 Target Savings Goal
               </label>
               <input 
+                id="savings-target"
                 type="number"
                 value={target}
                 onChange={(e) => setTarget(Number(e.target.value))}
@@ -90,6 +93,7 @@ export default function SavingsPlanner() {
             </div>
             <input 
               type="range"
+              aria-label="Target savings goal range"
               min="50000"
               max="20000000"
               step="50000"
@@ -97,7 +101,7 @@ export default function SavingsPlanner() {
               onChange={(e) => setTarget(Number(e.target.value))}
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
-            <div className="flex justify-between text-[10px] text-slate-400 font-bold">
+            <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-bold">
               <span>₹50,000</span>
               <span>₹2 Crores</span>
             </div>
@@ -106,10 +110,11 @@ export default function SavingsPlanner() {
           {/* Initial Savings */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="savings-initial" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Initial Savings Accumulation
               </label>
               <input 
+                id="savings-initial"
                 type="number"
                 value={initial}
                 onChange={(e) => setInitial(Number(e.target.value))}
@@ -118,6 +123,7 @@ export default function SavingsPlanner() {
             </div>
             <input 
               type="range"
+              aria-label="Initial savings range"
               min="0"
               max={target}
               step="5000"
@@ -125,7 +131,7 @@ export default function SavingsPlanner() {
               onChange={(e) => setInitial(Number(e.target.value))}
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
             />
-            <div className="flex justify-between text-[10px] text-slate-400 font-bold">
+            <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-bold">
               <span>₹0</span>
               <span>₹{Math.round(target / 100000)} Lakhs</span>
             </div>
@@ -134,11 +140,12 @@ export default function SavingsPlanner() {
           <div className="grid grid-cols-2 gap-4">
             {/* Interest Rate */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                <Percent className="w-3.5 h-3.5 text-emerald-500" />
+              <label htmlFor="savings-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Rate (p.a)
               </label>
               <input 
+                id="savings-rate"
                 type="number"
                 step="0.5"
                 value={rate}
@@ -149,11 +156,12 @@ export default function SavingsPlanner() {
 
             {/* Tenure */}
             <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-indigo-500" />
+              <label htmlFor="savings-years" className="text-xs font-semibold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Timeline (Yrs)
               </label>
               <input 
+                id="savings-years"
                 type="number"
                 value={years}
                 onChange={(e) => setYears(Number(e.target.value))}
@@ -170,7 +178,7 @@ export default function SavingsPlanner() {
             <div className="text-3xl md:text-4xl font-black mt-2">
               ₹{goalData.monthlySavingsRequired.toLocaleString('en-IN')}/mo
             </div>
-            <p className="text-[10px] text-indigo-150 mt-2 font-medium">
+            <p className="text-[10px] text-indigo-100 mt-2 font-medium">
               Invest monthly to grow from ₹{initial.toLocaleString('en-IN')} to ₹{target.toLocaleString('en-IN')} in {years} years.
             </p>
           </div>

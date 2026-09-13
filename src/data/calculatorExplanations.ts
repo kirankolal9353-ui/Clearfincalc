@@ -158,7 +158,7 @@ The ClearFinCalc SIP Calculator is a client-side mutual fund simulator. When you
 ### Real-Life Use Cases and Application
 SIP calculators are essential for goal-based financial planning:
 - **Retirement Planning**: Projecting what monthly SIP is required to hit a specific inflation-adjusted corpus by age 60.
-- **Children\'s Higher Education**: Calculating savings milestones for college fees over a 15-year horizon.
+- **Children's Higher Education**: Calculating savings milestones for college fees over a 15-year horizon.
 - **Buying a Car/Property**: Determining how many years of automated savings are required to fund a down payment.
 - **Tax Saving (ELSS)**: Planning monthly tax-saving investments under Section 80C (Old Regime).
 
@@ -394,7 +394,7 @@ The ClearFinCalc Customs Duty Calculator is a client-side commercial duty simula
 - **Feasibility Audits**: Evaluating if local manufacturing is cheaper than importing finished goods.
 
 ### Strategic Conclusion
-Landed cost is the true cost of inventory. Importers often make the mistake of budgeting based only on the supplier\'s FOB price, ignoring customs duties, IGST, shipping, and port charges. SWS and IGST cascade on top of BCD, making the effective duty rate significantly higher than the nominal BCD rate. Detailed landed cost modeling is vital.`,
+Landed cost is the true cost of inventory. Importers often make the mistake of budgeting based only on the supplier's FOB price, ignoring customs duties, IGST, shipping, and port charges. SWS and IGST cascade on top of BCD, making the effective duty rate significantly higher than the nominal BCD rate. Detailed landed cost modeling is vital.`,
     howItWorks: `### Detailed Parameter Settings
 To compute the import duties, enter the following parameters:
 1. **CIF Value / Transaction Value**: The cost of the imported goods as declared on the commercial invoice (FOB).
@@ -505,7 +505,7 @@ Even though the nominal BCD rate was only 10%, the importer must pay 31% in duti
     id: 'eligibility',
     title: 'Loan Eligibility Calculator Guide',
     intro: `### Introduction to Credit Underwriting & Eligibility
-Loan Eligibility is the underwriting framework used by banks and financial institutions to assess a applicant\'s creditworthiness and determine the maximum loan amount they can borrow. When underwriting retail credit, lenders must balance the desire to issue loans with the necessity of managing risk. If a lender grants too large a loan, the borrower may default. If the loan is too small, the borrower might go to a competitor.
+Loan Eligibility is the underwriting framework used by banks and financial institutions to assess an applicant's creditworthiness and determine the maximum loan amount they can borrow. When underwriting retail credit, lenders must balance the desire to issue loans with the necessity of managing risk. If a lender grants too large a loan, the borrower may default. If the loan is too small, the borrower might go to a competitor.
 
 The core of eligibility underwriting is evaluating **repayment capacity**. Lenders look at stable monthly income, outstanding debts, credit score history, and age to estimate the maximum monthly repayment liability the applicant can support without falling into financial distress.
 
@@ -1488,7 +1488,7 @@ The ClearFinCalc Savings Goal Planner is a sinking fund simulator. When you inpu
 - **Investment Targets**: Planning how to build a ₹10 Lakh portfolio over a specific tenure.
 
 ### Strategic Conclusion
-Always align your savings strategy with your goal\'s timeline. For short-term goals (under 3 years), preserve capital by using secure options like Recurring Deposits (RDs) or short-term Fixed Deposits. For long-term goals (5+ years), build wealth by using equity mutual funds, where compounding returns can fund over 40% of your target milestone.`,
+Always align your savings strategy with your goal's timeline. For short-term goals (under 3 years), preserve capital by using secure options like Recurring Deposits (RDs) or short-term Fixed Deposits. For long-term goals (5+ years), build wealth by using equity mutual funds, where compounding returns can fund over 40% of your target milestone.`,
     howItWorks: `### Detailed Parameter Settings
 Configure the following inputs to plan your savings:
 1. **Target Amount**: The total sum you want to accumulate.
@@ -1512,7 +1512,7 @@ Where:
 
 If $FV_{net} \\le 0$, your initial savings will grow to exceed the target without any monthly contributions.`,
     example: `### Worked Example: Sinking Fund Analysis
-Suppose you want to save **₹1,000,000 (₹10 Lakhs)** in **10 years** for a child\'s higher education. You invest in a mutual fund with an expected annual return of **12%**, and have **₹0** in initial savings.
+Suppose you want to save **₹1,000,000 (₹10 Lakhs)** in **10 years** for a child's higher education. You invest in a mutual fund with an expected annual return of **12%**, and have **₹0** in initial savings.
 
 #### Input Parameters:
 - Target Amount ($FV$) = ₹1,000,000

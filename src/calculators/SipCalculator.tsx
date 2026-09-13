@@ -62,14 +62,14 @@ export default function SipCalculator() {
             onClick={handleDownloadPDF}
             className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
             PDF Report
           </button>
           <button 
             onClick={handleShare}
             className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
           >
-            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
             {shared ? 'Copied!' : 'Share Result'}
           </button>
         </div>
@@ -81,13 +81,14 @@ export default function SipCalculator() {
           {/* Monthly Investment */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <IndianRupee className="w-4 h-4 text-sky-500" />
+              <label htmlFor="sip-monthly-investment" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <IndianRupee className="w-4 h-4 text-sky-500" aria-hidden="true" />
                 Monthly Investment
               </label>
               <div className="relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
                 <input 
+                  id="sip-monthly-investment"
                   type="number"
                   value={monthlyInvest}
                   onChange={(e) => setMonthlyInvest(Number(e.target.value))}
@@ -96,12 +97,14 @@ export default function SipCalculator() {
               </div>
             </div>
             <input 
+              id="sip-monthly-investment-range"
               type="range"
               min="500"
               max="1000000"
               step="500"
               value={monthlyInvest}
               onChange={(e) => setMonthlyInvest(Number(e.target.value))}
+              aria-label="Monthly Investment slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500 focus:outline-none"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">
@@ -113,12 +116,13 @@ export default function SipCalculator() {
           {/* Expected Return Rate */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <Percent className="w-4 h-4 text-emerald-500" />
+              <label htmlFor="sip-expected-return" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <Percent className="w-4 h-4 text-emerald-500" aria-hidden="true" />
                 Expected Return (p.a)
               </label>
               <div className="relative">
                 <input 
+                  id="sip-expected-return"
                   type="number"
                   step="0.5"
                   value={expectedReturn}
@@ -129,12 +133,14 @@ export default function SipCalculator() {
               </div>
             </div>
             <input 
+              id="sip-expected-return-range"
               type="range"
               min="1"
               max="30"
               step="0.5"
               value={expectedReturn}
               onChange={(e) => setExpectedReturn(Number(e.target.value))}
+              aria-label="Expected Return Rate slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500 focus:outline-none"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">
@@ -146,12 +152,13 @@ export default function SipCalculator() {
           {/* Time Period */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-indigo-500" />
+              <label htmlFor="sip-investment-period" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-indigo-500" aria-hidden="true" />
                 Time Period
               </label>
               <div className="relative">
                 <input 
+                  id="sip-investment-period"
                   type="number"
                   value={tenure}
                   onChange={(e) => setTenure(Number(e.target.value))}
@@ -161,12 +168,14 @@ export default function SipCalculator() {
               </div>
             </div>
             <input 
+              id="sip-investment-period-range"
               type="range"
               min="1"
               max="40"
               step="1"
               value={tenure}
               onChange={(e) => setTenure(Number(e.target.value))}
+              aria-label="Investment Tenure slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">

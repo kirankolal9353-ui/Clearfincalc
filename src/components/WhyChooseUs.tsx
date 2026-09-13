@@ -4,22 +4,22 @@ import { Zap, Scale, ShieldAlert, Award } from 'lucide-react';
 export default function WhyChooseUs() {
   const points = [
     {
-      icon: <Zap className="w-6 h-6 text-sky-500" />,
+      icon: <Zap className="w-6 h-6 text-sky-500" aria-hidden="true" />,
       title: "Fast Calculations",
       description: "Results update dynamically in real time on slider and input changes, saving you time."
     },
     {
-      icon: <Award className="w-6 h-6 text-emerald-500" />,
+      icon: <Award className="w-6 h-6 text-emerald-500" aria-hidden="true" />,
       title: "Accurate & Verified",
       description: "Algorithms are designed in accordance with the latest Finance Acts and verified against official guidelines."
     },
     {
-      icon: <Scale className="w-6 h-6 text-indigo-500" />,
+      icon: <Scale className="w-6 h-6 text-indigo-500" aria-hidden="true" />,
       title: "100% Free Tools",
       description: "No subscription fee, registration, or credit cards required. Accessible to everyone."
     },
     {
-      icon: <ShieldAlert className="w-6 h-6 text-rose-500" />,
+      icon: <ShieldAlert className="w-6 h-6 text-rose-500" aria-hidden="true" />,
       title: "Secure & Privacy First",
       description: "No data is saved on servers. All calculations happen instantly on your local device."
     }
@@ -36,7 +36,7 @@ export default function WhyChooseUs() {
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             Why Choose ClearFinCalc?
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
             We deliver state-of-the-art accuracy with premium speed and absolute security for daily financial decisions.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function WhyChooseUs() {
                 {p.icon}
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">{p.title}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">{p.description}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-400 font-semibold leading-relaxed">{p.description}</p>
             </div>
           ))}
         </div>

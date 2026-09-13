@@ -140,30 +140,36 @@ export default function CustomsDuty() {
           <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate customs duty, taxes, landed costs, export margins, and search HS codes instantly.</p>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           {/* Currency Switcher */}
-          <select 
-            value={currency} 
-            onChange={(e) => setCurrency(e.target.value as 'INR' | 'USD' | 'EUR')}
-            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold focus:outline-none"
-          >
-            <option value="INR">INR (₹)</option>
-            <option value="USD">USD ($)</option>
-            <option value="EUR">EUR (€)</option>
-          </select>
+          <div>
+            <label htmlFor="customs-currency" className="sr-only">Currency</label>
+            <select 
+              id="customs-currency"
+              value={currency} 
+              onChange={(e) => setCurrency(e.target.value as 'INR' | 'USD' | 'EUR')}
+              className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold focus:outline-none"
+            >
+              <option value="INR">INR (₹)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+            </select>
+          </div>
 
           <button 
+            type="button"
             onClick={handleDownloadPDF}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-xs transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download className="w-3.5 h-3.5" aria-hidden="true" />
             PDF Report
           </button>
           <button 
+            type="button"
             onClick={handleShare}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs transition-all border border-slate-200 dark:border-slate-700"
           >
-            {shared ? <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> : <Share2 className="w-3.5 h-3.5" />}
+            {shared ? <CheckCircle className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" /> : <Share2 className="w-3.5 h-3.5" aria-hidden="true" />}
             {shared ? 'Copied' : 'Share'}
           </button>
         </div>
@@ -172,14 +178,16 @@ export default function CustomsDuty() {
       {/* Tabs */}
       <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/30 dark:border-slate-750 mb-8 max-w-sm">
         <button 
+          type="button"
           onClick={() => setTab('import')}
-          className={`py-2.5 text-xs md:text-sm font-bold rounded-xl transition-all ${tab === 'import' ? 'bg-white dark:bg-slate-900 text-blue-500 shadow-md' : 'text-slate-500 dark:text-slate-400 hover:text-slate-750'}`}
+          className={`py-2.5 text-xs md:text-sm font-bold rounded-xl transition-all ${tab === 'import' ? 'bg-white dark:bg-slate-900 text-blue-500 shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800'}`}
         >
           Import Duty Calculator
         </button>
         <button 
+          type="button"
           onClick={() => setTab('export')}
-          className={`py-2.5 text-xs md:text-sm font-bold rounded-xl transition-all ${tab === 'export' ? 'bg-white dark:bg-slate-900 text-blue-500 shadow-md' : 'text-slate-500 dark:text-slate-400 hover:text-slate-750'}`}
+          className={`py-2.5 text-xs md:text-sm font-bold rounded-xl transition-all ${tab === 'export' ? 'bg-white dark:bg-slate-900 text-blue-500 shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800'}`}
         >
           Export Duty & Profit
         </button>
@@ -194,10 +202,11 @@ export default function CustomsDuty() {
               
               {/* HS Preset Selector */}
               <div className="space-y-1.5">
-                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Quick HS Class presets</span>
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Quick HS Class presets</span>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {hsCodePresets.map((preset) => (
                     <button
+                      type="button"
                       key={preset.code}
                       onClick={() => handleHsCodeSelect(preset.code, preset.rate)}
                       className={`p-2 text-[10px] font-bold rounded-xl border text-center transition-all truncate ${hsCode === preset.code ? 'bg-blue-500 border-blue-500 text-white shadow-sm' : 'bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-850 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'}`}
@@ -211,8 +220,9 @@ export default function CustomsDuty() {
               {/* General details */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Product HS Code</label>
+                  <label htmlFor="customs-hs-code" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Product HS Code</label>
                   <input 
+                    id="customs-hs-code"
                     type="text"
                     value={hsCode}
                     onChange={(e) => setHsCode(e.target.value)}
@@ -220,8 +230,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Country of Origin</label>
+                  <label htmlFor="customs-origin-country" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Country of Origin</label>
                   <select 
+                    id="customs-origin-country"
                     value={originCountry} 
                     onChange={(e) => setOriginCountry(e.target.value)}
                     className="w-full py-1.5 px-2 font-bold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
@@ -237,8 +248,9 @@ export default function CustomsDuty() {
               {/* CIF Cost */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Product CIF Value ({currencySymbol})</label>
+                  <label htmlFor="customs-cif-value" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Product CIF Value ({currencySymbol})</label>
                   <input 
+                    id="customs-cif-value"
                     type="number"
                     value={cifValue}
                     onChange={(e) => setCifValue(Number(e.target.value))}
@@ -247,6 +259,7 @@ export default function CustomsDuty() {
                 </div>
                 <input 
                   type="range"
+                  aria-label="Product CIF Value range"
                   min="50000"
                   max="5000000"
                   step="50000"
@@ -259,8 +272,9 @@ export default function CustomsDuty() {
               {/* Freight and Insurance */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Freight Cost ({currencySymbol})</label>
+                  <label htmlFor="customs-freight" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Freight Cost ({currencySymbol})</label>
                   <input 
+                    id="customs-freight"
                     type="number"
                     value={freight}
                     onChange={(e) => setFreight(Number(e.target.value))}
@@ -268,8 +282,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Insurance ({currencySymbol})</label>
+                  <label htmlFor="customs-insurance" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Insurance ({currencySymbol})</label>
                   <input 
+                    id="customs-insurance"
                     type="number"
                     value={insurance}
                     onChange={(e) => setInsurance(Number(e.target.value))}
@@ -281,8 +296,9 @@ export default function CustomsDuty() {
               {/* Duty rates configuration */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">BCD Rate (%)</label>
+                  <label htmlFor="customs-bcd-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">BCD Rate (%)</label>
                   <input 
+                    id="customs-bcd-rate"
                     type="number"
                     value={bcdRate}
                     onChange={(e) => setBcdRate(Number(e.target.value))}
@@ -290,8 +306,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">IGST Rate (%)</label>
+                  <label htmlFor="customs-igst-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">IGST Rate (%)</label>
                   <input 
+                    id="customs-igst-rate"
                     type="number"
                     value={igstRate}
                     onChange={(e) => setIgstRate(Number(e.target.value))}
@@ -322,13 +339,13 @@ export default function CustomsDuty() {
               {/* Core Outcomes */}
               <div className="p-5 bg-indigo-500 text-white rounded-3xl text-center shadow-md relative overflow-hidden">
                 <div className="absolute right-0 top-0 opacity-10 pointer-events-none translate-x-4 -translate-y-4">
-                  <Globe className="w-48 h-48" />
+                  <Globe className="w-48 h-48" aria-hidden="true" />
                 </div>
-                <span className="text-xs font-bold text-indigo-150 uppercase tracking-widest block">Total Landed Import Cost</span>
+                <span className="text-xs font-bold text-indigo-100 uppercase tracking-widest block">Total Landed Import Cost</span>
                 <div className="text-3xl font-black mt-2">
                   {currencySymbol}{importResult.landedCost.toLocaleString('en-IN')}
                 </div>
-                <p className="text-[10px] text-indigo-200 mt-2 font-semibold">
+                <p className="text-[10px] text-indigo-100 mt-2 font-semibold">
                   Effective customs duty rate: <span className="underline">{importResult.effectiveDutyPercent}%</span>
                 </p>
               </div>
@@ -359,49 +376,49 @@ export default function CustomsDuty() {
           {/* Flowchart Breakdown */}
           <div className="space-y-4 border-t border-slate-100 dark:border-slate-800 pt-6">
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-blue-500" />
+              <FileText className="w-5 h-5 text-blue-500" aria-hidden="true" />
               Step-by-Step Customs Flowchart
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
               <div className="p-3 border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/10 rounded-xl relative">
-                <span className="text-[8px] font-bold text-slate-400 block mb-1">STEP 1</span>
+                <span className="text-[8px] font-bold text-slate-500 block mb-1">STEP 1</span>
                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-350 block truncate">Assessable Value</span>
                 <span className="text-xs font-black text-slate-800 dark:text-white mt-1 block">
                   {currencySymbol}{importResult.assessableValue.toLocaleString('en-IN')}
                 </span>
-                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" />
+                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" aria-hidden="true" />
               </div>
 
               <div className="p-3 border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/10 rounded-xl relative">
-                <span className="text-[8px] font-bold text-slate-400 block mb-1">STEP 2</span>
+                <span className="text-[8px] font-bold text-slate-500 block mb-1">STEP 2</span>
                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-350 block truncate">Basic Customs Duty ({bcdRate}%)</span>
                 <span className="text-xs font-black text-slate-800 dark:text-white mt-1 block">
                   {currencySymbol}{importResult.bcdAmount.toLocaleString('en-IN')}
                 </span>
-                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" />
+                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" aria-hidden="true" />
               </div>
 
               <div className="p-3 border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/10 rounded-xl relative">
-                <span className="text-[8px] font-bold text-slate-400 block mb-1">STEP 3</span>
+                <span className="text-[8px] font-bold text-slate-500 block mb-1">STEP 3</span>
                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-350 block truncate">Welfare Surcharge (10%)</span>
                 <span className="text-xs font-black text-slate-800 dark:text-white mt-1 block">
                   {currencySymbol}{importResult.swsAmount.toLocaleString('en-IN')}
                 </span>
-                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" />
+                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" aria-hidden="true" />
               </div>
 
               <div className="p-3 border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/10 rounded-xl relative">
-                <span className="text-[8px] font-bold text-slate-400 block mb-1">STEP 4</span>
+                <span className="text-[8px] font-bold text-slate-500 block mb-1">STEP 4</span>
                 <span className="text-[10px] font-bold text-slate-600 dark:text-slate-350 block truncate">IGST Calculation ({igstRate}%)</span>
                 <span className="text-xs font-black text-slate-800 dark:text-white mt-1 block">
                   {currencySymbol}{importResult.igstAmount.toLocaleString('en-IN')}
                 </span>
-                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" />
+                <ArrowRight className="hidden md:block w-4 h-4 absolute top-1/2 -right-2 -translate-y-1/2 text-slate-300" aria-hidden="true" />
               </div>
 
               <div className="p-3 border border-indigo-200 bg-indigo-500/10 dark:bg-indigo-950/20 rounded-xl">
-                <span className="text-[8px] font-bold text-indigo-400 block mb-1">STEP 5</span>
+                <span className="text-[8px] font-bold text-indigo-500 block mb-1">STEP 5</span>
                 <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 block truncate">Landed Cost</span>
                 <span className="text-xs font-black text-indigo-600 dark:text-indigo-300 mt-1 block">
                   {currencySymbol}{importResult.landedCost.toLocaleString('en-IN')}
@@ -418,8 +435,9 @@ export default function CustomsDuty() {
             <div className="lg:col-span-6 space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Destination Country</label>
+                  <label htmlFor="customs-export-dest" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Destination Country</label>
                   <input 
+                    id="customs-export-dest"
                     type="text"
                     value={exportDest}
                     onChange={(e) => setExportDest(e.target.value)}
@@ -427,8 +445,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Production Cost ({currencySymbol})</label>
+                  <label htmlFor="customs-production-cost" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Production Cost ({currencySymbol})</label>
                   <input 
+                    id="customs-production-cost"
                     type="number"
                     value={costOfProduction}
                     onChange={(e) => setCostOfProduction(Number(e.target.value))}
@@ -440,8 +459,9 @@ export default function CustomsDuty() {
               {/* Export Value */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Product Export FOB Value ({currencySymbol})</label>
+                  <label htmlFor="customs-export-fob" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Product Export FOB Value ({currencySymbol})</label>
                   <input 
+                    id="customs-export-fob"
                     type="number"
                     value={exportValue}
                     onChange={(e) => setExportValue(Number(e.target.value))}
@@ -450,6 +470,7 @@ export default function CustomsDuty() {
                 </div>
                 <input 
                   type="range"
+                  aria-label="Product Export FOB Value range"
                   min="50000"
                   max="5000000"
                   step="50000"
@@ -462,8 +483,9 @@ export default function CustomsDuty() {
               {/* Rates */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-semibold text-slate-500">Export Duty (%)</label>
+                  <label htmlFor="customs-export-duty-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Export Duty (%)</label>
                   <input 
+                    id="customs-export-duty-rate"
                     type="number"
                     value={exportDutyRate}
                     onChange={(e) => setExportDutyRate(Number(e.target.value))}
@@ -471,8 +493,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-semibold text-slate-500">Tax Rate (%)</label>
+                  <label htmlFor="customs-export-tax-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Tax Rate (%)</label>
                   <input 
+                    id="customs-export-tax-rate"
                     type="number"
                     value={exportTaxRate}
                     onChange={(e) => setExportTaxRate(Number(e.target.value))}
@@ -480,8 +503,9 @@ export default function CustomsDuty() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-semibold text-slate-500">Incentives (%)</label>
+                  <label htmlFor="customs-incentive-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Incentives (%)</label>
                   <input 
+                    id="customs-incentive-rate"
                     type="number"
                     value={incentiveRate}
                     onChange={(e) => setIncentiveRate(Number(e.target.value))}
@@ -509,21 +533,21 @@ export default function CustomsDuty() {
               </div>
 
               <div className="p-5 border border-slate-100 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-900/10 space-y-3">
-                <div className="flex justify-between text-xs font-bold text-slate-500 uppercase">
+                <div className="flex justify-between text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">
                   <span>Export Financial Breakdown</span>
                   <span>Amount</span>
                 </div>
                 <div className="border-t border-slate-200/30 dark:border-slate-700/30 my-1"></div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">Gross FOB Value</span>
+                  <span className="text-slate-600 dark:text-slate-400">Gross FOB Value</span>
                   <span className="font-semibold text-slate-800 dark:text-slate-200">{currencySymbol}{exportResult.fobValue.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">Export Duty Paid ({exportDutyRate}%)</span>
+                  <span className="text-slate-600 dark:text-slate-400">Export Duty Paid ({exportDutyRate}%)</span>
                   <span className="font-semibold text-rose-500">-{currencySymbol}{exportResult.exportDuty.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">Other Export Taxes ({exportTaxRate}%)</span>
+                  <span className="text-slate-600 dark:text-slate-400">Other Export Taxes ({exportTaxRate}%)</span>
                   <span className="font-semibold text-rose-500">-{currencySymbol}{exportResult.exportTax.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="border-t border-slate-200/30 dark:border-slate-700/30 my-1"></div>
@@ -540,7 +564,7 @@ export default function CustomsDuty() {
       {/* Global country rates comparison */}
       <div className="mt-8 border-t border-slate-100 dark:border-slate-800 pt-6">
         <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-4">
-          <Table className="w-5 h-5 text-amber-500" />
+          <Table className="w-5 h-5 text-amber-500" aria-hidden="true" />
           Country-wise Trade & GST Comparison
         </h3>
         
@@ -590,8 +614,8 @@ export default function CustomsDuty() {
 
         {/* Disclaimer / Compliances */}
         <div className="mt-6 p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-start gap-2.5">
-          <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-          <div className="text-[10px] md:text-xs leading-relaxed text-slate-500 dark:text-slate-400 font-medium">
+          <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="text-[10px] md:text-xs leading-relaxed text-slate-600 dark:text-slate-400 font-medium">
             <strong>Customs Compliance Badge:</strong> Computations match standard WCO (World Customs Organization) rules. Subject to regional surcharges and anti-dumping modifications.
           </div>
         </div>

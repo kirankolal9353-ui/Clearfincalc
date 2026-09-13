@@ -31,7 +31,7 @@ export default function Testimonials() {
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             What Our Users Say
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
             Join thousands of small businesses, founders, and individuals who manage their wealth with ClearFinCalc daily.
           </p>
         </div>
@@ -45,7 +45,7 @@ export default function Testimonials() {
               <div className="space-y-4">
                 <div className="flex gap-0.5 text-amber-500">
                   {[...Array(r.stars)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
+                    <Star key={i} className="w-4 h-4 fill-current" aria-hidden="true" />
                   ))}
                 </div>
                 <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-semibold italic">

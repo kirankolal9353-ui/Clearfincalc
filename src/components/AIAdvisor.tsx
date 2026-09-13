@@ -131,15 +131,21 @@ export default function AIAdvisor() {
               }}
               className="flex gap-2"
             >
+              <label htmlFor="ai-advisor-input" className="sr-only">Type your wealth or tax query</label>
               <input
+                id="ai-advisor-input"
                 type="text"
                 placeholder="Type your wealth or tax query..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="flex-1 px-4 py-2.5 bg-slate-50 dark:bg-slate-800 text-xs md:text-sm font-semibold rounded-xl focus:outline-none border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-sky-500"
               />
-              <button type="submit" className="p-3 bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-xl flex items-center justify-center hover:from-blue-700 hover:to-sky-600 shadow-md">
-                <Send className="w-4 h-4" />
+              <button 
+                type="submit" 
+                className="p-3 bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-xl flex items-center justify-center hover:from-blue-700 hover:to-sky-600 shadow-md"
+                aria-label="Send message"
+              >
+                <Send className="w-4 h-4" aria-hidden="true" />
               </button>
             </form>
           </div>
@@ -161,6 +167,7 @@ export default function AIAdvisor() {
                 <input 
                   type="range" min="10000" max="500000" step="5000" value={monthlyIncome} 
                   onChange={(e) => setMonthlyIncome(Number(e.target.value))}
+                  aria-label="Monthly Net Income slider"
                   className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500"
                 />
               </div>
@@ -174,6 +181,7 @@ export default function AIAdvisor() {
                 <input 
                   type="range" min="0" max={monthlyIncome} step="2000" value={monthlySavings} 
                   onChange={(e) => setMonthlySavings(Number(e.target.value))}
+                  aria-label="Monthly Savings slider"
                   className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
               </div>
@@ -198,6 +206,7 @@ export default function AIAdvisor() {
                 <input 
                   type="range" min="0" max="100" step="5" value={debtRatio} 
                   onChange={(e) => setDebtRatio(Number(e.target.value))}
+                  aria-label="Total EMIs as percentage of income slider"
                   className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500"
                 />
               </div>

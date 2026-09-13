@@ -118,13 +118,15 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
                 <img 
                   src="/logo.jpg" 
                   alt="ClearFinCalc Official Logo" 
+                  width={500}
+                  height={333}
                   className="w-full h-auto object-cover group-hover:scale-[1.02] transition-all duration-700"
                 />
               </div>
-              <div className="flex justify-between items-center text-[10px] text-slate-400 dark:text-slate-500 font-bold px-1">
+              <div className="flex justify-between items-center text-[10px] text-slate-500 dark:text-slate-400 font-bold px-1">
                 <span>ClearFinCalc Core Engine v4.0</span>
                 <span className="text-emerald-500 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
                   Formula Verified & Trust Compliant
                 </span>
               </div>

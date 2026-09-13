@@ -87,14 +87,14 @@ export default function TaxEstimator() {
             onClick={handleDownloadPDF}
             className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl text-sm transition-all border border-indigo-200/20 shadow-sm"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4" aria-hidden="true" />
             PDF Report
           </button>
           <button 
             onClick={handleShare}
             className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-sm transition-all shadow-sm"
           >
-            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" /> : <Share2 className="w-4 h-4" />}
+            {shared ? <CheckCircle className="w-4 h-4 text-emerald-500 animate-scale" aria-hidden="true" /> : <Share2 className="w-4 h-4" aria-hidden="true" />}
             {shared ? 'Copied!' : 'Share Result'}
           </button>
         </div>
@@ -106,7 +106,7 @@ export default function TaxEstimator() {
           {/* Regime Switcher */}
           <div className="space-y-2">
             <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-              <Scale className="w-4 h-4 text-sky-500" />
+              <Scale className="w-4 h-4 text-sky-500" aria-hidden="true" />
               Tax Regime
             </span>
             <div className="grid grid-cols-2 p-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-xl border border-slate-200/30 dark:border-slate-700">
@@ -128,10 +128,11 @@ export default function TaxEstimator() {
           {/* Gross Annual Income */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="tax-gross-income" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Gross Annual Income
               </label>
               <input 
+                id="tax-gross-income"
                 type="number"
                 value={income}
                 onChange={(e) => setIncome(Number(e.target.value))}
@@ -139,12 +140,14 @@ export default function TaxEstimator() {
               />
             </div>
             <input 
+              id="tax-gross-income-range"
               type="range"
               min="200000"
               max="10000000"
               step="50000"
               value={income}
               onChange={(e) => setIncome(Number(e.target.value))}
+              aria-label="Gross Annual Income slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-500"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-bold">
@@ -156,10 +159,11 @@ export default function TaxEstimator() {
           {/* Deductions */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              <label htmlFor="tax-deductions" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Deductions / Exemptions
               </label>
               <input 
+                id="tax-deductions"
                 type="number"
                 value={deductions}
                 onChange={(e) => setDeductions(Number(e.target.value))}
@@ -167,12 +171,14 @@ export default function TaxEstimator() {
               />
             </div>
             <input 
+              id="tax-deductions-range"
               type="range"
               min="0"
               max="500000"
               step="10000"
               value={deductions}
               onChange={(e) => setDeductions(Number(e.target.value))}
+              aria-label="Deductions and Exemptions slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
               disabled={regime === 'new'} // standard deduction is hardcoded for new regime in calculations
             />
