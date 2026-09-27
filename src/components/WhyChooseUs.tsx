@@ -10,8 +10,8 @@ export default function WhyChooseUs() {
     },
     {
       icon: <Award className="w-6 h-6 text-emerald-500" aria-hidden="true" />,
-      title: "Accurate & Verified",
-      description: "Algorithms are designed in accordance with the latest Finance Acts and verified against official guidelines."
+      title: "Transparent Estimates",
+      description: "Review the assumptions and financial year shown with each calculator. Tax and customs rules need independent verification."
     },
     {
       icon: <Scale className="w-6 h-6 text-indigo-500" aria-hidden="true" />,
@@ -21,7 +21,7 @@ export default function WhyChooseUs() {
     {
       icon: <ShieldAlert className="w-6 h-6 text-rose-500" aria-hidden="true" />,
       title: "Secure & Privacy First",
-      description: "No data is saved on servers. All calculations happen instantly on your local device."
+      description: "Calculator arithmetic runs in your browser. Analytics and advertising services may collect usage data; see our Privacy Policy."
     }
   ];
 

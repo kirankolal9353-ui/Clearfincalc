@@ -3,6 +3,8 @@ import { AFFILIATE_OFFERS } from '../data/offers';
 import { Star, Check, ArrowRight } from 'lucide-react';
 
 export default function Offers() {
+  const offers = AFFILIATE_OFFERS.filter(offer => /^https:\/\//.test(offer.ctaLink));
+  if (!offers.length) return <section id="offers" className="p-8 text-center"><h2 className="text-xl font-bold">Financial offers</h2><p>No verified partner offers are currently listed.</p></section>;
   return (
     <section id="offers" className="py-12 md:py-16 bg-slate-50 dark:bg-slate-900/40 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,7 +22,7 @@ export default function Offers() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {AFFILIATE_OFFERS.map((offer) => (
+          {offers.map((offer) => (
             <div 
               key={offer.id} 
               className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"

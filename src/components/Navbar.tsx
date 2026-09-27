@@ -34,17 +34,11 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/95 dark:bg-slate-900/80 backdrop-blur-md border-b border-blue-100 dark:border-slate-800/50 shadow-sm shadow-blue-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20 gap-4">
+        <div className="flex items-center justify-between h-16 md:h-20 gap-2 sm:gap-4">
           
           {/* Logo */}
-          <div
-            className="flex items-center gap-3 cursor-pointer select-none flex-shrink-0"
-            onClick={() => {
-              const baseUrl = `${window.location.origin}${window.location.pathname}`;
-              window.history.pushState({ path: baseUrl }, '', baseUrl);
-              window.location.reload();
-            }}
-            role="link"
+          <a href="/"
+            className="flex items-center gap-1 sm:gap-3 cursor-pointer select-none flex-shrink-0"
             aria-label="ClearFinCalc Home"
           >
             <img 
@@ -57,7 +51,7 @@ export default function Navbar({ darkMode, setDarkMode, searchQuery, setSearchQu
             <span className="text-xl md:text-2xl font-black bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 dark:from-white dark:via-sky-250 dark:to-blue-400 bg-clip-text text-transparent tracking-tight">
               ClearFinCalc
             </span>
-          </div>
+          </a>
 
           {/* Desktop Search bar */}
           <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md relative hidden sm:block">

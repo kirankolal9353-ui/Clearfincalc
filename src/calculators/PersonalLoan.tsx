@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateEMI } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -85,7 +86,7 @@ export default function PersonalLoan() {
                 <IndianRupee className="w-4 h-4 text-sky-500" aria-hidden="true" />
                 Loan Amount
               </label>
-              <input 
+              <NumberInput 
                 id="personal-loan-amount"
                 type="number"
                 value={amount}
@@ -117,9 +118,9 @@ export default function PersonalLoan() {
                 <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Rate (p.a)
               </label>
-              <input 
+              <NumberInput 
                 id="personal-loan-rate"
-                type="number"
+                type="number" min={0} max={100}
                 step="0.1"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
@@ -133,9 +134,9 @@ export default function PersonalLoan() {
                 <Calendar className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Tenure (Yrs)
               </label>
-              <input 
+              <NumberInput 
                 id="personal-loan-tenure"
-                type="number"
+                type="number" min={1 / 12} max={100}
                 value={tenure}
                 onChange={(e) => setTenure(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"

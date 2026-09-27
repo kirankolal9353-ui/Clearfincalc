@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateImportDuty, calculateExportDuty } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -137,7 +138,7 @@ export default function CustomsDuty() {
               Customs FY 2026
             </span>
           </div>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Calculate customs duty, taxes, landed costs, export margins, and search HS codes instantly.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Illustrative cost model with user-supplied rates. HS presets are examples, not verified tariff lookups. Currency changes the unit label only: enter every amount in the same currency. Confirm valuation, official customs exchange rates, exemptions and duties before use.</p>
         </div>
         
         <div className="flex gap-2 items-center">
@@ -248,8 +249,8 @@ export default function CustomsDuty() {
               {/* CIF Cost */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label htmlFor="customs-cif-value" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Product CIF Value ({currencySymbol})</label>
-                  <input 
+                  <label htmlFor="customs-cif-value" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Goods value (excluding freight/insurance) ({currencySymbol})</label>
+                  <NumberInput 
                     id="customs-cif-value"
                     type="number"
                     value={cifValue}
@@ -259,7 +260,7 @@ export default function CustomsDuty() {
                 </div>
                 <input 
                   type="range"
-                  aria-label="Product CIF Value range"
+                  aria-label="Goods value (excluding freight/insurance) range"
                   min="50000"
                   max="5000000"
                   step="50000"
@@ -273,7 +274,7 @@ export default function CustomsDuty() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label htmlFor="customs-freight" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Freight Cost ({currencySymbol})</label>
-                  <input 
+                  <NumberInput 
                     id="customs-freight"
                     type="number"
                     value={freight}
@@ -283,7 +284,7 @@ export default function CustomsDuty() {
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="customs-insurance" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Insurance ({currencySymbol})</label>
-                  <input 
+                  <NumberInput 
                     id="customs-insurance"
                     type="number"
                     value={insurance}
@@ -297,9 +298,9 @@ export default function CustomsDuty() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label htmlFor="customs-bcd-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">BCD Rate (%)</label>
-                  <input 
+                  <NumberInput 
                     id="customs-bcd-rate"
-                    type="number"
+                    type="number" min={0} max={100}
                     value={bcdRate}
                     onChange={(e) => setBcdRate(Number(e.target.value))}
                     className="w-full py-1.5 px-3 font-semibold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
@@ -307,9 +308,9 @@ export default function CustomsDuty() {
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="customs-igst-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">IGST Rate (%)</label>
-                  <input 
+                  <NumberInput 
                     id="customs-igst-rate"
-                    type="number"
+                    type="number" min={0} max={100}
                     value={igstRate}
                     onChange={(e) => setIgstRate(Number(e.target.value))}
                     className="w-full py-1.5 px-3 font-semibold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs"
@@ -446,7 +447,7 @@ export default function CustomsDuty() {
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="customs-production-cost" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Production Cost ({currencySymbol})</label>
-                  <input 
+                  <NumberInput 
                     id="customs-production-cost"
                     type="number"
                     value={costOfProduction}
@@ -460,7 +461,7 @@ export default function CustomsDuty() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <label htmlFor="customs-export-fob" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Product Export FOB Value ({currencySymbol})</label>
-                  <input 
+                  <NumberInput 
                     id="customs-export-fob"
                     type="number"
                     value={exportValue}
@@ -484,9 +485,9 @@ export default function CustomsDuty() {
               <div className="grid grid-cols-3 gap-3">
                 <div className="space-y-1">
                   <label htmlFor="customs-export-duty-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Export Duty (%)</label>
-                  <input 
+                  <NumberInput 
                     id="customs-export-duty-rate"
-                    type="number"
+                    type="number" min={0} max={100}
                     value={exportDutyRate}
                     onChange={(e) => setExportDutyRate(Number(e.target.value))}
                     className="w-full py-1.5 px-2 font-semibold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-center"
@@ -494,9 +495,9 @@ export default function CustomsDuty() {
                 </div>
                 <div className="space-y-1">
                   <label htmlFor="customs-export-tax-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Tax Rate (%)</label>
-                  <input 
+                  <NumberInput 
                     id="customs-export-tax-rate"
-                    type="number"
+                    type="number" min={0} max={100}
                     value={exportTaxRate}
                     onChange={(e) => setExportTaxRate(Number(e.target.value))}
                     className="w-full py-1.5 px-2 font-semibold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-center"
@@ -504,9 +505,9 @@ export default function CustomsDuty() {
                 </div>
                 <div className="space-y-1">
                   <label htmlFor="customs-incentive-rate" className="text-[10px] font-semibold text-slate-600 dark:text-slate-400">Incentives (%)</label>
-                  <input 
+                  <NumberInput 
                     id="customs-incentive-rate"
-                    type="number"
+                    type="number" min={0} max={100}
                     value={incentiveRate}
                     onChange={(e) => setIncentiveRate(Number(e.target.value))}
                     className="w-full py-1.5 px-2 font-semibold text-slate-950 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-center"
@@ -616,7 +617,7 @@ export default function CustomsDuty() {
         <div className="mt-6 p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-start gap-2.5">
           <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div className="text-[10px] md:text-xs leading-relaxed text-slate-600 dark:text-slate-400 font-medium">
-            <strong>Customs Compliance Badge:</strong> Computations match standard WCO (World Customs Organization) rules. Subject to regional surcharges and anti-dumping modifications.
+            <strong>Calculation scope:</strong> This simplified model is not a customs assessment. Country selections do not automatically apply trade-agreement exemptions.
           </div>
         </div>
       </div>

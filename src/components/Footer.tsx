@@ -8,17 +8,6 @@ interface FooterProps {
 }
 
 export default function Footer({ onOpenLegal }: FooterProps) {
-  const [subscribed, setSubscribed] = useState(false);
-  const [email, setEmail] = useState('');
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
-      setTimeout(() => setSubscribed(false), 3000);
-    }
-  };
-
   const handleOpenLegal = (type: PolicyType) => {
     onOpenLegal(type);
   };
@@ -111,27 +100,9 @@ export default function Footer({ onOpenLegal }: FooterProps) {
             <div className="md:col-span-3 space-y-3">
               <h4 className="text-xs font-bold text-white uppercase tracking-wider">Newsletter</h4>
               <p className="text-xs text-slate-400 font-medium leading-relaxed">
-                Subscribe to receive updates on tax slabs adjustments, loan interest fluctuations, and financial strategies directly to your inbox.
+                Email subscriptions are not available yet. Browse our finance articles for educational updates.
               </p>
-              <form onSubmit={handleSubscribe} className="relative mt-2">
-                <label htmlFor="footer-newsletter-email" className="sr-only">Subscribe to newsletter email address</label>
-                <input
-                  id="footer-newsletter-email"
-                  type="email"
-                  required
-                  placeholder="Enter email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-3 pr-10 py-2.5 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-xl focus:outline-none text-xs font-semibold text-white placeholder:text-slate-500"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1 top-1 bottom-1 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-all shadow-md"
-                  aria-label="Subscribe to newsletter"
-                >
-                  {subscribed ? <CheckCircle className="w-3.5 h-3.5 text-emerald-300" aria-hidden="true" /> : <Send className="w-3.5 h-3.5" aria-hidden="true" />}
-                </button>
-              </form>
+              <a href="#insights" className="text-sm text-sky-300 underline">Browse finance articles</a>
             </div>
 
           </div>

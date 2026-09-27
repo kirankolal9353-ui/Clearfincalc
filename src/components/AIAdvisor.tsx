@@ -3,7 +3,7 @@ import { Send, Bot, User, Sparkles } from 'lucide-react';
 
 export default function AIAdvisor() {
   const [messages, setMessages] = useState<{ sender: 'bot' | 'user'; text: string }[]>([
-    { sender: 'bot', text: 'Hello! I am your ClearFinCalc AI Advisor. How can I help you optimize your wealth today? Choose a topic below or type your question.' }
+    { sender: 'bot', text: 'Hello! I am your ClearFinCalc rule-based tips helper. How can I help you optimize your wealth today? Choose a topic below or type your question.' }
   ]);
   const [input, setInput] = useState('');
   const [healthScore, setHealthScore] = useState<number | null>(null);
@@ -69,10 +69,10 @@ export default function AIAdvisor() {
         
         <div className="text-center space-y-3 mb-12">
           <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 font-bold text-xs rounded-full uppercase tracking-wider">
-            AI Helper Widget
+            Finance Helper
           </span>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
-            AI Financial Advisor & Health Score
+            Finance Tips & Health Score
           </h2>
           <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-medium">
             Analyze your savings, calculate your financial health score, and get personalized budget suggestions interactively.
@@ -92,7 +92,7 @@ export default function AIAdvisor() {
                   ClearFinCalc SmartAdvisor
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 </span>
-                <span className="text-[10px] text-emerald-500 font-bold">Online • Fast Response</span>
+                <span className="text-[10px] text-emerald-500 font-bold">Prewritten educational tips</span>
               </div>
             </div>
 

@@ -23,8 +23,10 @@ export interface EmiResult {
 }
 
 export function calculateEMI(principal: number, annualRate: number, tenureYears: number): EmiResult {
+  if (![principal, annualRate, tenureYears].every(Number.isFinite) || principal < 0 || annualRate < 0 || tenureYears <= 0 || tenureYears > 100) throw new RangeError('Enter a non-negative principal/rate and a tenure from one month to 100 years.');
   const monthlyRate = annualRate / 12 / 100;
-  const numberOfPayments = tenureYears * 12;
+  const numberOfPayments = Math.round(tenureYears * 12);
+  if (numberOfPayments < 1) throw new RangeError('Tenure must be at least one month.');
 
   const monthlyPayment = monthlyRate === 0
     ? principal / numberOfPayments
@@ -41,11 +43,11 @@ export function calculateEMI(principal: number, annualRate: number, tenureYears:
   let balance = principal;
   let monthCount = 0;
   
-  for (let year = 1; year <= tenureYears; year++) {
+  for (let year = 1; year <= Math.ceil(numberOfPayments / 12); year++) {
     let yearlyInterest = 0;
     let yearlyPrincipal = 0;
 
-    for (let month = 1; month <= 12; month++) {
+    for (let month = 1; month <= 12 && monthCount < numberOfPayments; month++) {
       monthCount++;
       const interest = balance * monthlyRate;
       const principalPaid = monthlyPayment - interest;
@@ -250,10 +252,14 @@ export function calculateTax(grossIncome: number, deductions: number, regime: 'n
       prevLimit = slab.limit;
     }
 
-    // Tax rebate under Sec 87A: If taxable income <= 12,000,000 (12L) in new regime, rebate up to tax amount
+    // Tax rebate under Sec 87A: If taxable income <= 1,200,000 (12L) in new regime, rebate up to tax amount
     if (taxableIncome <= 1200000) {
       taxAmount = 0;
       breakdown.forEach(b => b.tax = 0);
+    } else if (taxAmount > taxableIncome - 1200000) {
+      const beforeRelief = taxAmount;
+      taxAmount = taxableIncome - 1200000;
+      breakdown.push({ bracket: 'Section 87A marginal relief', rate: 0, tax: taxAmount - beforeRelief });
     }
   } else {
     // Old Tax Regime (Standard slabs)
@@ -290,7 +296,7 @@ export function calculateTax(grossIncome: number, deductions: number, regime: 'n
       prevLimit = slab.limit;
     }
 
-    // Sec 87A rebate: If taxable income <= 5,000,000 (5L), rebate up to ₹12,500
+    // Sec 87A rebate: If taxable income <= 500,000 (5L), rebate up to ₹12,500
     if (taxableIncome <= 500000) {
       taxAmount = Math.max(0, taxAmount - 12500);
       // Recalculate breakdown taxes proportionally or clear it
@@ -331,15 +337,14 @@ export function calculateGST(amount: number, ratePercent: number, type: 'inclusi
   const gstAmount = type === 'exclusive' ? (amount * ratePercent) / 100 : amount - originalAmount;
   const netAmount = type === 'exclusive' ? amount + gstAmount : amount;
 
-  const halfGst = gstAmount / 2;
-
+  const paise = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
+  const roundedNet = paise(netAmount);
+  const roundedBase = paise(originalAmount);
+  const roundedGst = paise(roundedNet - roundedBase);
+  const cgst = paise(roundedGst / 2);
   return {
-    originalAmount: Math.round(originalAmount),
-    gstAmount: Math.round(gstAmount),
-    netAmount: Math.round(netAmount),
-    cgst: Math.round(halfGst),
-    sgst: Math.round(halfGst),
-    igst: Math.round(gstAmount)
+    originalAmount: roundedBase, gstAmount: roundedGst, netAmount: roundedNet,
+    cgst, sgst: paise(roundedGst - cgst), igst: roundedGst
   };
 }
 
@@ -579,11 +584,11 @@ export const TDS_SECTIONS: TdsSectionInfo[] = [
   {
     code: '194D',
     name: 'Section 194D - Insurance Commission',
-    rateResidentIndiv: 2,   // CORRECTED FY 2025-26: 2% for Individual/HUF
+    rateResidentIndiv: 5,
     rateResidentCompany: 10, // 10% for Domestic Companies
     rateNri: 20,
     threshold: 20000, // CORRECTED FY 2025-26: ₹20,000 (not ₹15,000)
-    description: 'TDS on commission paid to insurance agents/surveyors. Rate: 2% (Individual/HUF), 10% (Domestic Company). Threshold: ₹20,000 per annum (FY 2025-26 verified rate).',
+    description: 'TDS on commission paid to insurance agents/surveyors. Rate: 5% (Individual/HUF), 10% (Domestic Company). Threshold: ₹20,000 per annum (FY 2025-26 verified rate).',
     panMandatory: true,
     higherTdsRate: 20
   },
@@ -635,11 +640,11 @@ export const TDS_SECTIONS: TdsSectionInfo[] = [
   {
     code: '194M',
     name: 'Section 194M - Contractual/Professional Payments by Individuals',
-    rateResidentIndiv: 5,
-    rateResidentCompany: 5,
+    rateResidentIndiv: 2,
+    rateResidentCompany: 2,
     rateNri: 30,
     threshold: 5000000, // ₹50 Lakh per annum
-    description: 'TDS at 5% on payments by individuals/HUFs (not liable for tax audit) to contractors or professionals exceeding ₹50 Lakh aggregate per year. Applicable from 1 Sep 2019.',
+    description: 'TDS at 2% on payments by individuals/HUFs (not liable for tax audit) to contractors or professionals exceeding ₹50 Lakh aggregate per year. Applicable from 1 Sep 2019.',
     panMandatory: true,
     higherTdsRate: 20
   },
@@ -671,13 +676,13 @@ export const TDS_SECTIONS: TdsSectionInfo[] = [
   {
     code: '194O',
     name: 'Section 194O - E-Commerce Participant Payments',
-    rateResidentIndiv: 1,
-    rateResidentCompany: 1,
+    rateResidentIndiv: 0.1,
+    rateResidentCompany: 0.1,
     rateNri: 5,
     threshold: 500000, // ₹5 Lakh for individual/HUF participants
-    description: 'TDS at 1% by e-commerce operators on gross amount of sales facilitated through their digital platform. Threshold ₹5 Lakh applies only for individual/HUF participants.',
+    description: 'TDS at 0.1% by e-commerce operators on gross amount of sales facilitated through their digital platform. Threshold ₹5 Lakh applies only for individual/HUF participants.',
     panMandatory: true,
-    higherTdsRate: 20
+    higherTdsRate: 5
   },
   {
     code: '194S',
@@ -686,7 +691,7 @@ export const TDS_SECTIONS: TdsSectionInfo[] = [
     rateResidentCompany: 1,
     rateNri: 1,
     threshold: 10000, // CORRECTED: ₹10,000 for specified persons (exchanges); ₹50,000 for others
-    description: 'TDS at 1% on transfer of Virtual Digital Assets (VDA) including crypto, NFTs. Threshold: ₹10,000 (specified persons — exchanges/brokers) or ₹50,000 (others). Effective 1 Jul 2022. No netting of losses allowed.',
+    description: 'TDS at 1% on transfer of Virtual Digital Assets (VDA) including crypto, NFTs. Threshold: ₹50,000 for specified persons or ₹10,000 for others. Effective 1 Jul 2022. No netting of losses allowed.',
     panMandatory: true,
     higherTdsRate: 20
   },
@@ -699,18 +704,6 @@ export const TDS_SECTIONS: TdsSectionInfo[] = [
     rateNri: 30,
     threshold: 0, // No threshold; TDS applies on all payments
     description: 'TDS on interest, royalties, technical fees, capital gains or any other income paid to Non-Residents. No threshold applies. Rate depends on nature of income and applicable DTAA treaty.',
-    panMandatory: true,
-    higherTdsRate: 20
-  },
-  // ─── Compliance / Penalty ─────────────────────────────────────────────────
-  {
-    code: '206AB',
-    name: 'Section 206AB - Higher TDS for ITR Non-Filers',
-    rateResidentIndiv: 20, // Higher of: double normal rate OR 5%
-    rateResidentCompany: 20,
-    rateNri: 30,
-    threshold: 50000, // Triggered when TDS/TCS in each of last 2 years > ₹50,000 & ITR not filed
-    description: 'Higher TDS (double the applicable rate or 5%, whichever is higher) for persons who did not file ITR for the previous 2 years AND TDS/TCS exceeded ₹50,000 in each such year. Effective from 1 Jul 2021.',
     panMandatory: true,
     higherTdsRate: 20
   }
@@ -728,15 +721,17 @@ export function calculateTDS(
     || TDS_SECTIONS[0]; // fallback to 194A or first section
   
   const higherTdsRateApplied = !panAvailable;
+  const normalRate = isNri ? section.rateNri : (isCompany ? section.rateResidentCompany : section.rateResidentIndiv);
   const tdsRate = !panAvailable
-    ? section.higherTdsRate
+    ? Math.max(section.higherTdsRate, normalRate)
     : (isNri ? section.rateNri : (isCompany ? section.rateResidentCompany : section.rateResidentIndiv));
 
   const isThresholdExceeded = paymentAmount > section.threshold;
   
   // Under standard Indian TDS, TDS is 0 if total payments do not exceed threshold
   // However, section 195 (NRI) has no threshold (threshold = 0)
-  const tdsAmount = isThresholdExceeded || section.threshold === 0 ? (paymentAmount * tdsRate) / 100 : 0;
+  const base = sectionCode === '194Q' || sectionCode === '194N' ? Math.max(0, paymentAmount - section.threshold) : paymentAmount;
+  const tdsAmount = isThresholdExceeded || section.threshold === 0 ? (base * tdsRate) / 100 : 0;
   const netPayable = paymentAmount - tdsAmount;
 
   return {

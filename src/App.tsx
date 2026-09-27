@@ -1,3 +1,5 @@
+import NumberInput from './components/NumberInput';
+import { ARTICLES } from './data/articles';
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -24,17 +26,22 @@ export default function App() {
   const [utilityTab, setUtilityTab] = useState<'currency' | 'inflation' | 'networth' | 'budget'>('currency');
   const [legalPage, setLegalPage] = useState<PolicyType | null>(null);
 
-  // Read URL query parameters on load for direct deep linking
+  const [routeVersion, setRouteVersion] = useState(0);
+
+  // Keep UI in sync with direct links and browser back/forward navigation.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tool = params.get('tool');
-    const page = params.get('page');
-    if (tool) {
-      setActiveTool(tool);
-    }
-    if (page && ['privacy', 'terms', 'disclaimer', 'cookie', 'about', 'contact', 'sitemap'].includes(page)) {
-      setLegalPage(page as PolicyType);
-    }
+    const syncRoute = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tool = params.get('tool');
+      const page = params.get('page');
+      const tools = ['emi','sip','tds','customs','eligibility','personal-loan','home-loan','tax','salary','gst','fd','retirement','savings-goal'];
+      setActiveTool(tool && tools.includes(tool) ? tool : null);
+      setLegalPage(page && ['privacy','terms','disclaimer','cookie','about','contact','sitemap','editorial','references'].includes(page) ? page as PolicyType : null);
+      setRouteVersion(v => v + 1);
+    };
+    syncRoute();
+    window.addEventListener('popstate', syncRoute);
+    return () => window.removeEventListener('popstate', syncRoute);
   }, []);
 
   // Inject JSON-LD structured data and canonical URL
@@ -46,7 +53,10 @@ export default function App() {
 
     const baseUrl = 'https://clearfincalc.com';
     let canonicalUrl = baseUrl + '/';
-    if (activeTool) {
+    const article = new URLSearchParams(window.location.search).get('article');
+    if (article && ARTICLES.some(item => item.id === article)) {
+      canonicalUrl = `${baseUrl}/?article=${encodeURIComponent(article)}`;
+    } else if (activeTool) {
       canonicalUrl = `${baseUrl}/?tool=${activeTool}`;
     } else if (legalPage) {
       canonicalUrl = `${baseUrl}/?page=${legalPage}`;
@@ -127,37 +137,42 @@ export default function App() {
       document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
       document.querySelector('link[data-clearfincalc-canonical]')?.remove();
     };
-  }, [activeTool, legalPage]);
+  }, [activeTool, legalPage, routeVersion]);
 
   const handleSelectTool = (id: string) => {
     setActiveTool(id);
     setLegalPage(null);
     const newUrl = `${window.location.origin}${window.location.pathname}?tool=${id}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleCloseTool = () => {
     setActiveTool(null);
     const newUrl = `${window.location.origin}${window.location.pathname}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleOpenLegalPage = (type: PolicyType) => {
     setLegalPage(type);
     const newUrl = `${window.location.origin}${window.location.pathname}?page=${type}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleCloseLegalPage = () => {
     setLegalPage(null);
     const newUrl = `${window.location.origin}${window.location.pathname}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleSwitchLegalPage = (newType: PolicyType) => {
     setLegalPage(newType);
     const newUrl = `${window.location.origin}${window.location.pathname}?page=${newType}`;
     window.history.replaceState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   // Toggle dark class on document element
@@ -172,7 +187,7 @@ export default function App() {
   // Currency Converter State — Live Rates
   const [fromCurrency, setFromCurrency] = useState<'USD' | 'EUR' | 'GBP'>('USD');
   const [currencyAmount, setCurrencyAmount] = useState<number>(100);
-  const [liveRates, setLiveRates] = useState({ USD: 83.45, EUR: 90.12, GBP: 105.54 });
+  const [liveRates, setLiveRates] = useState({ USD: 0, EUR: 0, GBP: 0 });
   const [ratesLoading, setRatesLoading] = useState(false);
   const [ratesLastUpdated, setRatesLastUpdated] = useState<Date | null>(null);
   const [ratesFetchError, setRatesFetchError] = useState(false);
@@ -182,15 +197,16 @@ export default function App() {
     setRatesLoading(true);
     setRatesFetchError(false);
     try {
-      const res = await fetch('https://api.exchangerate-api.com/v4/latest/INR');
+      const res = await fetch('https://api.exchangerate-api.com/v4/latest/INR', { signal: AbortSignal.timeout(10000) });
       if (!res.ok) throw new Error('fetch failed');
       const data = await res.json();
+      if (!['USD','EUR','GBP'].every(key => Number.isFinite(data.rates?.[key]) && data.rates[key] > 0)) throw new Error('Invalid rates');
       setLiveRates({
         USD: parseFloat((1 / data.rates.USD).toFixed(2)),
         EUR: parseFloat((1 / data.rates.EUR).toFixed(2)),
         GBP: parseFloat((1 / data.rates.GBP).toFixed(2)),
       });
-      setRatesLastUpdated(new Date());
+      setRatesLastUpdated(new Date(data.time_last_updated ? data.time_last_updated * 1000 : data.date || Date.now()));
     } catch {
       setRatesFetchError(true);
     } finally {
@@ -313,13 +329,13 @@ export default function App() {
                     {/* Header row */}
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 flex-wrap">
-                        Live Currency Converter (INR)
+                        Currency Converter (INR)
                         {ratesLoading ? (
                           <RefreshCw className="w-3.5 h-3.5 text-sky-500 animate-spin" aria-hidden="true" />
                         ) : (
                           <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span className="text-[9px] font-extrabold text-emerald-500 uppercase tracking-wider">Live</span>
+                            <span className="text-[9px] font-extrabold text-emerald-500 uppercase tracking-wider">{ratesFetchError ? 'Unavailable / stale' : 'Indicative'}</span>
                           </span>
                         )}
                         {ratesLastUpdated && (
@@ -348,11 +364,11 @@ export default function App() {
                             : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                         }`} onClick={() => setFromCurrency(cur)}>
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                          1 {cur} = ₹{liveRates[cur].toLocaleString('en-IN')}
+                          1 {cur} = ₹{liveRates[cur] ? liveRates[cur].toLocaleString('en-IN') : '—'}
                         </div>
                       ))}
                       {ratesFetchError && (
-                        <span className="text-[9px] text-rose-400 font-bold px-2 py-1.5">⚠ Using cached rates</span>
+                        <span className="text-[9px] text-rose-400 font-bold px-2 py-1.5">⚠ Rate refresh failed — do not rely on these rates</span>
                       )}
                     </div>
 
@@ -373,7 +389,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-currency-amount" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Amount</label>
-                        <input
+                        <NumberInput
                           id="app-currency-amount"
                           type="number"
                           value={currencyAmount}
@@ -387,7 +403,7 @@ export default function App() {
                           {ratesLoading ? (
                             <span className="text-sky-300 text-sm animate-pulse">Fetching…</span>
                           ) : (
-                            <>₹{convertedAmount.toLocaleString('en-IN', { maximumFractionDigits: 2 })}</>
+                            <>{ratesFetchError || !ratesLastUpdated ? 'Rate unavailable' : `₹${convertedAmount.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`}</>
                           )}
                         </span>
                         <span className="text-[9px] text-slate-500 dark:text-slate-400 mt-1 font-semibold">
@@ -399,8 +415,8 @@ export default function App() {
                     {/* Last updated */}
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold">
                       {ratesLastUpdated
-                        ? `🟢 Rates live as of ${ratesLastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} — auto-refreshes every 5 min`
-                        : '⏳ Fetching live market rates…'}
+                        ? `Provider rates dated ${ratesLastUpdated.toLocaleString('en-IN')} — indicative only; checked every 5 min`
+                        : (ratesFetchError ? 'Rates unavailable. Try Refresh.' : 'Fetching indicative exchange rates…')}
                     </p>
                   </div>
                 )}
@@ -412,7 +428,7 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="space-y-1.5">
                         <label htmlFor="app-inflation-amount" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Amount (₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-inflation-amount"
                           type="number" 
                           value={infAmount} 
@@ -422,9 +438,9 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-inflation-years" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Time (Years)</label>
-                        <input 
+                        <NumberInput 
                           id="app-inflation-years"
-                          type="number" 
+                          type="number" min={0} max={100} 
                           value={infYears} 
                           onChange={(e) => setInfYears(Number(e.target.value))}
                           className="w-full py-2 px-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none"
@@ -432,9 +448,9 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-inflation-rate" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Avg. Inflation (%)</label>
-                        <input 
+                        <NumberInput 
                           id="app-inflation-rate"
-                          type="number" 
+                          type="number" min={0} max={100} 
                           value={infRate} 
                           onChange={(e) => setInfRate(Number(e.target.value))}
                           className="w-full py-2 px-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none"
@@ -469,7 +485,7 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       <div className="space-y-1.5">
                         <label htmlFor="app-networth-cash" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Cash Reserves (₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-networth-cash"
                           type="number" 
                           value={assetCash} 
@@ -479,7 +495,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-networth-prop" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Properties Value (₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-networth-prop"
                           type="number" 
                           value={assetProp} 
@@ -489,7 +505,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-networth-inv" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Investments/Gold (₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-networth-inv"
                           type="number" 
                           value={assetInv} 
@@ -499,7 +515,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-networth-liab-home" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Home Loans (Debt - ₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-networth-liab-home"
                           type="number" 
                           value={liabHome} 
@@ -509,7 +525,7 @@ export default function App() {
                       </div>
                       <div className="space-y-1.5">
                         <label htmlFor="app-networth-liab-card" className="text-xs text-slate-600 dark:text-slate-400 font-medium">Credit Card Debt (₹)</label>
-                        <input 
+                        <NumberInput 
                           id="app-networth-liab-card"
                           type="number" 
                           value={liabCard} 
@@ -532,7 +548,7 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
                       <div className="space-y-1.5">
                         <label htmlFor="app-budget-income" className="text-xs text-slate-600 dark:text-slate-400 font-semibold">Monthly Income</label>
-                        <input 
+                        <NumberInput 
                           id="app-budget-income"
                           type="number" 
                           value={budgetIncome} 

@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateTax } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -14,7 +15,7 @@ export default function TaxEstimator() {
   useTrackCalculation('tax', { income, deductions, regime });
 
   const taxData = useMemo(() => {
-    return calculateTax(income, deductions, regime);
+    return calculateTax(income, regime === 'new' ? 75000 : deductions, regime);
   }, [income, deductions, regime]);
 
   // Compute other regime for comparison
@@ -40,7 +41,7 @@ export default function TaxEstimator() {
       summary: { label: 'Total Tax Payable', value: `₹${taxData.totalTaxLiability.toLocaleString('en-IN')}` },
       inputs: [
         { label: 'Gross Annual Income', value: `₹${income.toLocaleString('en-IN')}` },
-        { label: 'Deductions & Exemptions', value: `₹${deductions.toLocaleString('en-IN')}` },
+        { label: 'Deductions & Exemptions', value: `₹${taxData.totalDeductions.toLocaleString('en-IN')}` },
         { label: 'Selected Tax Regime', value: regime === 'new' ? 'New Tax Regime (FY 2025-26)' : 'Old Tax Regime' }
       ],
       results: [
@@ -80,7 +81,7 @@ export default function TaxEstimator() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Tax Estimator</h2>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Estimate your annual income tax liability and compare Old vs New regimes based on FY 2025-26 rules.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">FY 2025-26 (AY 2026-27): estimate for resident salaried individuals below 60 with ordinary slab-rate income. New-regime salary deduction: ₹75,000. Old-regime input must include all eligible deductions. Special-rate income is not supported; surcharge above ₹50 lakh is not included.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button 
@@ -131,7 +132,7 @@ export default function TaxEstimator() {
               <label htmlFor="tax-gross-income" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Gross Annual Income
               </label>
-              <input 
+              <NumberInput 
                 id="tax-gross-income"
                 type="number"
                 value={income}
@@ -162,10 +163,11 @@ export default function TaxEstimator() {
               <label htmlFor="tax-deductions" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Deductions / Exemptions
               </label>
-              <input 
+              <NumberInput 
                 id="tax-deductions"
+                disabled={regime === 'new'}
                 type="number"
-                value={deductions}
+                value={regime === 'new' ? 75000 : deductions}
                 onChange={(e) => setDeductions(Number(e.target.value))}
                 className="w-28 py-1 px-2 text-right font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none"
               />
@@ -176,7 +178,7 @@ export default function TaxEstimator() {
               min="0"
               max="500000"
               step="10000"
-              value={deductions}
+              value={regime === 'new' ? 75000 : deductions}
               onChange={(e) => setDeductions(Number(e.target.value))}
               aria-label="Deductions and Exemptions slider"
               className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"

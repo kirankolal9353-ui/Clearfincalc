@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateGST } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -80,7 +81,7 @@ export default function GstCalculator() {
               <label htmlFor="gst-amount" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Amount (₹)
               </label>
-              <input 
+              <NumberInput 
                 id="gst-amount"
                 type="number"
                 value={amount}
@@ -144,9 +145,9 @@ export default function GstCalculator() {
               {/* Custom rate input */}
               <div className="relative inline-flex items-center">
                 <label htmlFor="gst-custom-rate" className="sr-only">Custom GST Rate</label>
-                <input 
+                <NumberInput 
                   id="gst-custom-rate"
-                  type="number"
+                  type="number" min={0} max={100}
                   placeholder="Custom"
                   value={gstRates.includes(rate) ? '' : rate}
                   onChange={(e) => setRate(Number(e.target.value))}
