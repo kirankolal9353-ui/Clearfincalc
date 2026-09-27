@@ -1,6 +1,6 @@
-import { initializeApp, getApp, getApps } from 'firebase/app';
+
 import type { FirebaseApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, increment, onSnapshot } from 'firebase/firestore';
+
 import type { Firestore } from 'firebase/firestore';
 
 let app: FirebaseApp | null = null;
@@ -14,14 +14,6 @@ export async function initializeCounterDb(): Promise<Firestore | null> {
   if (isInitialized) return db;
 
   try {
-    // 1. Check if we already have initialized apps
-    if (getApps().length > 0) {
-      app = getApp();
-      db = getFirestore(app);
-      isInitialized = true;
-      return db;
-    }
-
     // 2. Try fetching the dynamic config from hosting
     let config: Record<string, unknown> | null = null;
     try {
@@ -44,7 +36,9 @@ export async function initializeCounterDb(): Promise<Firestore | null> {
 
     // 4. Initialize if config found
     if (config) {
-      app = initializeApp(config);
+      const { initializeApp, getApp, getApps } = await import('firebase/app');
+      const { getFirestore } = await import('firebase/firestore');
+      app = getApps().length ? getApp() : initializeApp(config);
       db = getFirestore(app);
       isInitialized = true;
       return db;
@@ -72,25 +66,17 @@ export function setCachedCount(count: number): void {
 
 export async function incrementCalculationCount(): Promise<void> {
   const database = await initializeCounterDb();
-  if (!database) {
-    // Local development / fallback mock increment
-    const current = getCachedCount() || 1420945;
-    const next = current + 1;
-    setCachedCount(next);
-    // Dispatch local storage update event so dynamic elements update in the same window
-    window.dispatchEvent(new Event('storage'));
-    return;
-  }
+  if (!database) return;
 
   try {
+    const { doc, setDoc, increment } = await import('firebase/firestore');
     const docRef = doc(database, 'stats', 'calculations');
     await setDoc(docRef, {
       count: increment(1)
     }, { merge: true });
   } catch {
     // Fallback to local mock increment on network error
-    const current = getCachedCount() || 1420945;
-    setCachedCount(current + 1);
+    return;
   }
 }
 
@@ -118,6 +104,8 @@ export function subscribeToCalculationCount(
     }
 
     try {
+      const { doc, onSnapshot } = await import('firebase/firestore');
+      if (!active) return;
       const docRef = doc(database, 'stats', 'calculations');
       unsubscribe = onSnapshot(
         docRef,

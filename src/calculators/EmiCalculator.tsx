@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateEMI } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -88,7 +89,7 @@ export default function EmiCalculator() {
               </label>
               <div className="relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
-                <input 
+                <NumberInput 
                   id="emi-loan-amount"
                   type="number"
                   value={amount}
@@ -122,9 +123,9 @@ export default function EmiCalculator() {
                 Interest Rate
               </label>
               <div className="relative">
-                <input 
+                <NumberInput 
                   id="emi-interest-rate"
-                  type="number"
+                  type="number" min={0} max={100}
                   step="0.1"
                   value={rate}
                   onChange={(e) => setRate(Number(e.target.value))}
@@ -158,9 +159,9 @@ export default function EmiCalculator() {
                 Loan Tenure
               </label>
               <div className="relative">
-                <input 
+                <NumberInput 
                   id="emi-loan-tenure"
-                  type="number"
+                  type="number" min={1 / 12} max={100}
                   value={tenure}
                   onChange={(e) => setTenure(Number(e.target.value))}
                   className="w-24 py-1.5 px-2.5 text-right font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"

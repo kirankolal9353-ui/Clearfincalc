@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateFD } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -80,7 +81,7 @@ export default function FdCalculator() {
               <label htmlFor="fd-principal" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Deposit Principal
               </label>
-              <input 
+              <NumberInput 
                 id="fd-principal"
                 type="number"
                 value={principal}
@@ -111,9 +112,9 @@ export default function FdCalculator() {
                 <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Interest Rate (% p.a.)
               </label>
-              <input 
+              <NumberInput 
                 id="fd-rate"
-                type="number"
+                type="number" min={0} max={100}
                 step="0.05"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
@@ -127,9 +128,9 @@ export default function FdCalculator() {
                 <Calendar className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Tenure (Years)
               </label>
-              <input 
+              <NumberInput 
                 id="fd-tenure"
-                type="number"
+                type="number" min={1 / 12} max={100}
                 value={tenure}
                 onChange={(e) => setTenure(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"

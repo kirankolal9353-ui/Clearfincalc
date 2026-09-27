@@ -27,8 +27,8 @@ export const FAQS: FaqItem[] = [
   {
     id: 'tds-1',
     category: 'TDS',
-    question: 'When is a higher TDS rate applied under Section 206AB?',
-    answer: 'Under Section 206AB of the Indian Income Tax Act, if you pay money to a person who has not filed their Income Tax Returns (ITR) for the preceding year, and their total TDS/TCS exceeded ₹50,000 in that year, you must deduct TDS at double the normal rate or 5% (whichever is higher).'
+    question: 'Does Section 206AB apply from 1 April 2025?',
+    answer: 'Section 206AB was omitted by the Finance Act, 2025 with effect from 1 April 2025. Separate PAN-related rules may still apply. Verify the applicable period and section.'
   },
   {
     id: 'tds-2',

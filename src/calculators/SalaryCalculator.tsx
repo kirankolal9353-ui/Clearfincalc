@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateSalary } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -51,7 +52,7 @@ export default function SalaryCalculator() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-none">Salary Calculator</h2>
-          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Estimate your monthly net take-home salary after PF, Professional Tax, and TDS deductions.</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm md:text-base">Illustrative salary estimate for FY 2025-26: basic pay is assumed to be 50% of gross and employee PF is capped at ₹1,800. Enter the actual professional tax. Tax assumes a resident individual with ordinary salary income; surcharge and special-rate income are not supported.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button 
@@ -80,7 +81,7 @@ export default function SalaryCalculator() {
               <label htmlFor="salary-gross-monthly" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Gross Monthly Salary
               </label>
-              <input 
+              <NumberInput 
                 id="salary-gross-monthly"
                 type="number"
                 value={grossMonthly}
@@ -112,9 +113,9 @@ export default function SalaryCalculator() {
                 <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Employee EPF Rate
               </label>
-              <input 
+              <NumberInput 
                 id="salary-pf-rate"
-                type="number"
+                type="number" min={0} max={100}
                 value={pfRate}
                 onChange={(e) => setPfRate(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"
@@ -127,9 +128,9 @@ export default function SalaryCalculator() {
                 <IndianRupee className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Professional Tax
               </label>
-              <input 
+              <NumberInput 
                 id="salary-pt-rate"
-                type="number"
+                type="number" min={0} max={100000}
                 value={pt}
                 onChange={(e) => setPt(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"

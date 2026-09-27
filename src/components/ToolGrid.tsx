@@ -163,9 +163,10 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
           {filteredTools.map((tool) => {
             const isActive = activeToolId === tool.id;
             return (
-              <div 
+              <a 
+                href={`?tool=${tool.id}`}
                 key={tool.id}
-                onClick={() => onSelectTool(tool.id)}
+                onClick={(event) => { if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return; event.preventDefault(); onSelectTool(tool.id); }}
                 className={`bg-white dark:bg-slate-900 p-6 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer select-none relative group ${isActive ? 'ring-2 ring-blue-600 border-transparent shadow-xl' : 'border-slate-200/50 dark:border-slate-800/50 shadow-md hover:shadow-xl hover:-translate-y-1'}`}
               >
                 {tool.popular && (
@@ -192,7 +193,7 @@ export default function ToolGrid({ onSelectTool, activeToolId, searchQuery }: To
                     <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </span>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>

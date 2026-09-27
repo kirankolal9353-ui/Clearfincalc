@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateSIP } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -87,7 +88,7 @@ export default function SipCalculator() {
               </label>
               <div className="relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
-                <input 
+                <NumberInput 
                   id="sip-monthly-investment"
                   type="number"
                   value={monthlyInvest}
@@ -121,9 +122,9 @@ export default function SipCalculator() {
                 Expected Return (p.a)
               </label>
               <div className="relative">
-                <input 
+                <NumberInput 
                   id="sip-expected-return"
-                  type="number"
+                  type="number" min={0} max={100}
                   step="0.5"
                   value={expectedReturn}
                   onChange={(e) => setExpectedReturn(Number(e.target.value))}
@@ -157,9 +158,9 @@ export default function SipCalculator() {
                 Time Period
               </label>
               <div className="relative">
-                <input 
+                <NumberInput 
                   id="sip-investment-period"
-                  type="number"
+                  type="number" min={1 / 12} max={100}
                   value={tenure}
                   onChange={(e) => setTenure(Number(e.target.value))}
                   className="w-20 py-1.5 px-2.5 text-right font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"

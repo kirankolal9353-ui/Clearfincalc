@@ -3,6 +3,8 @@ import { ARTICLES } from '../data/articles';
 import type { Article } from '../data/articles';
 import { User, Calendar, Clock, Search, BookOpen, ChevronRight, X, ExternalLink, Calculator, Share2, Check } from 'lucide-react';
 
+const readingTime = (article: Article) => `About ${Math.max(1, Math.ceil(article.content.trim().split(/\s+/).length / 200))} min read`;
+
 export default function Insights() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCat, setSelectedCat] = useState<'All' | 'Savings' | 'Investment' | 'Taxation' | 'Loans' | 'Customs'>('All');
@@ -15,6 +17,15 @@ export default function Insights() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const modalBodyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const syncArticle = () => {
+      const id = new URLSearchParams(window.location.search).get('article');
+      setActiveArticle(ARTICLES.find(a => a.id === id) || null);
+    };
+    window.addEventListener('popstate', syncArticle);
+    return () => window.removeEventListener('popstate', syncArticle);
+  }, []);
 
   // Update dynamic titles/meta for SEO when article opens
   useEffect(() => {
@@ -70,6 +81,7 @@ export default function Insights() {
     // Update URL history to reflect the current article without reloading page
     const newUrl = `${window.location.origin}${window.location.pathname}?article=${art.id}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const handleCloseArticle = () => {
@@ -77,6 +89,7 @@ export default function Insights() {
     // Reset URL to default home page structure
     const newUrl = `${window.location.origin}${window.location.pathname}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const categories: ('All' | 'Savings' | 'Investment' | 'Taxation' | 'Loans' | 'Customs')[] = [
@@ -112,7 +125,7 @@ export default function Insights() {
               <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest">
                 <span className="text-blue-500">{activeArticle.category}</span>
                 <span>•</span>
-                <span>{activeArticle.readTime}</span>
+                <span>{readingTime(activeArticle)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -254,7 +267,7 @@ export default function Insights() {
 
             {/* Footer */}
             <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex-shrink-0 bg-slate-50 dark:bg-slate-900/50 flex items-center justify-between">
-              <span className="text-[9px] text-slate-500 font-bold">ClearFinCalc Editorial Quality Guidelines • Verified Financial Content</span>
+              <span className="text-[9px] text-slate-500 font-bold">ClearFinCalc Editorial Quality Guidelines • Educational Financial Content</span>
               <button
                 type="button"
                 onClick={handleCloseArticle}
@@ -280,7 +293,7 @@ export default function Insights() {
               Wealth & Tax Strategy Library
             </h2>
             <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-semibold">
-              Search and filter our library of 30+ comprehensive educational guides on compounding, tax strategies, loans, and personal finance topics.
+              Search and filter our library of 30 educational articles on compounding, tax strategies, loans, and personal finance topics.
             </p>
           </div>
 
@@ -322,7 +335,6 @@ export default function Insights() {
             {filteredArticles.map((article) => (
               <article 
                 key={article.id} 
-                onClick={() => handleOpenArticle(article)}
                 className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl border border-slate-200/50 dark:border-slate-800/50 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group"
               >
                 <div className="p-6 space-y-4">
@@ -333,12 +345,12 @@ export default function Insights() {
                     </span>
                     <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 font-semibold">
                       <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                      {article.readTime}
+                      {readingTime(article)}
                     </span>
                   </div>
 
                   <h3 className="text-sm md:text-base font-extrabold text-slate-900 dark:text-white line-clamp-2 group-hover:text-blue-500 transition-colors">
-                    {article.title}
+                    <a href={`?article=${article.id}`} onClick={(event) => { if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenArticle(article); }}>{article.title}</a>
                   </h3>
                   
                   <p className="text-[11px] md:text-xs text-slate-600 dark:text-slate-400 font-semibold leading-relaxed line-clamp-3">

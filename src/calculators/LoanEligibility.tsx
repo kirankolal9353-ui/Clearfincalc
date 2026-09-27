@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateLoanEligibility } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -83,7 +84,7 @@ export default function LoanEligibility() {
               </label>
               <div className="relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
-                <input 
+                <NumberInput 
                   id="loan-eligibility-income"
                   type="number"
                   value={income}
@@ -118,7 +119,7 @@ export default function LoanEligibility() {
               </label>
               <div className="relative">
                 <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">₹</span>
-                <input 
+                <NumberInput 
                   id="loan-eligibility-existing-emi"
                   type="number"
                   value={existingEmi}
@@ -151,9 +152,9 @@ export default function LoanEligibility() {
                 <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Rate (p.a)
               </label>
-              <input 
+              <NumberInput 
                 id="loan-eligibility-rate"
-                type="number"
+                type="number" min={0} max={100}
                 step="0.1"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
@@ -167,9 +168,9 @@ export default function LoanEligibility() {
                 <Calendar className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Tenure (Yrs)
               </label>
-              <input 
+              <NumberInput 
                 id="loan-eligibility-tenure"
-                type="number"
+                type="number" min={1 / 12} max={100}
                 value={tenure}
                 onChange={(e) => setTenure(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"

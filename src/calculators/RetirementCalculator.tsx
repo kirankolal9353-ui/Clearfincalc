@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateRetirement } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -97,9 +98,9 @@ export default function RetirementCalculator() {
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1.5">
               <label htmlFor="retirement-current-age" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Current Age</label>
-              <input 
+              <NumberInput 
                 id="retirement-current-age"
-                type="number"
+                type="number" min={0} max={120}
                 value={currentAge}
                 onChange={(e) => setCurrentAge(Number(e.target.value))}
                 className="w-full py-1.5 px-2.5 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"
@@ -107,9 +108,9 @@ export default function RetirementCalculator() {
             </div>
             <div className="space-y-1.5">
               <label htmlFor="retirement-retire-age" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Retire Age</label>
-              <input 
+              <NumberInput 
                 id="retirement-retire-age"
-                type="number"
+                type="number" min={0} max={120}
                 value={retirementAge}
                 onChange={(e) => setRetirementAge(Number(e.target.value))}
                 className="w-full py-1.5 px-2.5 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"
@@ -117,9 +118,9 @@ export default function RetirementCalculator() {
             </div>
             <div className="space-y-1.5">
               <label htmlFor="retirement-life-expectancy" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Life Expectancy</label>
-              <input 
+              <NumberInput 
                 id="retirement-life-expectancy"
-                type="number"
+                type="number" min={0} max={120}
                 value={lifeExpectancy}
                 onChange={(e) => setLifeExpectancy(Number(e.target.value))}
                 className="w-full py-1.5 px-2.5 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"
@@ -133,7 +134,7 @@ export default function RetirementCalculator() {
               <label htmlFor="retirement-monthly-expenses" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Current Monthly Expenses
               </label>
-              <input 
+              <NumberInput 
                 id="retirement-monthly-expenses"
                 type="number"
                 value={monthlyExpenses}
@@ -159,7 +160,7 @@ export default function RetirementCalculator() {
               <label htmlFor="retirement-current-savings" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Current Savings
               </label>
-              <input 
+              <NumberInput 
                 id="retirement-current-savings"
                 type="number"
                 value={currentSavings}
@@ -183,9 +184,9 @@ export default function RetirementCalculator() {
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1.5">
               <label htmlFor="retirement-inflation-rate" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Inflation Rate</label>
-              <input 
+              <NumberInput 
                 id="retirement-inflation-rate"
-                type="number"
+                type="number" min={0} max={100}
                 value={inflationRate}
                 onChange={(e) => setInflationRate(Number(e.target.value))}
                 className="w-full py-1.5 px-2 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"
@@ -193,9 +194,9 @@ export default function RetirementCalculator() {
             </div>
             <div className="space-y-1.5">
               <label htmlFor="retirement-working-return" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Working Return</label>
-              <input 
+              <NumberInput 
                 id="retirement-working-return"
-                type="number"
+                type="number" min={0} max={100}
                 value={preReturn}
                 onChange={(e) => setPreReturn(Number(e.target.value))}
                 className="w-full py-1.5 px-2 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"
@@ -203,9 +204,9 @@ export default function RetirementCalculator() {
             </div>
             <div className="space-y-1.5">
               <label htmlFor="retirement-retired-return" className="text-xs font-semibold text-slate-600 dark:text-slate-400">Retired Return</label>
-              <input 
+              <NumberInput 
                 id="retirement-retired-return"
-                type="number"
+                type="number" min={0} max={100}
                 value={postReturn}
                 onChange={(e) => setPostReturn(Number(e.target.value))}
                 className="w-full py-1.5 px-2 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-center"

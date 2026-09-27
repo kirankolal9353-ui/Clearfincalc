@@ -1,3 +1,4 @@
+import NumberInput from '../components/NumberInput';
 import React, { useState, useMemo } from 'react';
 import { calculateSavingsGoal } from '../utils/finance';
 import { useTrackCalculation } from '../hooks/useTrackCalculation';
@@ -83,7 +84,7 @@ export default function SavingsPlanner() {
                 <Target className="w-4 h-4 text-indigo-500" aria-hidden="true" />
                 Target Savings Goal
               </label>
-              <input 
+              <NumberInput 
                 id="savings-target"
                 type="number"
                 value={target}
@@ -113,7 +114,7 @@ export default function SavingsPlanner() {
               <label htmlFor="savings-initial" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                 Initial Savings Accumulation
               </label>
-              <input 
+              <NumberInput 
                 id="savings-initial"
                 type="number"
                 value={initial}
@@ -144,9 +145,9 @@ export default function SavingsPlanner() {
                 <Percent className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" />
                 Rate (p.a)
               </label>
-              <input 
+              <NumberInput 
                 id="savings-rate"
-                type="number"
+                type="number" min={0} max={100}
                 step="0.5"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
@@ -160,9 +161,9 @@ export default function SavingsPlanner() {
                 <Calendar className="w-3.5 h-3.5 text-indigo-500" aria-hidden="true" />
                 Timeline (Yrs)
               </label>
-              <input 
+              <NumberInput 
                 id="savings-years"
-                type="number"
+                type="number" min={1 / 12} max={100}
                 value={years}
                 onChange={(e) => setYears(Number(e.target.value))}
                 className="w-full py-2 px-3 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none text-sm"

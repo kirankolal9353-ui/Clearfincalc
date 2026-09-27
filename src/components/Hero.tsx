@@ -17,12 +17,9 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
   }, []);
 
   const newsItems = [
-    "🔥 Gold Rate: ~₹72,000/10g (Indicative, Source: IBJA)",
-    "📈 NIFTY 50: ~23,200 (Indicative Market Index)",
-    "🏦 RBI Repo Rate: 6.50% (Source: RBI)",
-    `🟢 USD/INR Exchange Rate: ₹${liveUsdRate.toFixed(2)} (Live API Rate)`,
-    "📊 New Income Tax regime rebate limit increased to ₹7L (FY 2025-26)",
-    "🚚 Customs duty rate revised on imported electronic assemblies"
+    "Compare loan costs using the same amount, rate and tenure.",
+    "Investment projections are estimates, not guaranteed returns.",
+    "Check the financial year and assumptions before using a tax estimate."
   ];
 
   return (
@@ -31,7 +28,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
       {/* News Ticker */}
       <div className="absolute top-0 left-0 w-full bg-slate-900 text-white text-[10px] md:text-xs py-2 overflow-hidden z-10 flex items-center select-none font-bold">
         <div className="flex-shrink-0 bg-slate-800 text-slate-300 font-extrabold uppercase px-2.5 py-0.5 rounded text-[9px] tracking-wider ml-4 mr-2">
-          MARKET UPDATES
+          FINANCE TIPS
         </div>
         <div className="overflow-hidden relative w-full flex">
           <div className="animate-ticker flex whitespace-nowrap gap-12 text-slate-400">
@@ -53,7 +50,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
             {/* Trusted tag */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-sm text-xs font-bold text-slate-700 dark:text-slate-400">
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              100% Secure & Privacy Friendly Tools
+              Free Financial Planning Tools
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
@@ -99,9 +96,9 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
                 </span>
               </div>
               <div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Accuracy Rate</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Calculation Method</span>
                 <span className="text-sm md:text-lg font-black text-emerald-500 mt-1 block flex items-center justify-center lg:justify-start gap-0.5">
-                  100% Formula Verified
+                  Formula-based Estimates
                 </span>
               </div>
             </div>
@@ -127,7 +124,7 @@ export default function Hero({ liveUsdRate = 83.45 }: HeroProps) {
                 <span>ClearFinCalc Core Engine v4.0</span>
                 <span className="text-emerald-500 flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
-                  Formula Verified & Trust Compliant
+                  Review assumptions before use
                 </span>
               </div>
             </div>
