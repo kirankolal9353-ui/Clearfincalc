@@ -19,6 +19,64 @@ import type { PolicyType } from './components/LegalModal';
 import { calculateInflation, calculateNetWorth } from './utils/finance';
 import { IndianRupee, Landmark, Globe, Activity, RefreshCw } from 'lucide-react';
 
+const HOME_TITLE = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
+const HOME_DESCRIPTION = 'Calculate EMI, SIP, taxes, salary, loans, TDS and customs duties with ClearFinCalc, a free formula-based financial calculator hub.';
+
+const CALCULATOR_SEO: Record<string, { title: string; description: string }> = {
+  emi: {
+    title: 'EMI Calculator | ClearFinCalc',
+    description: 'Estimate monthly EMI, total interest and repayment for a loan using the principal, annual interest rate and tenure you enter.'
+  },
+  sip: {
+    title: 'SIP Calculator | ClearFinCalc',
+    description: 'Estimate the potential future value of monthly SIP investments based on your investment amount, duration and assumed return.'
+  },
+  tds: {
+    title: 'TDS Calculator | ClearFinCalc',
+    description: 'Estimate tax deducted at source for selected payment types and rates. Check the applicable section and current rules before filing.'
+  },
+  customs: {
+    title: 'Customs Duty Calculator | ClearFinCalc',
+    description: 'Estimate import duty components and landed cost from the customs values and rates you enter. Verify applicable tariff rules separately.'
+  },
+  eligibility: {
+    title: 'Loan Eligibility Calculator | ClearFinCalc',
+    description: 'Estimate loan eligibility from your income and existing EMIs using the assumptions shown in the calculator.'
+  },
+  'personal-loan': {
+    title: 'Personal Loan EMI Calculator | ClearFinCalc',
+    description: 'Estimate monthly repayment, total interest and repayment amount for a personal loan using your selected amount, rate and tenure.'
+  },
+  'home-loan': {
+    title: 'Home Loan EMI Calculator | ClearFinCalc',
+    description: 'Estimate monthly home loan EMI, total interest and repayment from the loan amount, interest rate and tenure you enter.'
+  },
+  tax: {
+    title: 'Income Tax Estimator | ClearFinCalc',
+    description: 'Estimate income tax under the selected regime using your entered income, deductions and the calculator’s stated assumptions.'
+  },
+  salary: {
+    title: 'Salary Calculator | ClearFinCalc',
+    description: 'Estimate take-home salary after selected deductions such as provident fund, professional tax and income tax.'
+  },
+  gst: {
+    title: 'GST Calculator | ClearFinCalc',
+    description: 'Calculate GST amounts for inclusive or exclusive prices using the rate you select, including CGST, SGST or IGST.'
+  },
+  fd: {
+    title: 'Fixed Deposit Calculator | ClearFinCalc',
+    description: 'Estimate fixed deposit maturity value and interest using your principal, interest rate, tenure and compounding frequency.'
+  },
+  retirement: {
+    title: 'Retirement Calculator | ClearFinCalc',
+    description: 'Estimate a retirement corpus and savings target from your timeline, expenses and assumed investment returns.'
+  },
+  'savings-goal': {
+    title: 'Savings Goal Calculator | ClearFinCalc',
+    description: 'Estimate the monthly savings needed to reach a target amount by your chosen date using your return assumption.'
+  }
+};
+
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -52,6 +110,16 @@ export default function App() {
     document.querySelector('link[data-clearfincalc-canonical]')?.remove();
 
     const baseUrl = 'https://clearfincalc.com';
+    const calculatorSeo = activeTool ? CALCULATOR_SEO[activeTool] : undefined;
+    document.title = calculatorSeo?.title ?? HOME_TITLE;
+    let descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!descriptionMeta) {
+      descriptionMeta = document.createElement('meta');
+      descriptionMeta.name = 'description';
+      document.head.appendChild(descriptionMeta);
+    }
+    descriptionMeta.content = calculatorSeo?.description ?? HOME_DESCRIPTION;
+
     let canonicalUrl = baseUrl + '/';
     const article = new URLSearchParams(window.location.search).get('article');
     if (article && ARTICLES.some(item => item.id === article)) {
