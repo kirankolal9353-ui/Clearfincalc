@@ -1,3 +1,4 @@
+import EducationalText from './EducationalText';
 import React, { useState, useEffect, useRef } from 'react';
 import { ARTICLES } from '../data/articles';
 import type { Article } from '../data/articles';
@@ -5,11 +6,11 @@ import { User, Calendar, Clock, Search, BookOpen, ChevronRight, X, ExternalLink,
 
 const readingTime = (article: Article) => `About ${Math.max(1, Math.ceil(article.content.trim().split(/\s+/).length / 200))} min read`;
 
-export default function Insights() {
+export default function Insights({ initialSearch = typeof window === 'undefined' ? '' : window.location.search }: { initialSearch?: string }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCat, setSelectedCat] = useState<'All' | 'Savings' | 'Investment' | 'Taxation' | 'Loans' | 'Customs'>('All');
   const [activeArticle, setActiveArticle] = useState<Article | null>(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(initialSearch);
     const artId = params.get('article');
     return artId ? (ARTICLES.find((a) => a.id === artId) || null) : null;
   });
@@ -26,27 +27,6 @@ export default function Insights() {
     window.addEventListener('popstate', syncArticle);
     return () => window.removeEventListener('popstate', syncArticle);
   }, []);
-
-  // Update dynamic titles/meta for SEO when article opens
-  useEffect(() => {
-    if (activeArticle) {
-      document.title = `${activeArticle.title} | ClearFinCalc Insights`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', `${activeArticle.excerpt.slice(0, 150)}... Read this comprehensive educational guide on ClearFinCalc.`);
-      }
-    } else {
-      const params = new URLSearchParams(window.location.search);
-      const toolId = params.get('tool');
-      if (!toolId) {
-        document.title = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          metaDesc.setAttribute('content', 'Clear Calculations. Smarter Decisions. Calculate EMI, SIP, Taxes, Salary, Loans, TDS, and Customs duties instantly.');
-        }
-      }
-    }
-  }, [activeArticle]);
 
   // Track scroll position in modal for reading progress bar
   const handleModalScroll = () => {
@@ -180,9 +160,12 @@ export default function Insights() {
                 </div>
               </div>
 
+              {activeArticle.category === 'Taxation' && <aside className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-sm">
+                Check the applicable period: articles may describe FY 2025-26 assumptions and Income-tax Act, 1961 section labels. For transactions from 1 April 2026, review the current Act and reporting requirements in the <a className="underline text-blue-600" href="https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/tds-compliance" target="_blank" rel="noopener noreferrer">Income Tax Department guidance</a>.
+              </aside>}
               {/* Article Content Rendered beautifully */}
               <div className="text-[14px] md:text-base leading-[1.85] text-slate-700 dark:text-slate-300 font-medium whitespace-pre-line space-y-4">
-                {activeArticle.content}
+                <EducationalText text={activeArticle.content} />
               </div>
 
               {/* Informational Disclaimer Banner */}
