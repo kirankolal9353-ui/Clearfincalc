@@ -163,16 +163,16 @@ SIP calculators are essential for goal-based financial planning:
 - **Tax Saving (ELSS)**: Planning monthly tax-saving investments under Section 80C (Old Regime).
 
 ### Strategic Conclusion
-In investing, time in the market is far more important than timing the market. The earlier you begin your SIP journey, the more time compounding has to work. In a 20-year SIP, more than 50% of the final portfolio value is generated in the last 4 years. Starting early—even with a small amount—is the single best financial decision you can make.`,
+In investing, time in the market is far more important than timing the market. The earlier you begin your SIP journey, the more time compounding has to work. The outcome depends on the contribution timing, duration and assumed return. Projections are not guaranteed, and actual mutual fund returns can vary or be negative.`,
     howItWorks: `### Detailed Parameter Settings
 To model your wealth accumulation, configure the following inputs:
 1. **Monthly Investment**: The amount you want to invest each month. Most mutual funds allow starting an SIP with as little as ₹500.
-2. **Expected Return Rate (Annual)**: The projected CAGR (Compound Annual Growth Rate). While past performance is no guarantee of future returns, equity mutual funds in India have historically delivered a CAGR of 12% to 15% over a 10+ year horizon. For debt funds, a return of 6% to 8% is typical.
+2. **Expected Return Rate (Annual)**: The projected CAGR (Compound Annual Growth Rate). Choose an assumption suitable for your scenario and compare lower-return cases. A fixed return is a modelling assumption, not a promise about any fund.
 3. **Investment Period (Tenure)**: The duration of the SIP in years. Longer durations yield exponential compounding benefits.
 
 ### Step-by-Step Navigation
 - Step 1: Set your **Monthly Investment** amount using the slider or input field.
-- Step 2: Input your conservative **Expected Return Rate** (12% is a standard benchmark for equity).
+- Step 2: Input your assumed **Expected Return Rate** (the default is an illustration, not an expected or guaranteed fund return).
 - Step 3: Enter the **Tenure** in years. The calculator will instantly generate the charts.
 - Step 4: Toggle to the **Breakup Schedule** to see your year-by-year wealth accumulation.`,
     formula: `### Mathematical Derivation of the SIP Future Value
@@ -260,115 +260,47 @@ In 15 years, your capital gains are almost double your actual contributions. Tha
     ]
   },
   tds: {
-    id: 'tds',
-    title: 'Advanced TDS Calculator & Guide (FY 2025-26)',
-    intro: `### Introduction to Tax Deducted at Source (TDS)
-Tax Deducted at Source (TDS) is an indirect tax collection mechanism introduced by the Income Tax Department of India. Under this system, the person or company responsible for making specific payments (the deductor) is mandated to deduct a specified percentage of tax before disbursing the net balance to the payee (the deductee). The deducted tax is deposited into the government account, and the deductee can claim credit for this tax when filing their annual Income Tax Return (ITR) using Form 26AS or the Annual Information Statement (AIS).
-
-TDS acts as a steady source of revenue for the state and acts as a powerful tool to check tax evasion. It applies to wages, professional fees, contractor fees, interest payments, rental income, and even lottery or crypto winnings.
-
-### What this Calculator Does
-The ClearFinCalc Advanced TDS Calculator is designed to assist payers and payees in computing accurate withholding tax liabilities under the current provisions of the Income Tax Act (aligned with the latest Budget 2025 updates). By selecting the relevant statutory Section, payment amount, PAN availability, and payee status, the calculator computes:
-1. **Base TDS Rate**: The statutory rate applicable to the transaction.
-2. **Exemption Threshold**: The statutory payment limit below which no TDS is deducted.
-3. **TDS Deducted**: The exact rupee value of tax to be withheld.
-4. **Net Payment**: The balance amount payable to the deductee.
-5. **Yearly Deductible Projection**: The projected annual withholding tax liability based on monthly recurring payouts.
-
-### Real-Life Use Cases and Application
-- **Freelancer Payouts**: Contractors and professionals can calculate what percentage of their invoices (e.g., under 194J) will be withheld by clients.
-- **Rent Payments**: Commercial tenants or individuals paying high residential rents (e.g., under 194I) can determine their monthly TDS mandates.
-- **Bank Deposits**: Savers can estimate how much TDS banks will deduct from FD interest payouts to plan tax-saving disclosures (Form 15G/15H).
-- **Missing PAN Penalty**: Estimating the massive cash-flow penalty (usually 20%) if a contractor fails to provide a PAN.
-
-### Strategic Conclusion
-TDS compliance is non-negotiable for Indian businesses. Failure to deduct TDS, depositing it late, or filing incorrect quarterly TDS returns (Form 24Q, 26Q, 27Q) attracts heavy penal interest (up to 1.5% per month), late fees (₹200/day under 234E), and can lead to the disallowance of corresponding business expenses. Payers must maintain high precision.`,
-    howItWorks: `### Detailed Parameter Settings
-To calculate TDS, enter the following parameters:
-1. **TDS Section Code**: Select the section corresponding to the payment category (e.g., Section 194C for contractors, Section 194J for professional fees, Section 194I for rent).
-2. **Gross Payment Amount**: The total invoice value or payment amount before any tax deduction.
-3. **PAN Card Available**: A binary switch. If "No", the calculator automatically overrides the base rate and applies the higher penalty rate under Section 206AA (usually 20%).
-4. **Payee Entity Type**: Choose between "Individual/HUF" and "Domestic Company". Some sections charge different rates depending on payee status (e.g., 194C is 1% for individuals and 2% for companies).
-5. **Resident Status**: Choose between "Resident" and "Non-Resident (NRI)". NRI payments are subject to withholding tax under Section 195 without threshold limits.
-
-### Step-by-Step Navigation
-- Step 1: Select the correct **TDS Section** from the dropdown menu.
-- Step 2: Enter the invoice or payment amount in the **Gross Payment** field.
-- Step 3: Check "PAN Available" or uncheck it to simulate missing-PAN penalties.
-- Step 4: Select "Individual" or "Company" depending on the invoice source. The calculator will instantly display the rate and calculated tax.`,
-    formula: `### Mathematical Logic and Threshold Triggers
-TDS calculation is binary and threshold-driven:
-1. **Check Exemption Threshold**: If the cumulative or single payment amount ($A$) is less than or equal to the section's statutory threshold limit ($T$), no TDS is deducted:
-   $$\\text{If } A \\le T \\implies \\text{TDS} = 0$$
-2. **Calculate Withholding Tax**: If the payment exceeds the threshold, TDS is calculated on the entire gross payment amount:
-   $$\\text{If } A > T \\implies \\text{TDS} = A \\times \\frac{\\text{TDS Rate}}{100}$$
-3. **Apply Penal Rates (Section 206AA)**: If PAN is not provided, the TDS Rate is replaced by the higher rate:
-   $$\\text{TDS Rate} = \\max(\\text{Section Rate}, 20\\%)$$
-   *(Note: For Section 194Q/194O, the penal rate is capped at 5%).*
-4. **Net Payment**: The net cash payable is:
-   $$\\text{Net Payable} = A - \\text{TDS}$$`,
-    example: `### Worked Example: Section 194J (Professional Fees)
-Suppose a corporate tenant pays **₹100,000** as fees for professional software development to an individual freelancer under Section 194J.
-
-#### Scenario A: Freelancer provides PAN
-- Gross Payment = ₹100,000
-- Section Threshold = ₹50,000 (Revised Budget 2025 limit)
-- Since ₹100,000 > ₹50,000, TDS applies.
-- Applicable rate for professionals under 194J = 10%
-- **TDS Amount** = $₹100,000 \\times 10\\% = ₹10,000$
-- **Net Paid to Freelancer** = $₹100,000 - ₹10,000 = ₹90,000$
-
-#### Scenario B: Freelancer does not provide PAN
-- Since PAN is not provided, Section 206AA overrides the rate to 20%.
-- **TDS Amount** = $₹100,000 \\times 20\\% = ₹20,000$
-- **Net Paid to Freelancer** = $₹100,000 - ₹20,000 = ₹80,000$
-The freelancer loses 20% of their gross invoice value immediately, which they can only claim back as a refund after filing their annual ITR.`,
-    benefits: [
-      'Helps businesses maintain compliance and avoid interest penalties for under-deduction.',
-      'Allows freelancers and contractors to predict net cash inflows on outstanding invoices.',
-      'Dynamically models Budget 2025 revisions, such as the increased thresholds for bank interest and professional fees.',
-      'Demonstrates the critical impact of PAN non-compliance immediately.',
-      'Enables quick estimations of annual tax withholding liabilities.'
+    "id": "tds",
+    "title": "TDS Calculator Guide — Illustrative FY 2025-26",
+    "intro": "### Scope of this calculator\nTax Deducted at Source is income tax withheld from certain payments. This calculator estimates selected deductions using FY 2025-26 assumptions and Income-tax Act, 1961 section labels. It does not prepare a return or validate every legal condition.\n\n### Current-period transactions\nFor events from 1 April 2026, consult the Income Tax Department transition guidance for the Income-tax Act, 2025 section and reporting requirements. Do not treat these historical section labels as current filing instructions.",
+    "howItWorks": "1. Select the payment category and read its assumptions.\n2. Enter the gross amount and confirm the relevant aggregation period.\n3. Select the PAN and payee options where relevant.\n4. Review the threshold, taxable base, rate and net payment.\n5. Verify exemptions, prior deductions and applicable law independently.",
+    "formula": "### Calculation\nEstimated TDS = taxable base × applicable rate ÷ 100.\nNet payment = gross payment − estimated TDS.\nThe taxable base depends on the selected provision. Crossing a threshold can trigger deduction on the full amount or only the excess; the same formula cannot be used for every category.",
+    "example": "### Assumed example\nWith an assumed taxable base of ₹80,000 and rate of 10%, TDS is ₹8,000. If the gross payment is ₹80,000, the net payment is ₹72,000. Confirm that the chosen base and rate actually apply to your transaction.",
+    "benefits": [
+        "Shows the rate, threshold and deduction arithmetic for selected categories.",
+        "Helps compare illustrative gross and net payments."
     ],
-    limitations: [
-      'Applies to single-transaction values, whereas some sections have aggregate annual limits (e.g., Section 194C is ₹30,000 single or ₹100,000 annual cumulative).',
-      'Does not verify whether the deductee is a non-filer of ITR under Section 206AB (requires access to the IT Department e-filing portal).',
-      'Excludes surcharge and education cess, which are only applicable to NRI withholding under Section 195.',
-      'Does not generate the TDS return forms (Form 26Q/24Q) required for quarterly government filings.'
+    "limitations": [
+        "Uses FY 2025-26 assumptions and historical section labels; not a Tax Year 2026-27 filing tool.",
+        "Payer eligibility, exemptions, aggregation periods, prior deductions, surcharge, cess and treaty treatment require separate checks.",
+        "Salary withholding and non-resident payments need a detailed computation."
     ],
-    faqs: [
-      {
-        q: 'What is the time limit to deposit deducted TDS?',
-        a: 'TDS must be deposited with the government by the 7th day of the following month. For the month of March, the deadline is extended to April 30th. Late deposits attract interest at 1.5% per month.'
-      },
-      {
-        q: 'What is Form 16 vs. Form 16A?',
-        a: 'Form 16 is the TDS certificate issued by employers for tax deducted on salary. Form 16A is the TDS certificate issued by bank or clients for tax deducted on non-salary payments (interest, professional fees, etc.).'
-      },
-      {
-        q: 'Can TDS be refunded?',
-        a: 'Yes. If your total tax liability at the end of the financial year is lower than the total TDS deducted, you will get a refund of the excess tax when you file your Income Tax Return (ITR).'
-      },
-      {
-        q: 'What is Form 15G and Form 15H?',
-        a: 'These are self-declaration forms that individuals (15G) and senior citizens (15H) can submit to banks if their total annual income is below the taxable threshold, requesting the bank not to deduct TDS on interest earnings.'
-      },
-      {
-        q: 'What is the TDS rate on online gaming winnings?',
-        a: 'Under Section 194BA, TDS is deducted at a flat rate of 30% on all net winnings from online games. There is no minimum threshold exemption limit; TDS applies to every rupee won.'
-      }
+    "faqs": [
+        {
+            "q": "Does Section 206AB apply to FY 2025-26 onwards?",
+            "a": "No. Section 206AB was omitted with effect from 1 April 2025. The calculator does not apply a non-filer uplift under that provision."
+        },
+        {
+            "q": "Can I use the result to file a return directly?",
+            "a": "No. Verify the transaction date, applicable Act, section, threshold and reporting requirements with official guidance."
+        }
     ],
-    takeaways: [
-      'Always collect the PAN of your vendors before initiating payouts to avoid mandatory 20% penal deductions.',
-      'Reconcile your 26AS statement quarterly to ensure your clients have deposited the TDS deducted on your invoices.',
-      'Deduct TDS at the time of credit or payment, whichever is earlier.',
-      'Check our Income Tax Estimator to see how TDS credits offset your annual tax liabilities.'
+    "takeaways": [
+        "Confirm the period before selecting a section.",
+        "TDS is a withholding mechanism, not a separate indirect tax.",
+        "Treat results as estimates subject to the displayed assumptions."
     ],
-    citations: [
-      { text: 'Income Tax Department TDS Rates Guide', url: 'https://www.incometaxindia.gov.in/' },
-      { text: 'NSDL Tax Information Network Portal', url: 'https://www.tin-nsdl.com/' }
+    "citations": [
+        {
+            "text": "Income Tax Department: TDS transition guidance",
+            "url": "https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/tds-compliance"
+        },
+        {
+            "text": "Income Tax Department: omission of Section 206AB",
+            "url": "https://www.incometaxindia.gov.in/w/section-206ab-5"
+        }
     ]
-  },
+},
   customs: {
     id: 'customs',
     title: 'Customs Duty Calculator Guide',
@@ -862,7 +794,7 @@ Income Tax is a direct tax levied by the Central Government of India on the annu
 Taxpayers can choose between two tax structures: the **Old Tax Regime** and the **New Tax Regime**. The New Tax Regime features lower rates and wider slabs but disallows most deductions. The Old Tax Regime features higher rates but allows claiming deductions (like HRA, Section 80C, Section 80D) to lower your taxable income.
 
 ### What this Calculator Does
-The ClearFinCalc Income Tax Estimator is a tax planning tool updated for the current financial year (FY 2025-26 / AY 2026-27). When you input your gross income and deductions under both regimes, the calculator computes:
+The ClearFinCalc Income Tax Estimator is a tax planning tool updated for FY 2025-26 / AY 2026-27 (historical-period assumptions). When you input your gross income and deductions under both regimes, the calculator computes:
 1. **Taxable Income**: Your net income after standard deductions and exemptions.
 2. **Base Tax Liability**: Your calculated tax before cess and rebates.
 3. **Section 87A Rebate**: The tax rebate that reduces tax to zero for eligible income levels.
@@ -936,7 +868,7 @@ Suppose a salaried employee has a gross annual income of **₹1,500,000 (₹15 L
 In this case, the employee saves **₹97,500** by opting for the New Tax Regime.`,
     benefits: [
       'Provides a direct, side-by-side comparison between the New and Old tax regimes.',
-      'Updated for the latest FY 2025-26 Budget announcements, ensuring accurate estimates.',
+      'Uses FY 2025-26 assumptions; verify the applicable period and special-income treatment independently.',
       'Helps optimize your investments to minimize tax liabilities.',
       'Models tax rebate benefits under Section 87A.',
       'Calculates the exact impact of standard deductions and exemptions on your taxable income.'
@@ -989,7 +921,7 @@ A Salary Calculator is a personal finance tool designed to convert your gross sa
 What actually gets credited to your bank account every month is your **Net Take-Home Pay**, which is your gross monthly salary minus mandatory deductions like Employee Provident Fund (EPF), Professional Tax (PT), and Tax Deducted at Source (TDS).
 
 ### What this Calculator Does
-The ClearFinCalc Salary Calculator is a payroll simulator updated for the current financial year (FY 2025-26). By entering your gross monthly salary, PF contribution rate, and professional tax, the calculator computes:
+The ClearFinCalc Salary Calculator is a payroll simulator updated for FY 2025-26 (historical-period assumptions). By entering your gross monthly salary, PF contribution rate, and professional tax, the calculator computes:
 1. **Gross Monthly Salary**: The base monthly salary before deductions.
 2. **Employee Provident Fund (EPF) Deduction**: Your monthly contribution toward retirement savings.
 3. **Professional Tax (PT)**: The state-specific professional tax deduction.

@@ -332,7 +332,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">2. Accuracy & Verification Process</h3>
                 <p className="text-slate-700 dark:text-slate-350">
-                  Every calculator formula (EMI, SIP, TDS slabs, GST rates, Customs surcharges) is derived directly from statutory documentation, central banking notices (RBI), tax departments (Income Tax Department of India), and excise boards (CBIC). We run comprehensive validation suites to check the mathematical accuracy of every output against official examples before deploying any code updates.
+                  Calculator arithmetic is checked with regression tests for the supported assumptions. Tax and customs estimates depend on the applicable period, transaction and rates. References are provided for independent checks; they do not imply professional review or government approval.
                 </p>
               </div>
               <div className="space-y-2 pt-4 border-t border-slate-100 dark:border-slate-800">

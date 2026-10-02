@@ -127,25 +127,38 @@ For intrastate transactions (e.g., selling goods within Karnataka), the GST is s
     category: 'Taxation',
     readTime: '9 min read',
     date: 'June 16, 2026',
-    lastUpdated: 'June 22, 2026',
+    lastUpdated: 'October 2, 2026',
     author: 'ClearFinCalc Editorial Team',
     authorRole: 'Financial Content Writer',
     authorBio: 'The ClearFinCalc Editorial Team prepares financial content based on publicly available formulas and applicable rules, designed for educational and informational purposes.',
     citations: [
-      { text: 'Income Tax Department TDS Slab Charts', url: 'https://www.incometaxindia.gov.in/' }
+      { text: 'Income Tax Department: TDS transition to the Income-tax Act, 2025', url: 'https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/tds-compliance' },
+      { text: 'Income Tax Department: Section 206AB omitted from 1 April 2025', url: 'https://www.incometaxindia.gov.in/w/section-206ab-5' }
     ],
     relatedCalculators: ['tds', 'salary', 'tax'],
-    content: `Tax Deducted at Source (TDS) is a system introduced by the Indian Income Tax Department to collect taxes at the source of income itself. Under this mechanism, the person/entity making a specific payment (the deductor) must deduct a percentage of tax and deposit it with the Central Government on behalf of the recipient (the deductee). The recipient can claim credit for this tax in their annual Income Tax Return (ITR).
+    content: `### What TDS means
+Tax Deducted at Source is income tax withheld by a payer from a payment and deposited with the government. It is not a separate indirect tax. Whether deduction is required depends on the payment category, payer and recipient, relevant dates, thresholds and exemptions.
 
-Key TDS Sections and Thresholds:
-1. Section 194C (Payments to Contractors): TDS is deducted at 1% for individuals/HUF payees and 2% for corporate payees, on single payments exceeding ₹30,000 or aggregate annual payments exceeding ₹100,000.
-2. Section 194J (Professional / Technical Fees): TDS is deducted at 10% (2% for technical/call center services) on fees exceeding ₹30,000 per year.
-3. Section 194I (Rent on Property): TDS is deducted at 10% on rent paid for land and buildings exceeding ₹240,000 per year.
-4. Section 194A (Interest other than Interest on Securities): Banks deduct TDS at 10% on interest exceeding ₹40,000 (₹50,000 for senior citizens) in a financial year.
+### Choose the correct period first
+The ClearFinCalc TDS calculator currently models illustrative FY 2025-26 rates using section labels from the Income-tax Act, 1961. It is not a filing tool for Tax Year 2026-27.
+The Income Tax Department explains that, generally, the earlier of credit or payment determines which Act applies during the transition. Events on or before 31 March 2026 fall under the 1961 Act; events on or after 1 April 2026 fall under the Income-tax Act, 2025. Salary has its own payment-based timing rule. Check the official guidance for your transaction rather than selecting a section only by its old number.
 
-Penalties and Higher Deductions:
-- Section 206AA: If the payee fails to furnish their PAN to the deductor, the tax must be deducted at a flat penalty rate of 20% (or the applicable rate, whichever is higher).
-- Section 206AB: Non-filers of income tax returns who have a TDS/TCS history exceeding ₹50,000 in the previous year are subject to double the normal TDS rate or 5% (whichever is higher).`
+### How to estimate a deduction
+1. Identify the payment category and applicable period.
+2. Confirm the payer is required to deduct tax and check exemptions.
+3. Confirm whether the threshold applies to one payment, an annual aggregate or a monthly amount.
+4. Establish the taxable base. Some provisions apply to the whole amount after a threshold is crossed; others apply only to the excess.
+5. Apply the relevant rate, PAN rules and any valid lower-deduction certificate.
+6. Subtract TDS from the gross payment to estimate the net amount received.
+
+### Illustrative arithmetic
+Assume a payment of ₹80,000, an applicable rate of 10%, and deduction on the full amount. TDS is ₹80,000 × 10% = ₹8,000; the net payment is ₹72,000. These are assumed inputs, not a statement that every ₹80,000 payment requires 10% TDS.
+
+### Higher deductions and obsolete rules
+Missing-PAN rules may affect the rate, subject to the applicable provision and exceptions. Section 206AB, which previously dealt with certain non-filers, was omitted with effect from 1 April 2025. Do not add a higher deduction under that obsolete provision for FY 2025-26 onwards.
+
+### Before filing
+Verify the current section, rate, threshold, timing, form and certificate requirements against the Income Tax Department guidance. Calculator results do not include every exemption, aggregation rule, surcharge, cess, treaty provision or prior deduction. Non-resident payments and salary withholding need a separate detailed computation.`
   },
   {
     id: 'income-tax-basics',

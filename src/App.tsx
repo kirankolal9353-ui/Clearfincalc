@@ -1,12 +1,11 @@
+import { getRoute, getPageSeo } from './utils/seo';
 import NumberInput from './components/NumberInput';
-import { ARTICLES } from './data/articles';
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ToolGrid from './components/ToolGrid';
 import CalculatorContainer from './components/CalculatorContainer';
 import WhyChooseUs from './components/WhyChooseUs';
-import Testimonials from './components/Testimonials';
 import FAQs from './components/FAQs';
 import Insights from './components/Insights';
 import Offers from './components/Offers';
@@ -19,82 +18,25 @@ import type { PolicyType } from './components/LegalModal';
 import { calculateInflation, calculateNetWorth } from './utils/finance';
 import { IndianRupee, Landmark, Globe, Activity, RefreshCw } from 'lucide-react';
 
-const HOME_TITLE = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
-const HOME_DESCRIPTION = 'Calculate EMI, SIP, taxes, salary, loans, TDS and customs duties with ClearFinCalc, a free formula-based financial calculator hub.';
-
-const CALCULATOR_SEO: Record<string, { title: string; description: string }> = {
-  emi: {
-    title: 'EMI Calculator | ClearFinCalc',
-    description: 'Estimate monthly EMI, total interest and repayment for a loan using the principal, annual interest rate and tenure you enter.'
-  },
-  sip: {
-    title: 'SIP Calculator | ClearFinCalc',
-    description: 'Estimate the potential future value of monthly SIP investments based on your investment amount, duration and assumed return.'
-  },
-  tds: {
-    title: 'TDS Calculator | ClearFinCalc',
-    description: 'Estimate tax deducted at source for selected payment types and rates. Check the applicable section and current rules before filing.'
-  },
-  customs: {
-    title: 'Customs Duty Calculator | ClearFinCalc',
-    description: 'Estimate import duty components and landed cost from the customs values and rates you enter. Verify applicable tariff rules separately.'
-  },
-  eligibility: {
-    title: 'Loan Eligibility Calculator | ClearFinCalc',
-    description: 'Estimate loan eligibility from your income and existing EMIs using the assumptions shown in the calculator.'
-  },
-  'personal-loan': {
-    title: 'Personal Loan EMI Calculator | ClearFinCalc',
-    description: 'Estimate monthly repayment, total interest and repayment amount for a personal loan using your selected amount, rate and tenure.'
-  },
-  'home-loan': {
-    title: 'Home Loan EMI Calculator | ClearFinCalc',
-    description: 'Estimate monthly home loan EMI, total interest and repayment from the loan amount, interest rate and tenure you enter.'
-  },
-  tax: {
-    title: 'Income Tax Estimator | ClearFinCalc',
-    description: 'Estimate income tax under the selected regime using your entered income, deductions and the calculator’s stated assumptions.'
-  },
-  salary: {
-    title: 'Salary Calculator | ClearFinCalc',
-    description: 'Estimate take-home salary after selected deductions such as provident fund, professional tax and income tax.'
-  },
-  gst: {
-    title: 'GST Calculator | ClearFinCalc',
-    description: 'Calculate GST amounts for inclusive or exclusive prices using the rate you select, including CGST, SGST or IGST.'
-  },
-  fd: {
-    title: 'Fixed Deposit Calculator | ClearFinCalc',
-    description: 'Estimate fixed deposit maturity value and interest using your principal, interest rate, tenure and compounding frequency.'
-  },
-  retirement: {
-    title: 'Retirement Calculator | ClearFinCalc',
-    description: 'Estimate a retirement corpus and savings target from your timeline, expenses and assumed investment returns.'
-  },
-  'savings-goal': {
-    title: 'Savings Goal Calculator | ClearFinCalc',
-    description: 'Estimate the monthly savings needed to reach a target amount by your chosen date using your return assumption.'
-  }
-};
-
-export default function App() {
+export default function App({ initialSearch = typeof window === 'undefined' ? '' : window.location.search, prerenderCalculator }: { initialSearch?: string; prerenderCalculator?: React.ComponentType } = {}) {
+  const initialRoute = getRoute(initialSearch);
+  const [routeSearch, setRouteSearch] = useState(initialSearch);
+  const route = getRoute(routeSearch);
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeTool, setActiveTool] = useState<string | null>(null); // Default to home page (no open tool)
+  const [activeTool, setActiveTool] = useState<string | null>(initialRoute.tool);
   const [utilityTab, setUtilityTab] = useState<'currency' | 'inflation' | 'networth' | 'budget'>('currency');
-  const [legalPage, setLegalPage] = useState<PolicyType | null>(null);
+  const [legalPage, setLegalPage] = useState<PolicyType | null>(initialRoute.page as PolicyType | null);
 
   const [routeVersion, setRouteVersion] = useState(0);
 
   // Keep UI in sync with direct links and browser back/forward navigation.
   useEffect(() => {
     const syncRoute = () => {
-      const params = new URLSearchParams(window.location.search);
-      const tool = params.get('tool');
-      const page = params.get('page');
-      const tools = ['emi','sip','tds','customs','eligibility','personal-loan','home-loan','tax','salary','gst','fd','retirement','savings-goal'];
-      setActiveTool(tool && tools.includes(tool) ? tool : null);
-      setLegalPage(page && ['privacy','terms','disclaimer','cookie','about','contact','sitemap','editorial','references'].includes(page) ? page as PolicyType : null);
+      const nextRoute = getRoute(window.location.search);
+      setRouteSearch(window.location.search);
+      setActiveTool(nextRoute.tool);
+      setLegalPage(nextRoute.page as PolicyType | null);
       setRouteVersion(v => v + 1);
     };
     syncRoute();
@@ -110,25 +52,19 @@ export default function App() {
     document.querySelector('link[data-clearfincalc-canonical]')?.remove();
 
     const baseUrl = 'https://clearfincalc.com';
-    const calculatorSeo = activeTool ? CALCULATOR_SEO[activeTool] : undefined;
-    document.title = calculatorSeo?.title ?? HOME_TITLE;
+    const seo = getPageSeo(routeSearch);
+    document.title = seo.title;
     let descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!descriptionMeta) {
       descriptionMeta = document.createElement('meta');
       descriptionMeta.name = 'description';
       document.head.appendChild(descriptionMeta);
     }
-    descriptionMeta.content = calculatorSeo?.description ?? HOME_DESCRIPTION;
-
-    let canonicalUrl = baseUrl + '/';
-    const article = new URLSearchParams(window.location.search).get('article');
-    if (article && ARTICLES.some(item => item.id === article)) {
-      canonicalUrl = `${baseUrl}/?article=${encodeURIComponent(article)}`;
-    } else if (activeTool) {
-      canonicalUrl = `${baseUrl}/?tool=${activeTool}`;
-    } else if (legalPage) {
-      canonicalUrl = `${baseUrl}/?page=${legalPage}`;
+    descriptionMeta.content = seo.description;
+    for (const [property, content] of Object.entries({ 'og:title': seo.title, 'og:description': seo.description, 'og:url': seo.canonical })) {
+      document.querySelector(`meta[property="${property}"]`)?.setAttribute('content', content);
     }
+    const canonicalUrl = seo.canonical;
 
     // Set canonical URL
     const canonicalLink = document.createElement('link');
@@ -150,7 +86,7 @@ export default function App() {
         'price': '0',
         'priceCurrency': 'INR'
       },
-      'description': 'Free online financial calculators for EMI, SIP, TDS, GST, Income Tax, Salary, Customs Duty, and more. Formula-based calculations updated for FY 2025-26.',
+      'description': 'Free online financial calculators for EMI, SIP, TDS, GST, Income Tax, Salary, Customs Duty, and more. Formula-based educational estimates; review each tool’s assumptions and applicable period.',
       'publisher': {
         '@type': 'Organization',
         'name': 'ClearFinCalc',
@@ -168,7 +104,9 @@ export default function App() {
     const breadcrumbItems: { name: string; url: string }[] = [
       { name: 'Home', url: baseUrl + '/' }
     ];
-    if (activeTool) {
+    if (route.article) {
+      breadcrumbItems.push({ name: route.article.title, url: canonicalUrl });
+    } else if (activeTool) {
       breadcrumbItems.push({ name: 'Calculators', url: baseUrl + '/' });
       const toolNames: Record<string, string> = {
         emi: 'EMI Calculator', sip: 'SIP Calculator', tds: 'TDS Calculator',
@@ -205,7 +143,7 @@ export default function App() {
       document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
       document.querySelector('link[data-clearfincalc-canonical]')?.remove();
     };
-  }, [activeTool, legalPage, routeVersion]);
+  }, [activeTool, legalPage, routeVersion, routeSearch]);
 
   const handleSelectTool = (id: string) => {
     setActiveTool(id);
@@ -323,10 +261,11 @@ export default function App() {
       {/* Main Landmark */}
       <main id="main-content">
         {/* Hero Section */}
-        <Hero liveUsdRate={liveRates.USD} />
+        {!activeTool && !route.article && !legalPage && <Hero liveUsdRate={liveRates.USD} />}
 
         {/* Main Active Calculator Widget (Sticky details viewport) */}
         <CalculatorContainer 
+          prerenderCalculator={prerenderCalculator}
           toolId={activeTool} 
           onClose={handleCloseTool} 
         />
@@ -652,14 +591,11 @@ export default function App() {
         {/* Why Choose Us */}
         <WhyChooseUs />
 
-        {/* Testimonials */}
-        <Testimonials />
-
         {/* FAQs */}
         <FAQs />
 
         {/* Insights / Articles */}
-        <Insights />
+        <Insights initialSearch={initialSearch} />
 
         {/* Loan & Credit Card Offers */}
         <Offers />

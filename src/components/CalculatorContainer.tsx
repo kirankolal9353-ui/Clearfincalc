@@ -1,4 +1,6 @@
-import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
+import EducationalText from './EducationalText';
+import { CALCULATOR_SEO } from '../utils/seo';
+import React, { useRef, useEffect, lazy, Suspense } from 'react';
 import { X, ChevronRight, Home, BookOpen, Calculator, HelpCircle, ShieldCheck, AlertCircle, FileText, Info } from 'lucide-react';
 import { CALCULATOR_EXPLANATIONS } from '../data/calculatorExplanations';
 import { ARTICLES } from '../data/articles';
@@ -25,38 +27,17 @@ const CalculatorLoadingFallback = () => (
 );
 
 interface CalculatorContainerProps {
+  prerenderCalculator?: React.ComponentType;
   toolId: string | null;
   onClose: () => void;
 }
 
-export default function CalculatorContainer({ toolId, onClose }: CalculatorContainerProps) {
+export default function CalculatorContainer({ toolId, onClose, prerenderCalculator: PrerenderCalculator }: CalculatorContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<'guide' | 'math' | 'benefits' | 'faqs'>('guide');
-
-  // Dynamically update document head tags for SEO
-  useEffect(() => {
-    if (toolId && CALCULATOR_EXPLANATIONS[toolId]) {
-      const exp = CALCULATOR_EXPLANATIONS[toolId];
-      document.title = `${exp.title} | ClearFinCalc`;
-      
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', `${exp.intro.slice(0, 155)}... Get instant calculations, detailed guides, and free PDF reports.`);
-      }
-    } else {
-      document.title = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', 'Clear Calculations. Smarter Decisions. Calculate EMI, SIP, Taxes, Salary, Loans, TDS, and Customs duties instantly. ClearFinCalc is a premium, secure, formula-verified financial utility dashboard.');
-      }
-    }
-  }, [toolId]);
-
   // Scroll into view when tool opens
   useEffect(() => {
     if (toolId && containerRef.current) {
       containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveTab('guide'); // Reset to first tab on tool change
     }
   }, [toolId]);
 
@@ -132,6 +113,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
         </span>
       </nav>
 
+      <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6">{CALCULATOR_SEO[toolId]?.title.split(' | ')[0] || 'Financial Calculator'}</h1>
       {/* Main Calculator Body */}
       <div className="relative">
         <button
@@ -141,205 +123,49 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
         >
           <X className="w-4 h-4" aria-hidden="true" />
         </button>
-        <Suspense fallback={<CalculatorLoadingFallback />}>
+        {PrerenderCalculator ? <PrerenderCalculator /> : <Suspense fallback={<CalculatorLoadingFallback />}>
           {renderCalculator()}
-        </Suspense>
+        </Suspense>}
       </div>
 
-      {/* Educational Guide Section (800-1500 words per calculator) */}
       {explanation && (
-        <div className="mt-12 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 md:p-8 shadow-lg">
-          <div className="border-b border-slate-200 dark:border-slate-800 pb-6 mb-6">
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <BookOpen className="w-6 h-6 text-blue-500" />
-              Complete Educational Handbook
-            </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1">
-              Read our detailed educational guide explaining calculations, formulas, practical examples, and financial concepts.
-            </p>
-            <div className="flex flex-wrap gap-4 text-[10px] md:text-xs font-bold text-slate-450 mt-4 border-t border-slate-100 dark:border-slate-800/60 pt-3">
-              <div className="flex items-center gap-1.5">
-                <div className="w-5 h-5 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center font-extrabold text-[10px]">
-                  C
-                </div>
-                <span>Author: ClearFinCalc Editorial Team</span>
-              </div>
-              <div>Published: June 15, 2026</div>
-              <div>Last Updated: June 22, 2026</div>
-            </div>
-            <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-950/30 rounded-xl border border-slate-200/50 dark:border-slate-800/60 text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-              <span className="font-extrabold text-slate-700 dark:text-slate-350">Disclaimer:</span> The information and calculators on this website are provided for educational and informational purposes only and should not be considered financial, legal, tax, or professional advice. Users should verify important decisions with qualified professionals where appropriate.
-            </div>
-          </div>
-
-          {/* Tab Selection */}
-          <div className="flex flex-wrap gap-2 mb-8 border-b border-slate-100 dark:border-slate-800 pb-4">
-            <button
-              onClick={() => setActiveTab('guide')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-extrabold rounded-xl transition-all border ${
-                activeTab === 'guide'
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                  : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-350'
-              }`}
-            >
-              <Info className="w-4 h-4" />
-              Overview & Guide
-            </button>
-            <button
-              onClick={() => setActiveTab('math')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-extrabold rounded-xl transition-all border ${
-                activeTab === 'math'
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                  : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-350'
-              }`}
-            >
-              <Calculator className="w-4 h-4" />
-              Formula & Examples
-            </button>
-            <button
-              onClick={() => setActiveTab('benefits')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-extrabold rounded-xl transition-all border ${
-                activeTab === 'benefits'
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                  : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-350'
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4" />
-              Benefits & Limits
-            </button>
-            <button
-              onClick={() => setActiveTab('faqs')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-extrabold rounded-xl transition-all border ${
-                activeTab === 'faqs'
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                  : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-350'
-              }`}
-            >
-              <HelpCircle className="w-4 h-4" />
-              FAQ & Takeaways
-            </button>
-          </div>
-
-          {/* Tab Contents */}
-          <div className="space-y-6">
-            
-            {/* OVERVIEW & GUIDE */}
-            {activeTab === 'guide' && (
-              <div className="space-y-6 animate-fade-in">
-                <div className="space-y-2">
-                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">1. Introduction</h3>
-                  <p className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium">
-                    {explanation.intro}
-                  </p>
-                </div>
-                <div className="space-y-2 pt-4 border-t border-slate-100/50 dark:border-slate-800/30">
-                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. How to Use</h3>
-                  <p className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium">
-                    {explanation.howItWorks}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* FORMULA & EXAMPLES */}
-            {activeTab === 'math' && (
-              <div className="space-y-6 animate-fade-in">
-                <div className="space-y-3">
-                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">1. Mathematical Model</h3>
-                  <div className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
-                    {explanation.formula}
-                  </div>
-                </div>
-                <div className="space-y-2 pt-4 border-t border-slate-100/50 dark:border-slate-800/30">
-                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. Step-by-Step Example</h3>
-                  <div className="text-[14px] leading-[1.85] text-slate-550 dark:text-slate-350 font-medium whitespace-pre-line bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-150/50 dark:border-slate-800">
-                    {explanation.example}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* BENEFITS & LIMITATIONS */}
-            {activeTab === 'benefits' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in">
-                <div className="space-y-4 p-5 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
-                  <h3 className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                    Key Benefits
-                  </h3>
-                  <ul className="space-y-3 text-[14px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
-                    {explanation.benefits.map((b, idx) => (
-                      <li key={idx} className="leading-relaxed">{b}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="space-y-4 p-5 bg-rose-500/5 border border-rose-500/10 rounded-2xl">
-                  <h3 className="text-sm font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <AlertCircle className="w-5 h-5 text-rose-500" />
-                    Practical Limitations
-                  </h3>
-                  <ul className="space-y-3 text-[14px] text-slate-650 dark:text-slate-300 font-semibold list-disc list-inside">
-                    {explanation.limitations.map((l, idx) => (
-                      <li key={idx} className="leading-relaxed">{l}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {/* FAQS & CITATIONS */}
-            {activeTab === 'faqs' && (
-              <div className="space-y-6 animate-fade-in">
-                <div className="space-y-4">
-                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">1. Frequently Asked Questions</h3>
-                  <div className="space-y-4">
-                    {explanation.faqs.map((faq, idx) => (
-                      <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl">
-                        <h4 className="text-xs md:text-sm font-extrabold text-slate-900 dark:text-white mb-2 flex items-start gap-1">
-                          <span className="text-blue-500 font-black">Q:</span>
-                          {faq.q}
-                        </h4>
-                        <p className="text-[13px] md:text-[14px] text-slate-500 dark:text-slate-400 font-semibold leading-[1.85] pl-4">
-                          {faq.a}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-                  <div className="space-y-3">
-                    <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">2. Key Takeaways</h3>
-                    <ul className="space-y-2 text-[14px] text-slate-500 dark:text-slate-400 font-semibold list-decimal list-inside">
-                      {explanation.takeaways.map((takeaway, idx) => (
-                        <li key={idx} className="leading-relaxed">{takeaway}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">3. Authoritative References</h3>
-                    <div className="flex flex-col gap-2">
-                      {explanation.citations.map((c, idx) => (
-                        <a
-                          key={idx}
-                          href={c.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 font-bold transition-all border border-blue-500/10 hover:bg-blue-500/5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/20"
-                        >
-                          <FileText className="w-4 h-4 flex-shrink-0" />
-                          {c.text}
-                          <span className="text-[9px] uppercase bg-emerald-500/10 text-emerald-550 rounded px-1.5 py-0.5 ml-auto font-black">Official Source</span>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <article className="mt-12 bg-white/60 dark:bg-slate-900/60 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 md:p-8 space-y-8">
+          <header className="space-y-3">
+            <h2 className="text-2xl font-black">{explanation.title}</h2>
+            <p className="text-sm text-slate-500">By ClearFinCalc Editorial Team. Formula-based educational estimates; review the assumptions and applicable year before using a result.</p>
+          </header>
+          <nav aria-label="Calculator guide sections" className="flex flex-wrap gap-4 text-blue-600 font-bold text-sm">
+            <a href="#calculator-guide">Overview &amp; Guide</a>
+            <a href="#calculator-math">Formula &amp; Examples</a>
+            <a href="#calculator-limits">Benefits &amp; Limits</a>
+            <a href="#calculator-faqs">FAQ &amp; Takeaways</a>
+          </nav>
+          <section id="calculator-guide" className="space-y-4 scroll-mt-24">
+            <h3 className="font-bold text-xl">Overview and how to use this calculator</h3>
+            <EducationalText text={explanation.intro} />
+            <EducationalText text={explanation.howItWorks} />
+          </section>
+          <section id="calculator-math" className="space-y-4 scroll-mt-24">
+            <h3 className="font-bold text-xl">Formula and worked examples</h3>
+            <EducationalText text={explanation.formula} />
+            <EducationalText text={explanation.example} />
+          </section>
+          <section id="calculator-limits" className="space-y-4 scroll-mt-24">
+            <h3 className="font-bold text-xl">Benefits and limitations</h3>
+            <h4 className="font-bold">Benefits</h4>
+            <ul className="list-disc pl-6 space-y-2">{explanation.benefits.map((text, i) => <li key={i}><EducationalText text={text} /></li>)}</ul>
+            <h4 className="font-bold">Limitations</h4>
+            <ul className="list-disc pl-6 space-y-2">{explanation.limitations.map((text, i) => <li key={i}><EducationalText text={text} /></li>)}</ul>
+          </section>
+          <section id="calculator-faqs" className="space-y-4 scroll-mt-24">
+            <h3 className="font-bold text-xl">Frequently asked questions</h3>
+            {explanation.faqs.map((faq, i) => <div key={i} className="space-y-2"><h4 className="font-bold">{faq.q}</h4><EducationalText text={faq.a} /></div>)}
+            <h3 className="font-bold text-xl">Key takeaways</h3>
+            <ul className="list-disc pl-6 space-y-2">{explanation.takeaways.map((text, i) => <li key={i}><EducationalText text={text} /></li>)}</ul>
+            <h3 className="font-bold text-xl">References</h3>
+            <ul className="space-y-2">{explanation.citations.map((cite, i) => <li key={i}><a href={cite.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{cite.text}</a></li>)}</ul>
+          </section>
+        </article>
       )}
 
       {/* Related Content (Breadcrumb relation, other tools, related articles) */}
@@ -350,11 +176,9 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">Related Calculators</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {relatedTools.map((t) => (
-              <div
+              <a
                 key={t.id}
-                onClick={() => {
-                  window.location.search = `?tool=${t.id}`;
-                }}
+                href={`?tool=${t.id}`}
                 className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md cursor-pointer select-none transition-all flex items-center justify-between"
               >
                 <div>
@@ -362,7 +186,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                   <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mt-1.5">{t.cat}</span>
                 </div>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -372,11 +196,9 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
           <h3 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">Related Insights</h3>
           <div className="space-y-3">
             {relatedArticles.map((art) => (
-              <div
+              <a
                 key={art.id}
-                onClick={() => {
-                  window.location.search = `?article=${art.id}`;
-                }}
+                href={`?article=${art.id}`}
                 className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md cursor-pointer select-none transition-all flex flex-col gap-1.5"
               >
                 <div className="flex justify-between items-center text-[9px] font-bold">
@@ -385,7 +207,7 @@ export default function CalculatorContainer({ toolId, onClose }: CalculatorConta
                 </div>
                 <h4 className="text-xs font-extrabold text-slate-800 dark:text-slate-200 leading-tight line-clamp-1">{art.title}</h4>
                 <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold line-clamp-1 leading-relaxed">{art.excerpt}</p>
-              </div>
+              </a>
             ))}
             {relatedArticles.length === 0 && (
               <div className="text-xs font-semibold text-slate-400 italic py-4">No related articles found. Visit the blog below.</div>
