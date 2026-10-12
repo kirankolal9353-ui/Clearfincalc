@@ -9,6 +9,9 @@ globalThis.fetch=async()=>({ok:false,json:async()=>({})});
 globalThis.ResizeObserver=class{observe(){} unobserve(){} disconnect(){}};
 dom.window.HTMLElement.prototype.scrollIntoView=function(){};
 dom.window.matchMedia=()=>({matches:false,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}});
+const canonicalBeforeMount = document.createElement('link');
+canonicalBeforeMount.rel = 'canonical'; canonicalBeforeMount.href = 'https://clearfincalc.com/';
+canonicalBeforeMount.setAttribute('data-clearfincalc-canonical', 'true'); document.head.appendChild(canonicalBeforeMount);
 const {createElement,act}=await import('react');
 const {createRoot}=await import('react-dom/client');
 const {default:App}=await import('../audit-ssr/App.js');
@@ -16,6 +19,7 @@ const root=createRoot(document.getElementById('root'));
 const settle=async(fn)=>{await act(async()=>{await fn?.();await new Promise(r=>setTimeout(r,40));});};
 const click=async(el)=>{assert.ok(el,'Target exists');await settle(()=>el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));};
 await settle(()=>root.render(createElement(App))); await settle();
+assert.equal(document.querySelector('link[rel="canonical"]'), canonicalBeforeMount, 'initial canonical node remains stable');
 assert.equal(document.querySelectorAll('#calculators a[href^="?tool="]').length,13);
 assert.equal(document.querySelectorAll('#insights a[href^="?article="]').length,30);
 assert.equal(document.querySelectorAll('a[href^="#apply-"]').length,0);
@@ -70,5 +74,18 @@ for(const href of articleLinks){
 assert.equal(new Set(articleTitles).size,30,'unique article titles survive parent metadata effects');
 await settle(()=>{window.history.pushState({},'','/');window.dispatchEvent(new PopStateEvent('popstate'));});
 assert.equal(document.title,'ClearFinCalc - Clear Calculations. Smarter Decisions.');
+for (const page of ['about','contact','privacy','terms','disclaimer','cookie','sitemap','editorial','references']) {
+  await settle(()=>{window.history.pushState({},'',`/?page=${page}`);window.dispatchEvent(new PopStateEvent('popstate'));});
+  assert.equal(document.querySelectorAll('h1').length, 1, page);
+  assert.equal(document.querySelectorAll('link[rel="canonical"]').length, 1);
+  assert.equal(document.querySelector('link[rel="canonical"]').href, `https://clearfincalc.com/?page=${page}`);
+  const schemas = [...document.querySelectorAll('script[data-clearfincalc-jsonld]')].map(el=>JSON.parse(el.textContent));
+  assert.equal(schemas[0]['@type'], 'WebPage');
+  assert.equal(schemas[0].url, `https://clearfincalc.com/?page=${page}`);
+}
+await settle(()=>{window.history.pushState({},'','/?tool=emi&article=income-tax-basics&utm_source=test');window.dispatchEvent(new PopStateEvent('popstate'));});
+assert.equal(document.querySelector('link[rel="canonical"]').href, 'https://clearfincalc.com/?article=income-tax-basics');
+assert.equal(JSON.parse(document.querySelector('script[data-clearfincalc-jsonld]').textContent)['@type'], 'Article');
+assert.equal(document.querySelectorAll('h1').length, 1);
 await settle(()=>root.unmount());dom.window.close();
-console.log('PASS: 13 calculator links and unique title, description and canonical metadata; sitemap route coverage; 30 article links; placeholders removed; invalid EMI input; route synchronization; tax defaults.');
+console.log('PASS: 13 calculator links and unique title, description and canonical metadata; sitemap route coverage; 30 article links; placeholders removed; invalid EMI input; route synchronization; tax defaults; 9 information pages and schemas; mixed-query priority; stable canonical node.');

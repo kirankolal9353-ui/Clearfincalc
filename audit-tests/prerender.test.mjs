@@ -7,8 +7,8 @@ const sitemap = readFileSync('dist/sitemap.xml', 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1].replaceAll('&amp;', '&'));
 const rules = readFileSync('dist/_redirects', 'utf8');
 
-test('all 51 sitemap URLs have usable HTML and matching metadata without JavaScript', () => {
-  assert.equal(urls.length, 51);
+test('all 53 sitemap URLs have usable HTML and matching metadata without JavaScript', () => {
+  assert.equal(urls.length, 53);
   const titles = [];
   for (const url of urls) {
     const parsed = new URL(url);
@@ -19,6 +19,15 @@ test('all 51 sitemap URLs have usable HTML and matching metadata without JavaScr
     assert.equal(doc.querySelectorAll('link[rel="canonical"]').length, 1, url);
     assert.equal(doc.querySelector('link[rel="canonical"]').href, url);
     assert.equal(doc.querySelector('meta[property="og:title"]').content, doc.title);
+    assert.equal(doc.querySelector('meta[property="og:url"]').content, url);
+    assert.equal(doc.querySelectorAll('h1').length, 1, url);
+    const schemas = [...doc.querySelectorAll('script[type="application/ld+json"]')].map(el => JSON.parse(el.textContent));
+    const primary = schemas.find(schema => schema['@type'] !== 'Organization' && schema['@type'] !== 'BreadcrumbList');
+    assert.equal(primary.url, url);
+    assert.equal(primary['@type'], entry?.[0] === 'article' ? 'Article' : entry?.[0] === 'page' ? 'WebPage' : 'WebApplication');
+    assert.equal(doc.querySelectorAll('script[src*="googletagmanager.com/gtag/js?id=G-GZ2YFS88LC"]').length, 1);
+    assert.equal(doc.querySelectorAll('script[src*="adsbygoogle.js?client=ca-pub-9171174041847722"]').length, 1);
+    if (entry) assert.equal(schemas.find(schema => schema['@type'] === 'BreadcrumbList').itemListElement.at(-1).item, url);
     assert.ok(doc.querySelector('meta[name="description"]').content.length > 40);
     assert.ok(doc.querySelector('#root').textContent.length > 500);
     titles.push(doc.title);
@@ -40,7 +49,7 @@ test('all 51 sitemap URLs have usable HTML and matching metadata without JavaScr
     }
     dom.window.close();
   }
-  assert.equal(new Set(titles).size, 51, 'no duplicate page titles');
+  assert.equal(new Set(titles).size, 53, 'no duplicate page titles');
 });
 
 test('TDS article no longer states obsolete rates or non-filer uplift as current', () => {
@@ -50,4 +59,14 @@ test('TDS article no longer states obsolete rates or non-filer uplift as current
   assert.match(article, /not a filing tool for Tax Year 2026-27/);
   assert.ok(!article.includes('₹240,000'));
   assert.ok(doc.querySelector('a[href="https://www.incometaxindia.gov.in/w/section-206ab-5"]'));
+});
+
+test('crawl files and navigation cover every canonical route', () => {
+  assert.equal(sitemap, readFileSync('public/sitemap.xml', 'utf8'));
+  assert.equal(sitemap, readFileSync('sitemap.xml', 'utf8'));
+  assert.match(readFileSync('dist/robots.txt', 'utf8'), /Allow: \/[\s\S]*Sitemap: https:\/\/clearfincalc.com\/sitemap.xml/);
+  const dom = new JSDOM(readFileSync('dist/__seo/page-sitemap.html', 'utf8'), { url: 'https://clearfincalc.com/?page=sitemap' });
+  const links = new Set([...dom.window.document.querySelectorAll('a[href]')].map(el => el.href));
+  for (const url of urls.filter(url => url.includes('?'))) assert.ok(links.has(url), `Crawlable link for ${url}`);
+  dom.window.close();
 });

@@ -1,4 +1,4 @@
-import { getRoute, getPageSeo } from './utils/seo';
+import { getRoute, getPageSeo, getPageStructuredData } from './utils/seo';
 import NumberInput from './components/NumberInput';
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
@@ -48,10 +48,7 @@ export default function App({ initialSearch = typeof window === 'undefined' ? ''
   useEffect(() => {
     // Remove old JSON-LD scripts
     document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
-    // Remove old canonical link
-    document.querySelector('link[data-clearfincalc-canonical]')?.remove();
 
-    const baseUrl = 'https://clearfincalc.com';
     const seo = getPageSeo(routeSearch);
     document.title = seo.title;
     let descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
@@ -66,83 +63,20 @@ export default function App({ initialSearch = typeof window === 'undefined' ? ''
     }
     const canonicalUrl = seo.canonical;
 
-    // Set canonical URL
-    const canonicalLink = document.createElement('link');
+    // Keep the prerendered canonical stable on initial load; update on SPA navigation.
+    const canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]') ?? document.createElement('link');
     canonicalLink.rel = 'canonical';
     canonicalLink.href = canonicalUrl;
     canonicalLink.setAttribute('data-clearfincalc-canonical', 'true');
-    document.head.appendChild(canonicalLink);
-
-    // WebApplication schema
-    const webAppSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': 'ClearFinCalc',
-      'url': baseUrl,
-      'applicationCategory': 'FinanceApplication',
-      'operatingSystem': 'Web Browser',
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'INR'
-      },
-      'description': 'Free online financial calculators for EMI, SIP, TDS, GST, Income Tax, Salary, Customs Duty, and more. Formula-based educational estimates; review each tool’s assumptions and applicable period.',
-      'publisher': {
-        '@type': 'Organization',
-        'name': 'ClearFinCalc',
-        'url': baseUrl,
-        'logo': `${baseUrl}/logo.jpg`
-      }
-    };
-    const webAppScript = document.createElement('script');
-    webAppScript.type = 'application/ld+json';
-    webAppScript.setAttribute('data-clearfincalc-jsonld', 'true');
-    webAppScript.textContent = JSON.stringify(webAppSchema);
-    document.head.appendChild(webAppScript);
-
-    // BreadcrumbList schema
-    const breadcrumbItems: { name: string; url: string }[] = [
-      { name: 'Home', url: baseUrl + '/' }
-    ];
-    if (route.article) {
-      breadcrumbItems.push({ name: route.article.title, url: canonicalUrl });
-    } else if (activeTool) {
-      breadcrumbItems.push({ name: 'Calculators', url: baseUrl + '/' });
-      const toolNames: Record<string, string> = {
-        emi: 'EMI Calculator', sip: 'SIP Calculator', tds: 'TDS Calculator',
-        customs: 'Customs Duty', eligibility: 'Loan Eligibility',
-        'personal-loan': 'Personal Loan', 'home-loan': 'Home Loan',
-        tax: 'Tax Estimator', salary: 'Salary Calculator', gst: 'GST Calculator',
-        fd: 'FD Calculator', retirement: 'Retirement Planner', 'savings-goal': 'Savings Goal'
-      };
-      breadcrumbItems.push({ name: toolNames[activeTool] || activeTool, url: canonicalUrl });
-    } else if (legalPage) {
-      const pageNames: Record<string, string> = {
-        about: 'About Us', contact: 'Contact', privacy: 'Privacy Policy',
-        terms: 'Terms of Service', disclaimer: 'Disclaimers', cookie: 'Cookie Policy', sitemap: 'Sitemap'
-      };
-      breadcrumbItems.push({ name: pageNames[legalPage] || legalPage, url: canonicalUrl });
+    if (!canonicalLink.isConnected) document.head.appendChild(canonicalLink);
+    for (const schema of getPageStructuredData(routeSearch)) {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-clearfincalc-jsonld', 'true');
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
     }
-    const breadcrumbSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      'itemListElement': breadcrumbItems.map((item, idx) => ({
-        '@type': 'ListItem',
-        'position': idx + 1,
-        'name': item.name,
-        'item': item.url
-      }))
-    };
-    const breadcrumbScript = document.createElement('script');
-    breadcrumbScript.type = 'application/ld+json';
-    breadcrumbScript.setAttribute('data-clearfincalc-jsonld', 'true');
-    breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
-    document.head.appendChild(breadcrumbScript);
 
-    return () => {
-      document.querySelectorAll('script[data-clearfincalc-jsonld]').forEach(el => el.remove());
-      document.querySelector('link[data-clearfincalc-canonical]')?.remove();
-    };
   }, [activeTool, legalPage, routeVersion, routeSearch]);
 
   const handleSelectTool = (id: string) => {
