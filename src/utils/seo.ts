@@ -1,4 +1,4 @@
-import { ARTICLES } from '../data/articles';
+import { ARTICLES } from '../data/articles.ts';
 
 export const HOME_TITLE = 'ClearFinCalc - Clear Calculations. Smarter Decisions.';
 export const HOME_DESCRIPTION = 'Calculate EMI, SIP, taxes, salary, loans, TDS and customs duties with ClearFinCalc, a free formula-based financial calculator hub.';
