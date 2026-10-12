@@ -18,7 +18,7 @@ import FdCalculator from './calculators/FdCalculator';
 import RetirementCalculator from './calculators/RetirementCalculator';
 import SavingsPlanner from './calculators/SavingsPlanner';
 const calculators: Record<string, ComponentType> = { 'emi': EmiCalculator, 'sip': SipCalculator, 'tds': TdsCalculator, 'customs': CustomsDuty, 'eligibility': LoanEligibility, 'personal-loan': PersonalLoan, 'home-loan': HomeLoan, 'tax': TaxEstimator, 'salary': SalaryCalculator, 'gst': GstCalculator, 'fd': FdCalculator, 'retirement': RetirementCalculator, 'savings-goal': SavingsPlanner };
-export { getPageSeo } from './utils/seo';
+export { getPageSeo, getPageStructuredData, getRoute } from './utils/seo';
 
 export function render(search: string): Promise<string> {
   return new Promise((resolve, reject) => {

@@ -56,16 +56,6 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
     { id: 'savings-goal', name: 'Savings Goal Planner', cat: 'Savings' }
   ];
 
-  const handleNavToTool = (id: string) => {
-    onClose();
-    window.location.assign(`?tool=${id}`);
-  };
-
-  const handleNavToArticle = (id: string) => {
-    onClose();
-    window.location.assign(`?article=${id}`);
-  };
-
   return (
     <div
       className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in"
@@ -98,7 +88,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
               {type === 'references' && <FileText className="w-6 h-6 text-sky-500" aria-hidden="true" />}
             </div>
             <div>
-              <h2 id="legal-modal-title" className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+              <h1 id="legal-modal-title" className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
                 {type === 'privacy' && 'Privacy Policy'}
                 {type === 'terms' && 'Terms of Service'}
                 {type === 'disclaimer' && 'Disclaimers'}
@@ -108,7 +98,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                 {type === 'sitemap' && 'ClearFinCalc HTML Sitemap'}
                 {type === 'editorial' && 'Editorial Policy & Standards'}
                 {type === 'references' && 'Methodology & References'}
-              </h2>
+              </h1>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-0.5">ClearFinCalc v4.0 • Updated June 2026</p>
             </div>
           </div>
@@ -408,14 +398,12 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                   </h4>
                   <div className="flex flex-col gap-2">
                     {calculators.map((c) => (
-                      <button
-                        key={c.id}
-                        onClick={() => handleNavToTool(c.id)}
+                      <a key={c.id} href={`?tool=${c.id}`}
                         className="text-left text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-between"
                       >
                         {c.name}
                         <span className="text-[8px] bg-slate-100 dark:bg-slate-800 text-slate-400 rounded px-1">{c.cat}</span>
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>
@@ -427,14 +415,12 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                   </h4>
                   <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
                     {ARTICLES.map((art) => (
-                      <button
-                        key={art.id}
-                        onClick={() => handleNavToArticle(art.id)}
+                      <a key={art.id} href={`?article=${art.id}`}
                         className="text-left text-[11px] text-blue-500 hover:text-blue-600 dark:text-blue-400 hover:underline truncate"
                         title={art.title}
                       >
                         {art.title.split(': ')[1] || art.title}
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>
@@ -446,9 +432,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                   </h4>
                   <div className="flex flex-col gap-2">
                     {(['about', 'contact', 'editorial', 'references', 'privacy', 'terms', 'cookie', 'disclaimer'] as const).map((t) => (
-                      <button
-                        key={t}
-                        onClick={() => handleTypeChange(t)}
+                      <a key={t} href={`?page=${t}`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleTypeChange(t); }}
                         className="text-left text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 hover:underline capitalize"
                       >
                         {t === 'about' && 'About Us & Mission'}
@@ -459,7 +443,7 @@ export default function LegalModal({ type: initialType, onClose, onSelectType }:
                         {t === 'terms' && 'Terms of Service'}
                         {t === 'cookie' && 'Cookie Policy'}
                         {t === 'disclaimer' && 'Disclaimers'}
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>

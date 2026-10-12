@@ -36,20 +36,18 @@ export default function Footer({ onOpenLegal }: FooterProps) {
               </p>
 
               <div className="flex gap-2 pt-1">
-                <button
-                  onClick={() => handleOpenLegal('about')}
+                <a href={`?page=about`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('about'); }}
                   className="flex items-center gap-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-[10px] font-bold transition-all"
                 >
                   <Info className="w-3.5 h-3.5" aria-hidden="true" />
                   Editorial Board
-                </button>
-                <button
-                  onClick={() => handleOpenLegal('sitemap')}
+                </a>
+                <a href={`?page=sitemap`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('sitemap'); }}
                   className="flex items-center gap-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-[10px] font-bold transition-all"
                 >
                   <Network className="w-3.5 h-3.5" aria-hidden="true" />
                   HTML Sitemap
-                </button>
+                </a>
               </div>
             </div>
 
@@ -86,12 +84,11 @@ export default function Footer({ onOpenLegal }: FooterProps) {
                   <span>1st floor, Byana compound, Immadihali Main Road, Whitefield, Bangalore 560066</span>
                 </li>
                 <li>
-                  <button
-                    onClick={() => handleOpenLegal('contact')}
+                  <a href={`?page=contact`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('contact'); }}
                     className="text-[10px] text-blue-400 hover:text-blue-300 font-bold hover:underline"
                   >
                     Open Contact Helpdesk
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -118,48 +115,41 @@ export default function Footer({ onOpenLegal }: FooterProps) {
             </div>
 
             <div className="flex gap-3.5 flex-wrap justify-center font-bold text-[10px] text-slate-500">
-              <button
-                onClick={() => handleOpenLegal('about')}
+              <a href={`?page=about`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('about'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 About Us
-              </button>
-              <button
-                onClick={() => handleOpenLegal('contact')}
+              </a>
+              <a href={`?page=contact`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('contact'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Contact
-              </button>
-              <button
-                onClick={() => handleOpenLegal('privacy')}
+              </a>
+              <a href={`?page=privacy`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('privacy'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Privacy Policy
-              </button>
-              <button
-                onClick={() => handleOpenLegal('cookie')}
+              </a>
+              <a href={`?page=cookie`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('cookie'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Cookie Policy
-              </button>
-              <button
-                onClick={() => handleOpenLegal('terms')}
+              </a>
+              <a href={`?page=terms`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('terms'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Terms
-              </button>
-              <button
-                onClick={() => handleOpenLegal('disclaimer')}
+              </a>
+              <a href={`?page=disclaimer`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('disclaimer'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Disclaimer
-              </button>
-              <button
-                onClick={() => handleOpenLegal('sitemap')}
+              </a>
+              <a href={`?page=sitemap`} onClick={event => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); handleOpenLegal('sitemap'); }}
                 className="hover:text-blue-400 transition-colors cursor-pointer"
               >
                 Sitemap
-              </button>
+              </a>
             </div>
 
           </div>
